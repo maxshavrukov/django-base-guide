@@ -6,9 +6,9 @@ class Category(models.Model):
     slug = models.SlugField(max_length=100, unique=True)
 
     class Meta:
-        ordering = ('name',)
-        verbose_name = 'Категория',
-        verbose_name_plural = 'Категории',
+        ordering = ('name'),
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
     def __str__(self):
         return self.name
