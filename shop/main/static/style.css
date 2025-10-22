@@ -1,0 +1,46 @@
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #f8f9fa;
+}
+
+header, footer {
+  background-color: #ffffffea;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+footer {
+  padding: 0px 0;
+}
+
+.logo svg text {
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 60px;
+  font-weight: 600;
+  fill: #2C3E50;
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #1a1a1a;
+  }
+  header, footer {
+    background-color: #222;
+  }
+  .logo svg text {
+    fill: #E5E9F0;
+  }
+}
+    
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120">
+  <style>
+    text {
+      font-family: 'Inter', Arial, sans-serif;
+      font-size: 48px;
+      font-weight: 700;
+      fill: #2C3E50; /* светлая тема */
+      opacity: 0;
+      animation: fadeIn 1.2s ease forwards;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      text {
+        fill: #E5E9F0; /* тёмная тема */
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+
+  <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+    BASE GUIDE
+  </text>
+</svg>
