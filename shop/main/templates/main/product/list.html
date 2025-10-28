@@ -1,8 +1,55 @@
 {% extends "main/base.html" %}
+{% load static %}
 
 {% block title %}
-    {% if category %}{{ category.name}}{% else %}Товары{% endif %}
+    {% if category %}{{ category.name}}{% else %}Все товары{% endif %}
 {% endblock title %}
 
+{% block content %}
 
- 
+<div class="catalog_title">
+    <h1 class="catalog_title-item">
+        {% if category %}{{ category.name }}{% else %}Все товары 123{% endif %}
+    </h1>
+    <div class="dropdown">
+            <button class="sort-button" type="button" id="dropdown">Сортировка</button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="?sort=price_asc">По цене: по возрастанию</a></li>
+                <li><a class="dropdown-item" href="?sort=price_desc">По цене: по убыванию</a></li>
+                <li><a class="dropdown-item" href="?sort=name_asc">По названию: А–Я</a></li>
+                <li><a class="dropdown-item" href="?sort=name_desc">По названию: Я–А</a></li>
+            </ul>
+        </div>
+</div>
+    
+    {% if not products %}
+        <div class="alert_products">Товары в этой категории отсутствуют</div>
+    {% else %}
+        <div class="catalog_items">
+            {% for product in products %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <a href="{{ product.get_absolute_url }}">
+                            {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-img-top">
+                                {% else %}
+                                <img src="{% static 'img/no-image.png' %}" alt="Нет изображения" class="card-img-top">
+                            {% endif %}
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{{ product.get_absolute_url }}" class="text-decoration-none">
+                                    {{ product.name }}
+                                </a>
+                            </h5>
+                            <p class="card-text mt-auto">{{ product.price }} грн.</p>
+                            <a href="{{ product.get_absolute_url}}" class="">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

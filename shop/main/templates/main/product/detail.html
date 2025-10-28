@@ -1,0 +1,58 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}{{ product.name }}
+{% endblock title %}
+
+{% block content %}
+<section class="product_detail-container">
+    <div class="catalog_title">
+        <h1 class="catalog_title-item">
+            <a href="{{ product.category.get_absolute_url }}">
+                {{ product.category.name }}
+            </a>
+        </h1>
+    </div>
+    <div class="product_wrapper">
+        <div class="product_image">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product_image-img">
+            {% else %}
+                <img src="{% static 'img/no_image.png' %}" alt="Нет изображения" class="product_image-img">
+            {% endif %}
+        </div>
+
+        <div class="product_info">
+            <h1 class="product_info-title">{{ product.name }}</h1>
+            <p class="product_info-description">{{ product.description }}</p>
+            <p class="product_info-price">Цена: <span>{{ product.price }} грн.</span></p>
+
+            <button class="buy_button">Купить</button>
+        </div>
+    </div>
+</section>
+
+<!-- === Похожие товары === -->
+{% if related_products %}
+<section class="related_products container">
+    <h2 class="related_title">Похожие товары</h2>
+    <div class="related_grid">
+        {% for item in related_products %}
+        <div class="related_card">
+            <a href="{{ item.get_absolute_url }}">
+                {% if item.image %}
+                    <img src="{{ item.image.url }}" alt="{{ item.name }}">
+                {% else %}
+                    <img src="{% static 'img/no_image.png' %}" alt="Нет изображения">
+                {% endif %}
+            </a>
+            <div class="related_info">
+                <h3>{{ item.name }}</h3>
+                <p>{{ item.price }} грн.</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+{% endblock content %}

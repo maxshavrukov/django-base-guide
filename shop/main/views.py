@@ -17,10 +17,17 @@ def product_list(request, category_slug=None):
                    'categories': categories,
                    'products': products})
 
-def product_detail(request, id, slug):
-    product = get_object_or_404(Product, id=id, slug=slug, available=True)
-    related_products = Product.objects.filter(category=product.category, available=True).exclude(id=product.id)[:4]
 
-    return render(request, 'main/product/detail.html',
-                  {'product': product,
-                   'related_products': related_products})
+def product_detail(request, id, slug):
+    product = get_object_or_404(Product, id=id, slug=slug)
+    related_products = (
+        Product.objects.filter(category=product.category)
+        .exclude(id=product.id)[:3]
+    )
+    categories = Category.objects.all()  # 🟢 добавляем категории
+
+    return render(request, 'main/product/detail.html', {
+        'product': product,
+        'related_products': related_products,
+        'categories': categories,  # 🟢 передаём в шаблон
+    })
