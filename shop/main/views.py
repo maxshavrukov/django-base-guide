@@ -24,10 +24,10 @@ def product_detail(request, id, slug):
         Product.objects.filter(category=product.category)
         .exclude(id=product.id)[:3]
     )
-    categories = Category.objects.all()  # 🟢 добавляем категории
+    categories = Category.objects.all()
 
     return render(request, 'main/product/detail.html', {
         'product': product,
         'related_products': related_products,
-        'categories': categories,  # 🟢 передаём в шаблон
+        'categories': categories,
     })
