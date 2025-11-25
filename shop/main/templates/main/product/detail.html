@@ -27,7 +27,11 @@
             <p class="product_info-description">{{ product.description }}</p>
             <p class="product_info-price">Цена: <span>{{ product.price }} грн.</span></p>
 
-            <button class="buy_button">Добавить в корзину</button>
+            <form action="{% url "basket:basket_add" product.id %}" method="post">
+                {{ basket_product_form }}
+                {% csrf_token %}
+                <button type="submit" class="buy_button">Добавить в корзину</button>
+            </form>
         </div>
     </div>
 </section>

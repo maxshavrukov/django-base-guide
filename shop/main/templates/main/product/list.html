@@ -27,8 +27,8 @@
     {% else %}
         <div class="catalog_items">
             {% for product in products %}
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
+                <div>
+                    <div>
                         <a href="{{ product.get_absolute_url }}">
                             {% if product.image %}
                                 <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-img-top">

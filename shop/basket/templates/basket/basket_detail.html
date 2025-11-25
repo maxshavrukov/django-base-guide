@@ -1,0 +1,60 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Корзина{% endblock %}
+
+{% block content %}
+
+<div class="catalog_title">
+    <h1 class="catalog_title-item">Корзина</h1>
+</div>
+
+{% if not basket.items %}
+    <div class="alert_products">Ваша корзина пуста</div>
+{% else %}
+
+<div class="cart_container">
+
+    {% for item in basket.items %}
+    <div class="cart_item">
+
+        <div class="cart_item-image">
+            {% if item.product.image %}
+                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+            {% else %}
+                <img src="{% static 'img/no-image.png' %}" alt="Нет изображения">
+            {% endif %}
+        </div>
+
+        <div class="cart_item-info">
+            <h3 class="cart_item-title">
+                <a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a>
+            </h3>
+
+            <p class="cart_item-price">{{ item.product.price }} грн.</p>
+
+            <div class="cart_item-qty">
+                <button class="qty_btn minus" data-id="{{ item.product.id }}">−</button>
+                <span class="qty_value">{{ item.quantity }}</span>
+                <button class="qty_btn plus" data-id="{{ item.product.id }}">+</button>
+            </div>
+        </div>
+
+        <div class="cart_item-total">
+            <p>{{ item.total_price }} грн.</p>
+            <a href="{% url 'basket:remove' item.product.id %}" class="remove_btn">Удалить</a>
+        </div>
+
+    </div>
+    {% endfor %}
+
+    <div class="cart_summary">
+        <p>Итого: <span>{{ basket.total }} грн.</span></p>
+        <button class="checkout_btn">Оформить заказ</button>
+    </div>
+
+</div>
+
+{% endif %}
+
+{% endblock %}
