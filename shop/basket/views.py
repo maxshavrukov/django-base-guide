@@ -15,6 +15,10 @@ def basket_add(request, product_id):
     if form.is_valid():
         cd = form.cleaned_data
         basket.add(product=product, quantity=cd['quantity'], override_quantity=cd['override'])
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        # для AJAX просто возвращаем 200
+        from django.http import JsonResponse
+        return JsonResponse({'status': 'ok'})
     return redirect('basket:basket_detail')
 
 @require_POST
@@ -31,4 +35,5 @@ def basket_detail(request):
             'quantity': item['quantity'], 
             'override': True
             })
-    return render(request, 'basket/basket_detail.html', {'basket': basket})    
+    return render(request, 'basket/basket_detail.html', {'basket': basket})
+

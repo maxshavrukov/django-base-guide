@@ -9,13 +9,13 @@
 
 <div class="catalog_title">
     <h1 class="catalog_title-item">
-        {% if category %}{{ category.name }}{% else %}Все товары 123{% endif %}
+        {% if category %}{{ category.name }}{% else %}Все товары{% endif %}
     </h1>
     <div class="dropdown">
             <button class="sort-button" type="button" id="dropdown">Сортировка</button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="?sort=price_asc">По цене: по возрастанию</a></li>
-                <li><a class="dropdown-item" href="?sort=price_desc">По цене: по убыванию</a></li>
+                <li><a class="dropdown-item" href="?sort=price_asc">Цена: по возрастанию</a></li>
+                <li><a class="dropdown-item" href="?sort=price_desc">Цена: по убыванию</a></li>
                 <li><a class="dropdown-item" href="?sort=name_asc">По названию: А–Я</a></li>
                 <li><a class="dropdown-item" href="?sort=name_desc">По названию: Я–А</a></li>
             </ul>

@@ -14,11 +14,13 @@
     <header class="header" id="header">
         <div class="header_content">                
             <div class="header_content-logo">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 160" height="100">
-                    <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
-                    BASE GUIDE                      
-                    </text>
-                </svg>
+                <a href="{% url 'main:product_list' %}" class="logo_link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 160" height="100">
+                        <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" dx="5">
+                            BASE GUIDE                      
+                        </text>
+                    </svg>
+                </a>
             </div>
             <div class="header_navigation">
                 <nav class="menu_list">
@@ -48,5 +50,6 @@
         </div>
     </footer>
 <script src="{% static 'js/dropdown.js' %}"></script>
+<script src="{% static 'js/cartModal.js' %}"></script>
 </body>
 </html>
