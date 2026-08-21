@@ -37,9 +37,15 @@
                 <p class="cart_item-price">{{ item.product.price }} грн.</p>
 
                 <div class="cart_item-qty">
-                    <button class="qty_btn">−</button>
+                    <form action="{% url 'basket:basket_update' item.product.id 'minus' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="qty_btn">−</button>
+                    </form>
                     <span class="qty_value">{{ item.quantity }}</span>
-                    <button class="qty_btn">+</button>
+                    <form action="{% url 'basket:basket_update' item.product.id 'plus' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="qty_btn">+</button>
+                    </form>
                 </div>
             </div>
 
@@ -61,7 +67,9 @@
             <span>Итого:</span>
             <span class="cart_summary-total">{{ basket.get_total_price }} грн.</span>
         </div>
-        <button class="checkout_btn">Оформить заказ</button>
+        <a href="{% url 'orders:order_create' %}" class="checkout_btn">
+            Оформить заказ
+        </a>
     </div>
 
 </div>

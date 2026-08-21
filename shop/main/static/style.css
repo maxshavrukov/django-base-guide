@@ -1,28 +1,26 @@
+/* =========================================================
+   BASE / RESET
+========================================================= */
+
 html {
-    box-sizing: border-box;
-    scroll-behavior: Smooth;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
-ul {
-  list-style-type: none;
-  padding-left: 0; /* Дополнительно для удаления отступа, если необходимо */
-}
-
-li {
-  list-style-type: none;
-  padding-left: 0;
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
 }
 
 body {
   min-height: 100vh;
   font-family: "Inter", sans-serif;
   background-color: #f8f9fa;
+  margin: 0;
 }
 
-header, footer {
-  background-color: #0f0e0e17;
-}
-
+/* Сброс стандартных отступов */
 h1,
 h2,
 h3,
@@ -30,58 +28,108 @@ h4,
 h5,
 h6,
 p,
-ul[class],
-ol[class],
+ul,
+ol,
 li,
 figure,
 figcaption,
 blockquote,
 dl,
 dd {
-    margin: 0;
+  margin: 0;
+  padding: 0;
 }
+
+ul,
+li {
+  list-style: none;
+}
+
+/* =========================================================
+   DARK MODE
+========================================================= */
 
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #1a1a1a;
+    color: #E5E9F0;
   }
-  header, footer {
+
+  header,
+  footer {
     background-color: #222;
   }
-  .logo svg text {
-    fill: #E5E9F0;
-  }
 }
-    
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(6px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-.header{
+@keyframes logoReveal {
+  0% {
+    opacity: 0;
+    letter-spacing: 14px;
+  }
+
+  100% {
+    opacity: 1;
+    letter-spacing: 6px;
+  }
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header,
+footer {
+  background-color: #0f0e0e17;
+}
+
+.header {
   display: flex;
 }
 
 .header_content {
+  width: 100%;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  margin-right: 50px;
-  margin-left: 50px;
+
+  margin-inline: 50px;
+}
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.header_content-logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo_link {
+  text-decoration: none;
 }
 
 .header_content-logo text {
-  
-  font-family: 'Inter', Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
   font-size: 40px;
   font-weight: 700;
+
   fill: #2C3E50;
   opacity: 0;
   letter-spacing: 8px;
@@ -98,23 +146,6 @@ dd {
   fill: #1A73E8;
 }
 
-.header_content-logo {
-  display: flex;
-  align-items: center;
-}
-
-/* Анимация появления */
-@keyframes logoReveal {
-  0% {
-    opacity: 0;
-    letter-spacing: 14px;
-  }
-  100% {
-    opacity: 1;
-    letter-spacing: 6px;
-  }
-}
-/* Для тёмной темы */
 @media (prefers-color-scheme: dark) {
   .header_content-logo text {
     fill: #E5E9F0;
@@ -125,81 +156,100 @@ dd {
   }
 }
 
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
 .menu_list {
   display: flex;
-  text-align: center;
+  align-items: center;
   position: relative;
 }
+
 .menu_list-item + .menu_list-item {
   margin-left: 32px;
 }
 
 .menu_list-link {
-  padding: 9px 9px 9px;
+  padding: 9px;
+
+  font-family: "Raleway", sans-serif;
   font-size: 12px;
+  font-weight: bold;
   line-height: 14px;
+  letter-spacing: 0.6px;
+
   color: #373A39;
   text-transform: uppercase;
   text-decoration: none;
-  font-weight: bold;
-  font-family: "Raleway", sans-serif;
-  letter-spacing: 0.6px;
-  transition: all 0.5s;
+
+  transition: all 0.3s ease;
 }
+
 .menu_list-link:hover {
   color: #2C3E50;
 }
 
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
 .content {
   min-height: 50vh;
-  margin-right: 50px;
-  margin-left: 50px;
+  margin-inline: 50px;
 }
 
-.catalog_title{
+/* =========================================================
+   CATALOG TITLE
+========================================================= */
+
+.catalog_title {
   padding-top: 25px;
+  padding-bottom: 8px;
+
   display: flex;
   justify-content: space-between;
-  text-align: left;
+  align-items: center;
+
   border-bottom: 1px solid rgba(44, 62, 80, 0.15);
-  padding-bottom: 8px;
 }
 
 .catalog_title-item {
   font-family: "Montserrat", sans-serif;
-  font-weight: 700;
   font-size: 28px;
+  font-weight: 700;
   letter-spacing: 0.6px;
   text-transform: uppercase;
+
   color: #2C3E50;
 }
 
 .catalog_title-item a {
   color: inherit;
   text-decoration: none;
-  transition: color 0.3s ease, text-shadow 0.3s ease;
+
+  transition:
+    color 0.3s ease,
+    text-shadow 0.3s ease;
 }
 
-/* Адаптив для маленьких экранов */
 @media (max-width: 768px) {
+  .catalog_title {
+    text-align: center;
+  }
+
   .catalog_title-item {
     font-size: 22px;
-    text-align: center;
-  }
-
-  .catalog_title {
-    text-align: center;
   }
 }
 
-/* Для тёмной темы */
 @media (prefers-color-scheme: dark) {
-  .catalog_title-item {
-    color: #E5E9F0;
-  }
-
   .catalog_title {
     border-color: rgba(229, 233, 240, 0.2);
+  }
+
+  .catalog_title-item {
+    color: #E5E9F0;
   }
 
   .catalog_title-item a:hover {
@@ -207,86 +257,101 @@ dd {
   }
 }
 
-.catalog_items{
+/* =========================================================
+   PRODUCTS GRID
+========================================================= */
+
+.catalog_items {
+  padding-top: 20px;
+
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
-  padding-top: 20px;
+}
+
+.card-img-top {
+  height: 175px;
+  object-fit: cover;
+}
+
+/* =========================================================
+   SORT DROPDOWN
+========================================================= */
+
+.dropdown {
+  position: relative;
+  display: inline-block;
 }
 
 .sort-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px; /* расстояние между иконкой и текстом */
+  gap: 6px;
+
   padding: 8px 16px;
+
   font-family: "Raleway", sans-serif;
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
+
   color: #2C3E50;
-  background-color: #ffffff;
+  background-color: #fff;
+
   border: 1.5px solid #2C3E50;
   border-radius: 8px;
+
   cursor: pointer;
+
   transition: all 0.25s ease-in-out;
 }
 
 .sort-button:hover {
   background-color: #2C3E50;
-  color: #ffffff;
+  color: #fff;
+
   transform: translateY(-2px);
+
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .sort-button:active {
   transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
-@media (prefers-color-scheme: dark) {
-  .sort-button {
-    background-color: #1a1a1a;
-    color: #E5E9F0;
-    border-color: #E5E9F0;
-  }
-
-  .sort-button:hover {
-    background-color: #E5E9F0;
-    color: #1a1a1a;
-  }
-}
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-/* Скрытое меню */
 .dropdown-menu {
   display: none;
+
   position: absolute;
   top: 110%;
   left: 0;
+
   min-width: 200px;
+
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+
   z-index: 100;
 }
-.dropdown.open .dropdown-menu { 
-  display: block; 
-  animation: 
-  fadeIn 0.15s ease-out;
+
+.dropdown.open .dropdown-menu {
+  display: block;
+  animation: fadeIn 0.15s ease-out;
 }
 
-/* Элементы меню */
 .dropdown-item {
   display: block;
   padding: 8px 16px;
-  color: #2C3E50;
-  text-decoration: none;
+
   font-family: "Raleway", sans-serif;
   font-size: 13px;
+
+  color: #2C3E50;
+  text-decoration: none;
+
   transition: background 0.2s;
 }
 
@@ -294,46 +359,37 @@ dd {
   background-color: #f0f0f0;
 }
 
-/* Активное состояние меню */
-.dropdown.open .dropdown-menu {
-  display: block;
-  animation: fadeIn 0.15s ease-out;
-}
-
-/* Плавное появление */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* =========================================================
+   ALERTS
+========================================================= */
 
 .alert_products {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px 20px;
   max-width: 600px;
+  padding: 16px 20px;
 
-  background-color: #eaf0f6; /* светло-серый с оттенком синего */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #eaf0f6;
   border: 1px solid #c5d0db;
   border-radius: 10px;
 
-  font-family: 'Inter', Arial, sans-serif;
   font-size: 15px;
   font-weight: 500;
   color: #2C3E50;
   text-align: center;
 
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
   transition: all 0.3s ease;
 }
 
-/* лёгкий эффект при наведении (необязательно) */
 .alert_products:hover {
   background-color: #dee7ef;
   transform: translateY(-1px);
 }
 
-/* для тёмной темы */
 @media (prefers-color-scheme: dark) {
   .alert_products {
     background-color: #1f2933;
@@ -346,44 +402,33 @@ dd {
   }
 }
 
-.card-img-top{
-  height: 175px;
-  object-fit: cover;
-}
-
-.footer {
-  display: flex;
-}
-
-.footer_content-item {
-  text-align: center;
-  width: 100%;
-  color: #373A39;
-  font-size: 17px;
-}
-
-/* Основной контейнер */
+/* =========================================================
+   PRODUCT DETAIL PAGE
+========================================================= */
 
 .product_detail {
   padding: 40px 60px;
+
   display: flex;
   justify-content: center;
   align-items: flex-start;
 }
 
-/* Обертка — фото и информация рядом */
 .product_wrapper {
+  width: 100%;
+  max-width: 1100px;
   padding-top: 20px;
+
   display: flex;
   flex-wrap: wrap;
   gap: 40px;
-  max-width: 1100px;
-  width: 100%;
 }
 
-/* Левая колонка — фото */
+/* PRODUCT IMAGE */
+
 .product_image {
   flex: 1 1 45%;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -392,69 +437,533 @@ dd {
 .product_image-img {
   max-width: 400px;
   height: auto;
+
   border-radius: 12px;
+
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Правая колонка — описание */
+/* PRODUCT INFO */
+
 .product_info {
   flex: 1 1 50%;
+
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
 .product_info-title {
+  margin-bottom: 10px;
+
   font-family: "Montserrat", sans-serif;
   font-size: 28px;
   font-weight: 700;
+
   color: #2C3E50;
-  margin-bottom: 10px;
 }
 
 .product_info-description {
-  font-family: "Inter", sans-serif;
   font-size: 16px;
   line-height: 1.6;
   color: #3A3A3A;
 }
 
 .product_info-price {
+  margin-top: 10px;
+
   font-family: "Raleway", sans-serif;
   font-size: 18px;
   font-weight: 600;
+
   color: #2C3E50;
-  margin-top: 10px;
 }
 
 .product_info-price span {
   color: #1A73E8;
 }
 
-/* Кнопка */
-.buy_button {
-  align-self: flex-start;
-  margin-top: 20px;
-  padding: 10px 24px;
-  background-color: #2C3E50;
-  color: #fff;
+/* =========================================================
+   PRODUCT QUANTITY
+========================================================= */
+
+.product_form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.quantity_selector {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quantity_selector label {
+  font-family: "Raleway", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #2C3E50;
+}
+
+.quantity_box {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+
+  border: 1px solid #d6dde5;
+  border-radius: 10px;
+
+  overflow: hidden;
+
+  background: #fff;
+}
+
+.quantity_btn {
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  background: transparent;
+
+  font-size: 20px;
+  font-weight: 600;
+  color: #2C3E50;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+
+.quantity_btn:hover {
+  background: #f3f4f6;
+}
+
+.quantity_input {
+  width: 55px;
+  height: 42px;
+
+  border: none;
+  outline: none;
+
+  text-align: center;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  color: #2C3E50;
+}
+
+/* убрать стрелки input number */
+
+.quantity_input::-webkit-outer-spin-button,
+.quantity_input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.quantity_input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.buy_button,
+.checkout_btn {
   border: none;
   border-radius: 8px;
+
+  background-color: #2C3E50;
+  color: #fff;
+
   font-family: "Raleway", sans-serif;
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.5px;
+
   cursor: pointer;
+
   transition: all 0.25s ease;
 }
 
-.buy_button:hover {
-  background-color: #1A73E8;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+.buy_button {
+  align-self: flex-start;
+
+  margin-top: 20px;
+  padding: 10px 24px;
 }
 
-/* Адаптивность */
+.checkout_btn {
+  width: 100%;
+  padding: 12px 0;
+  border-radius: 10px;
+}
+
+.buy_button:hover,
+.checkout_btn:hover {
+  background-color: #1A73E8;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* =========================================================
+   RELATED PRODUCTS
+========================================================= */
+
+.related_products {
+  margin-top: 60px;
+  padding-top: 40px;
+
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.related_title {
+  margin-bottom: 30px;
+
+  text-align: center;
+
+  font-family: "Montserrat", sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+
+  color: #2C3E50;
+}
+
+.related_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.related_card {
+  overflow: hidden;
+
+  background: #fff;
+  border-radius: 10px;
+
+  text-align: center;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.related_card:hover {
+  transform: translateY(-4px);
+
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.related_card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.related_info {
+  padding: 14px 10px;
+}
+
+.related_info h3 {
+  margin: 6px 0;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+
+  color: #2C3E50;
+}
+
+.related_info p {
+  font-size: 14px;
+  font-weight: 500;
+
+  color: #1A73E8;
+}
+
+/* =========================================================
+   CART MODAL
+========================================================= */
+
+.cart-modal {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.5);
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity 0.25s ease;
+
+  z-index: 1000;
+}
+
+.cart-modal.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.cart-modal-content {
+  max-width: 400px;
+  padding: 30px 40px;
+
+  background: #fff;
+  border-radius: 12px;
+
+  text-align: center;
+
+  opacity: 0;
+  transform: translateY(-20px);
+
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.cart-modal.show .cart-modal-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cart-modal-buttons {
+  margin-top: 20px;
+
+  display: flex;
+  justify-content: space-around;
+  gap: 15px;
+}
+
+.modal-btn {
+  padding: 10px 20px;
+
+  border: none;
+  border-radius: 8px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.modal-btn:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+#continueShopping {
+  background: #2C3E50;
+  color: #fff;
+}
+
+#continueShopping:hover {
+  background: #1A73E8;
+}
+
+#goToCart {
+  background: #E5E9F0;
+  color: #2C3E50;
+}
+
+#goToCart:hover {
+  background: #D8DEE9;
+}
+
+/* =========================================================
+   BASKET / CART
+========================================================= */
+
+.cart_container {
+  margin-top: 30px;
+
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 30px;
+}
+
+.cart_list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cart_item {
+  padding: 16px;
+
+  display: grid;
+  grid-template-columns: 120px 1fr 120px;
+  gap: 20px;
+  align-items: center;
+
+  background: #fff;
+  border-radius: 12px;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* CART IMAGE */
+
+.cart_item-image img {
+  width: 100%;
+  height: 100px;
+
+  object-fit: cover;
+
+  border-radius: 8px;
+}
+
+/* CART INFO */
+
+.cart_item-title a {
+  text-decoration: none;
+
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+
+  color: #2C3E50;
+}
+
+.cart_item-price {
+  margin-top: 6px;
+
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* QUANTITY */
+
+.cart_item-qty {
+  margin-top: 10px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.qty_btn {
+  width: 28px;
+  height: 28px;
+
+  border: 1px solid #2C3E50;
+  border-radius: 6px;
+
+  background: transparent;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.qty_value {
+  min-width: 20px;
+
+  text-align: center;
+  font-weight: 600;
+}
+
+/* TOTAL */
+
+.cart_item-total {
+  text-align: right;
+}
+
+.cart_item-sum {
+  font-weight: 600;
+  color: #1A73E8;
+}
+
+/* REMOVE BUTTON */
+
+.remove_btn {
+  margin-top: 8px;
+  padding: 0;
+
+  border: none;
+  background: none;
+
+  font-size: 13px;
+  color: #c0392b;
+
+  cursor: pointer;
+}
+
+/* SUMMARY */
+
+.cart_summary {
+  height: fit-content;
+  padding: 20px;
+
+  background: #f9fafb;
+  border-radius: 12px;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.cart_summary-row {
+  margin-bottom: 20px;
+
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.cart_summary-total {
+  color: #1A73E8;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+  display: flex;
+}
+
+.footer_content-item {
+  width: 100%;
+
+  text-align: center;
+
+  font-size: 17px;
+  color: #373A39;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+  .cart_container {
+    grid-template-columns: 1fr;
+  }
+
+  .cart_item {
+    grid-template-columns: 100px 1fr;
+    grid-template-areas:
+      "img info"
+      "img total";
+  }
+}
+
 @media (max-width: 600px) {
   .product_wrapper {
     flex-direction: column;
@@ -470,283 +979,80 @@ dd {
   }
 }
 
-/* === Похожие товары === */
-.related_products {
-  margin-top: 60px;
-  padding-top: 40px;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
-}
+/* =========================================================
+   CHECKOUT
+========================================================= */
 
-.related_title {
-  font-family: "Montserrat", sans-serif;
-  font-size: 26px;
-  font-weight: 600;
-  color: #2C3E50;
-  margin-bottom: 30px;
-  text-align: center;
-}
-
-.related_grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 24px;
-}
-
-.related_card {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-  text-align: center;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.related_card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
-}
-
-.related_card img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-}
-
-.related_info {
-  padding: 14px 10px;
-}
-
-.related_info h3 {
+.form_group label {
   font-family: "Raleway", sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  color: #2C3E50;
-  margin: 6px 0;
-}
-
-.related_info p {
-  font-family: "Inter", sans-serif;
   font-size: 14px;
-  color: #1A73E8;
-  font-weight: 500;
+  font-weight: 600;
+
+  color: #2C3E50;
 }
 
-/* === Модальное окно добавления в корзину === */
+.form_group input,
+.form_group textarea {
+  padding: 12px 14px;
 
-.cart-modal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    background: rgba(0,0,0,0.5);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s ease;
-    z-index: 1000;
+  border: 1px solid #d6dde5;
+  border-radius: 10px;
+
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.cart-modal.show {
-    opacity: 1;
-    pointer-events: all;
+.form_group textarea {
+  resize: vertical;
+  min-height: 100px;
 }
 
-.cart-modal-content {
-    background: #fff;
-    padding: 30px 40px;
-    border-radius: 12px;
-    text-align: center;
-    max-width: 400px;
-    transform: translateY(-20px);
-    transition: transform 0.25s ease, opacity 0.25s ease;
-    opacity: 0;
+.form_group input:focus,
+.form_group textarea:focus {
+  border-color: #1A73E8;
+
+  box-shadow: 0 0 0 3px rgba(26,115,232,0.15);
 }
 
-.cart-modal.show .cart-modal-content {
-    transform: translateY(0);
-    opacity: 1;
-}
+.checkout_summary h2 {
+  margin-bottom: 20px;
 
-.cart-modal-buttons {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-around;
-    gap: 15px;
-}
-
-.modal-btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.2s ease;
-}
-
-.modal-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
-.modal-btn:active {
-    transform: translateY(0);
-    box-shadow: none;
-}
-
-#continueShopping { background: #2C3E50; color: #fff; }
-#continueShopping:hover { background: #1A73E8; }
-
-#goToCart { background: #E5E9F0; color: #2C3E50; }
-#goToCart:hover { background-color: #D8DEE9; }
-
-/* === Корзина === */
-
-.remove_btn {
-  background: none;
-  border: none;
-  padding: 0;
-  margin-top: 8px;
-  font-size: 13px;
-  color: #c0392b;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-}
-
-
-.cart_container {
-  margin-top: 30px;
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 30px;
-}
-
-/* Список товаров */
-.cart_list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-/* Карточка товара */
-.cart_item {
-  display: grid;
-  grid-template-columns: 120px 1fr 120px;
-  gap: 20px;
-  padding: 16px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-  align-items: center;
-}
-
-/* Фото */
-.cart_item-image img {
-  width: 100%;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-/* Информация */
-.cart_item-title a {
   font-family: "Montserrat", sans-serif;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 22px;
+
   color: #2C3E50;
-  text-decoration: none;
 }
 
-.cart_item-price {
-  margin-top: 6px;
-  font-size: 14px;
-  color: #6b7280;
-}
+.checkout_item {
+  padding: 12px 0;
 
-/* Количество */
-.cart_item-qty {
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.qty_btn {
-  width: 28px;
-  height: 28px;
-  border: 1px solid #2C3E50;
-  background: transparent;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.qty_value {
-  min-width: 20px;
-  text-align: center;
-  font-weight: 600;
-}
-
-/* Сумма + удаление */
-.cart_item-total {
-  text-align: right;
-}
-
-.cart_item-sum {
-  font-weight: 600;
-  color: #1A73E8;
-}
-
-/* Итог */
-.cart_summary {
-  padding: 20px;
-  background: #f9fafb;
-  border-radius: 12px;
-  height: fit-content;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-
-.cart_summary-row {
   display: flex;
   justify-content: space-between;
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 20px;
+
+  border-bottom: 1px solid #eef2f7;
+
+  font-size: 14px;
 }
 
-.cart_summary-total {
+.checkout_total {
+  margin-top: 20px;
+
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 20px;
+  font-weight: 700;
+
   color: #1A73E8;
 }
 
-.checkout_btn {
-  width: 100%;
-  padding: 12px 0;
-  background: #2C3E50;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-family: "Raleway", sans-serif;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.checkout_btn:hover {
-  background: #1A73E8;
-}
-
-/* Адаптив */
 @media (max-width: 900px) {
-  .cart_container {
+  .checkout_container {
     grid-template-columns: 1fr;
   }
-
-  .cart_item {
-    grid-template-columns: 100px 1fr;
-    grid-template-areas:
-      "img info"
-      "img total";
-  }
 }
-

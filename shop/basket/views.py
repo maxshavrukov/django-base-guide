@@ -37,3 +37,18 @@ def basket_detail(request):
             })
     return render(request, 'basket/basket_detail.html', {'basket': basket})
 
+@require_POST
+def basket_update(request, product_id, action):
+    basket = Basket(request)
+    product = get_object_or_404(Product, id=product_id)
+
+    if action == 'plus':
+        basket.add(product=product, quantity=1)
+
+    elif action == 'minus':
+        basket.add(product=product, quantity=-1)
+
+        if basket.basket[str(product.id)]['quantity'] <= 0:
+            basket.remove(product)
+
+    return redirect('basket:basket_detail')
