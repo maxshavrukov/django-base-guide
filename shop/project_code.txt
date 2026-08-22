@@ -1,0 +1,639 @@
+﻿=== D:\Programming\python-project\project_2025\shop\basket\admin.py ===
+from django.contrib import admin
+
+# Register your models here.
+=== D:\Programming\python-project\project_2025\shop\basket\apps.py ===
+from django.apps import AppConfig
+
+
+class BasketConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'basket'
+=== D:\Programming\python-project\project_2025\shop\basket\basket.py ===
+from django.conf import settings
+from main.models import Product
+
+class Basket:
+    def __init__(self, request):
+        self.session = request.session
+        basket = self.session.get(settings.BASKET_SESSION_ID)
+        if not basket:
+            basket = self.session[settings.BASKET_SESSION_ID] = {}
+        self.basket = basket
+    
+    def add(self, product, quantity=1, override_quantity=False):
+        product_id = str(product.id)
+        if product_id not in self.basket:
+            self.basket[product_id] = {'quantity': 0, 'price': str(product.price)}
+
+        if override_quantity:
+            self.basket[product_id]['quantity'] = quantity
+        else:
+            self.basket[product_id]['quantity'] += quantity
+        self.save()
+    
+    def save(self):
+        self.session.modified = True
+    
+    def remove(self, product):
+        product_id = str(product.id)
+        if product_id in self.basket:
+            del self.basket[product_id]
+            self.save()
+    
+    def __iter__(self):
+        product_ids = self.basket.keys()
+        products = Product.objects.filter(id__in=product_ids)
+        basket = self.basket.copy()
+
+        for product in products:
+            basket[str(product.id)]['product'] = product
+
+        for item in basket.values():
+            item['price'] = float(item['price'])
+            item['total_price'] = item['price'] * item['quantity']
+            yield item
+
+    def __len__(self):
+        return sum(item['quantity'] for item in self.basket.values())
+    
+    def get_total_price(self):
+        return sum(float(item['price']) * item['quantity'] for item in self.basket.values())
+    
+    def clear(self):
+        del self.session[settings.BASKET_SESSION_ID]
+        self.save()
+=== D:\Programming\python-project\project_2025\shop\basket\forms.py ===
+from django import forms
+
+class BasketAddProductForm(forms.Form):
+    quantity = forms.IntegerField(min_value=1, max_value=20, initial=1, widget = forms.NumberInput(attrs={'class': 'form-control'}))
+    override = forms.BooleanField(required=False, initial=False, widget=forms.HiddenInput)
+=== D:\Programming\python-project\project_2025\shop\basket\models.py ===
+from django.db import models
+
+# Create your models here.
+=== D:\Programming\python-project\project_2025\shop\basket\tests.py ===
+from django.test import TestCase
+
+# Create your tests here.
+=== D:\Programming\python-project\project_2025\shop\basket\urls.py ===
+from django.urls import path
+from .import views
+
+app_name = 'basket'
+
+urlpatterns = [
+    path('', views.basket_detail, name='basket_detail'),
+    path('add/<int:product_id>/', views.basket_add, name='basket_add'),
+    path('remove/<int:product_id>/', views.basket_remove, name='basket_remove'),
+    path('update/<int:product_id>/<str:action>/', views.basket_update, name='basket_update'),
+]
+=== D:\Programming\python-project\project_2025\shop\basket\views.py ===
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
+from main.models import Product
+from .basket import Basket
+from .forms import BasketAddProductForm
+
+# Create your views here.
+
+@require_POST
+def basket_add(request, product_id):
+    basket = Basket(request)
+    product = get_object_or_404(Product, id=product_id)
+    form = BasketAddProductForm(request.POST)
+
+    if form.is_valid():
+        cd = form.cleaned_data
+        basket.add(product=product, quantity=cd['quantity'], override_quantity=cd['override'])
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        # РґР»СЏ AJAX РїСЂРѕСЃС‚Рѕ РІРѕР·РІСЂР°С‰Р°РµРј 200
+        from django.http import JsonResponse
+        return JsonResponse({'status': 'ok'})
+    return redirect('basket:basket_detail')
+
+@require_POST
+def basket_remove(request, product_id):
+    basket = Basket(request)
+    product = get_object_or_404(Product, id=product_id)
+    basket.remove(product)
+    return redirect('basket:basket_detail')
+
+def basket_detail(request):
+    basket = Basket(request)
+    for item in basket:
+        item['update_quantity_form'] = BasketAddProductForm(initial={
+            'quantity': item['quantity'], 
+            'override': True
+            })
+    return render(request, 'basket/basket_detail.html', {'basket': basket})
+
+@require_POST
+def basket_update(request, product_id, action):
+    basket = Basket(request)
+    product = get_object_or_404(Product, id=product_id)
+
+    if action == 'plus':
+        basket.add(product=product, quantity=1)
+
+    elif action == 'minus':
+        basket.add(product=product, quantity=-1)
+
+        if basket.basket[str(product.id)]['quantity'] <= 0:
+            basket.remove(product)
+
+    return redirect('basket:basket_detail')
+=== D:\Programming\python-project\project_2025\shop\basket\__init__.py ===
+=== D:\Programming\python-project\project_2025\shop\main\admin.py ===
+from django.contrib import admin
+from .models import Category, Product
+
+# Register your models here.
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'slug']
+    prepopulated_fields = {'slug': ('name',)}
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ['name', 'category', 'price', 'available', 'created', 'updated']
+    list_filter = ['available', 'created', 'updated', 'category']
+    list_editable = ['price', 'available']
+    prepopulated_fields = {'slug': ('name',)}
+=== D:\Programming\python-project\project_2025\shop\main\apps.py ===
+from django.apps import AppConfig
+
+
+class MainConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'main'
+=== D:\Programming\python-project\project_2025\shop\main\models.py ===
+from django.db import models
+from django.urls import reverse 
+
+# Create your models here.
+class Category(models.Model):
+    name = models.CharField(max_length=100, db_index=True)
+    slug = models.SlugField(max_length=100, unique=True)
+
+    class Meta:
+        ordering = ('name'),
+        verbose_name = 'РљР°С‚РµРіРѕСЂРёСЏ'
+        verbose_name_plural = 'РљР°С‚РµРіРѕСЂРёРё'
+
+    def __str__(self):
+        return self.name
+    
+    def get_absolute_url(self):
+        return reverse("main:product_list_by_category", args=[self.slug])
+    
+    
+class Product(models.Model):
+    category = models.ForeignKey(Category, related_name='products',
+                                 on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, db_index=True)
+    slug = models.SlugField(max_length=100, unique=True)
+    image = models.ImageField(upload_to='products/%Y/%m/%d', blank=True)
+    description = models.TextField(blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    available = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('name',)
+
+    def __str__(self):
+        return self.name
+    
+    def get_absolute_url(self):
+        return reverse("main:product_detail", args=[self.id, self.slug])
+
+class ImageModel(models.Model):
+    image = models.ImageField(upload_to='templates/images/')
+=== D:\Programming\python-project\project_2025\shop\main\tests.py ===
+from django.test import TestCase
+
+# Create your tests here.
+=== D:\Programming\python-project\project_2025\shop\main\urls.py ===
+from django.urls import path
+from . import views
+
+app_name = 'main'
+
+urlpatterns = [
+    path('', views.product_list, name='product_list'),
+    path('<slug:category_slug>/', views.product_list, name='product_list_by_category'),
+    path('<int:id>/<slug:slug>/', views.product_detail, name='product_detail'),
+]
+=== D:\Programming\python-project\project_2025\shop\main\views.py ===
+from django.shortcuts import render
+from django.shortcuts import get_object_or_404
+from .models import Category, Product
+from basket.forms import BasketAddProductForm
+# Create your views here.
+
+def product_list(request, category_slug=None):
+    categories = Category.objects.all()
+    products = Product.objects.filter(available=True)
+
+    category = None
+    if category_slug:
+        category = get_object_or_404(Category, slug=category_slug)
+        products = products.filter(category=category)
+        
+        # РЎРѕСЂС‚РёСЂРѕРІРєР°
+    sort = request.GET.get('sort')  # РїРѕР»СѓС‡Р°РµРј РїР°СЂР°РјРµС‚СЂ sort
+    if sort == 'price_asc':
+        products = products.order_by('price')
+    elif sort == 'price_desc':
+        products = products.order_by('-price')
+    elif sort == 'name_asc':
+        products = products.order_by('name')
+    elif sort == 'name_desc':
+        products = products.order_by('-name')
+    
+    return render(request, 'main/product/list.html',
+                  {'category': category,
+                   'categories': categories,
+                   'products': products,
+                   'current_sort': sort,  # РїРµСЂРµРґР°С‘Рј С‚РµРєСѓС‰СѓСЋ СЃРѕСЂС‚РёСЂРѕРІРєСѓ РІ С€Р°Р±Р»РѕРЅ
+                   })
+
+def product_detail(request, id, slug):
+    product = get_object_or_404(Product, id=id, slug=slug)
+    related_products = (
+        Product.objects.filter(category=product.category)
+        .exclude(id=product.id)[:3]
+    )
+    categories = Category.objects.all()
+
+    basket_product_form = BasketAddProductForm()
+
+    return render(request, 'main/product/detail.html', {
+        'product': product,
+        'related_products': related_products,
+        'categories': categories,
+        'basket_product_form': basket_product_form,
+    })
+=== D:\Programming\python-project\project_2025\shop\main\__init__.py ===
+=== D:\Programming\python-project\project_2025\shop\orders\admin.py ===
+from django.contrib import admin
+
+# Register your models here.
+=== D:\Programming\python-project\project_2025\shop\orders\apps.py ===
+from django.apps import AppConfig
+
+
+class OrdersConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'orders'
+=== D:\Programming\python-project\project_2025\shop\orders\forms.py ===
+from django import forms
+from .models import Order
+
+
+class OrderCreateForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = [
+            'first_name',
+            'email',
+            'phone',
+            'address',
+            'comment'
+        ]
+=== D:\Programming\python-project\project_2025\shop\orders\models.py ===
+from django.db import models
+from main.models import Product
+# Create your models here.
+
+class Order(models.Model):
+    first_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = models.CharField(max_length=30)
+    address = models.CharField(max_length=250)
+    comment = models.TextField(blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    paid = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['-created']
+
+    def __str__(self):
+        return f'Order {self.id}'
+
+    def get_total_cost(self):
+        return sum(item.get_cost() for item in self.items.all())
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(
+        Order,
+        related_name='items',
+        on_delete=models.CASCADE
+    )
+
+    product = models.ForeignKey(
+        Product,
+        related_name='order_items',
+        on_delete=models.CASCADE
+    )
+
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return str(self.id)
+
+    def get_cost(self):
+        return self.price * self.quantity
+=== D:\Programming\python-project\project_2025\shop\orders\tests.py ===
+from django.test import TestCase
+
+# Create your tests here.
+=== D:\Programming\python-project\project_2025\shop\orders\urls.py ===
+from django.urls import path
+from . import views
+
+app_name = 'orders'
+
+urlpatterns = [
+    path('create/', views.order_create, name='order_create'),
+]
+=== D:\Programming\python-project\project_2025\shop\orders\views.py ===
+from django.shortcuts import render
+
+from basket.basket import Basket
+
+from .models import OrderItem
+from .forms import OrderCreateForm
+
+
+def order_create(request):
+    basket = Basket(request)
+
+    if request.method == 'POST':
+        form = OrderCreateForm(request.POST)
+
+        if form.is_valid():
+            order = form.save()
+
+            for item in basket:
+                OrderItem.objects.create(
+                    order=order,
+                    product=item['product'],
+                    price=item['price'],
+                    quantity=item['quantity']
+                )
+
+            basket.clear()
+
+            return render(
+                request,
+                'orders/created.html',
+                {'order': order}
+            )
+
+    else:
+        form = OrderCreateForm()
+
+    return render(
+        request,
+        'orders/create.html',
+        {
+            'basket': basket,
+            'form': form
+        }
+    )
+=== D:\Programming\python-project\project_2025\shop\orders\__init__.py ===
+=== D:\Programming\python-project\project_2025\shop\shop\asgi.py ===
+"""
+ASGI config for shop project.
+
+It exposes the ASGI callable as a module-level variable named ``application``.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/5.2/howto/deployment/asgi/
+"""
+
+import os
+
+from django.core.asgi import get_asgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'shop.settings')
+
+application = get_asgi_application()
+=== D:\Programming\python-project\project_2025\shop\shop\settings.py ===
+"""
+Django settings for shop project.
+
+Generated by 'django-admin startproject' using Django 5.2.7.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/5.2/topics/settings/
+
+For the full list of settings and their values, see
+https://docs.djangoproject.com/en/5.2/ref/settings/
+"""
+
+from pathlib import Path
+import os
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'django-insecure-t0(=6)^v_!p7+18pin2qot8e0gtnakjs!+$5z=6n5ijaoqw5^3'
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+ALLOWED_HOSTS = []
+
+
+# Application definition
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'basket',
+    'main',
+    'orders',
+]
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+ROOT_URLCONF = 'shop.urls'
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+WSGI_APPLICATION = 'shop.wsgi.application'
+
+
+# Database
+# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+
+# Password validation
+# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+
+# Internationalization
+# https://docs.djangoproject.com/en/5.2/topics/i18n/
+
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'UTC'
+
+USE_I18N = True
+
+USE_TZ = True
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.2/howto/static-files/
+
+STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR / 'static')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+BASKET_SESSION_ID = 'basket'  # Basket session ID
+=== D:\Programming\python-project\project_2025\shop\shop\urls.py ===
+"""
+URL configuration for shop project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/5.2/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path, include
+from django.conf.urls.static import static
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('basket/', include('basket.urls', namespace='basket')),
+    path('', include('main.urls', namespace='main')),
+    path('orders/', include('orders.urls', namespace='orders')),
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+=== D:\Programming\python-project\project_2025\shop\shop\wsgi.py ===
+"""
+WSGI config for shop project.
+
+It exposes the WSGI callable as a module-level variable named ``application``.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/5.2/howto/deployment/wsgi/
+"""
+
+import os
+
+from django.core.wsgi import get_wsgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'shop.settings')
+
+application = get_wsgi_application()
+=== D:\Programming\python-project\project_2025\shop\shop\__init__.py ===
+=== D:\Programming\python-project\project_2025\shop\manage.py ===
+#!/usr/bin/env python
+"""Django's command-line utility for administrative tasks."""
+import os
+import sys
+
+
+def main():
+    """Run administrative tasks."""
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'shop.settings')
+    try:
+        from django.core.management import execute_from_command_line
+    except ImportError as exc:
+        raise ImportError(
+            "Couldn't import Django. Are you sure it's installed and "
+            "available on your PYTHONPATH environment variable? Did you "
+            "forget to activate a virtual environment?"
+        ) from exc
+    execute_from_command_line(sys.argv)
+
+
+if __name__ == '__main__':
+    main()
+=== D:\Programming\python-project\project_2025\shop\requirements.txt ===
+asgiref==3.10.0
+Django==5.2.7
+pillow==12.0.0
+sqlparse==0.5.3
+tzdata==2025.2

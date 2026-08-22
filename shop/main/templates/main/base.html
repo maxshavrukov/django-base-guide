@@ -15,7 +15,7 @@
         <div class="header_content">                
             <div class="header_content-logo">
                 <a href="{% url 'main:product_list' %}" class="logo_link">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 160" height="100">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 60" width="280" height="60">
                         <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" dx="5">
                             BASE GUIDE                      
                         </text>
@@ -25,16 +25,18 @@
             <div class="header_navigation">
                 <nav class="menu_list">
                     <li class="menu_list-item">
-                        <a class="menu_list-link" href="{% url "main:product_list" %}">ВСЕ ТОВАРЫ</a>
+                        <a class="menu_list-link" href="{% url 'main:product_list' %}">ВСЕ ТОВАРЫ</a>
                     </li>
                     {% for category in categories %}
-                        <li class ="menu_list-item">
+                        <li class="menu_list-item">
                             <a class="menu_list-link" href="{{ category.get_absolute_url }}">{{ category.name }}</a>
                         </li>
                     {% endfor %}
 
                     <li class="menu_list-item">
-                        <a class="menu_list-link" href="{% url 'basket:basket_detail' %}">Корзина({{ request.session.basket|length }})</a>
+                        <a class="menu_list-link" href="{% url 'basket:basket_detail' %}">
+                            Корзина ({% if basket|length > 0 %}{{ basket|length }}{% else %}0{% endif %})
+                        </a>
                     </li>
                 </nav>
             </div>

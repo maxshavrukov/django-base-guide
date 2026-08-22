@@ -1,5 +1,6 @@
 from django.db import models
 from main.models import Product
+from django.db.models import Sum, F
 # Create your models here.
 
 class Order(models.Model):
@@ -19,8 +20,9 @@ class Order(models.Model):
         return f'Order {self.id}'
 
     def get_total_cost(self):
-        return sum(item.get_cost() for item in self.items.all())
-
+        return self.items.aggregate(
+            total=Sum(F('price') * F('quantity'))
+        )['total'] or 0
 
 class OrderItem(models.Model):
     order = models.ForeignKey(

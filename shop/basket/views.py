@@ -41,14 +41,18 @@ def basket_detail(request):
 def basket_update(request, product_id, action):
     basket = Basket(request)
     product = get_object_or_404(Product, id=product_id)
+    product_id_str = str(product.id)
 
     if action == 'plus':
         basket.add(product=product, quantity=1)
 
     elif action == 'minus':
-        basket.add(product=product, quantity=-1)
-
-        if basket.basket[str(product.id)]['quantity'] <= 0:
-            basket.remove(product)
-
+        # Проверяем, есть ли товар в корзине
+        if product_id_str in basket.basket:
+            # Если осталась 1 штука — сразу удаляем
+            if basket.basket[product_id_str]['quantity'] <= 1:
+                basket.remove(product)
+            else:
+                basket.add(product=product, quantity=-1)
+                
     return redirect('basket:basket_detail')

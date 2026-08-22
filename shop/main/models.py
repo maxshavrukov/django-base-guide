@@ -28,7 +28,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     available = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ('name',)
@@ -38,6 +38,3 @@ class Product(models.Model):
     
     def get_absolute_url(self):
         return reverse("main:product_detail", args=[self.id, self.slug])
-
-class ImageModel(models.Model):
-    image = models.ImageField(upload_to='templates/images/')

@@ -1,19 +1,34 @@
-{% extends "main/base.html" %}
+{% extends 'main/base.html' %}
+{% load static %}
 
-{% block title %}
-Заказ оформлен
-{% endblock title %}
+{% block title %}Заказ успешно оформлен{% endblock title %}
 
 {% block content %}
+<div class="checkout_page" style="text-align: center; padding: 60px 20px;">
+    <div style="background: var(--bg-secondary); max-width: 550px; margin: 0 auto; padding: 40px; border-radius: var(--border-radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+        
+        <!-- Иконка галочки -->
+        <div style="width: 64px; height: 64px; background: rgba(46, 204, 113, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2ecc71" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        </div>
 
-<div class="catalog_title">
-    <h1 class="catalog_title-item">
-        Заказ оформлен
-    </h1>
+        <h1 class="catalog_title-item" style="margin-bottom: 12px; font-size: 26px;">Спасибо за заказ!</h1>
+        
+        {% if order %}
+            <p style="font-size: 16px; color: var(--text-muted); margin-bottom: 8px;">
+                Номер вашего заказа: <strong style="color: var(--text-primary);">#{{ order.id }}</strong>
+            </p>
+        {% endif %}
+
+        <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 28px;">
+            Мы уже начали обработку. В ближайшее время менеджер свяжется с вами для подтверждения деталей.
+        </p>
+
+        <a href="/" class="checkout_submit_btn" style="display: inline-block; text-decoration: none; width: auto; padding: 12px 28px;">
+            Вернуться в магазин
+        </a>
+    </div>
 </div>
-
-<div class="alert_products">
-    Спасибо за заказ!
-</div>
-
 {% endblock content %}
