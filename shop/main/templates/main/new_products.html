@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{ title }} — BASE GUIDE{% endblock title %}
+
+{% block content %}
+<div class="new_products_container">
+    <h1 class="page_title">🔥 Новинки</h1>
+    <p class="page_subtitle">Самые свежие поступления в нашем магазине</p>
+
+    <div class="product_grid">
+        {% for product in products %}
+            <div class="product_card">
+                <a href="{{ product.get_absolute_url }}">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% else %}
+                        <img src="https://via.placeholder.com/300" alt="Нет фото">
+                    {% endif %}
+                </a>
+                <div class="product_info">
+                    <h3><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h3>
+                    <p class="product_price">{{ product.price }} грн</p>
+                    <a href="{% url 'basket:basket_add' product.id %}" class="add_to_cart_btn">В корзину</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>Новинок пока нет.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

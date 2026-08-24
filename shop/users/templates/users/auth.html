@@ -1,0 +1,49 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Авторизация{% endblock %}
+
+{% block content %}
+<div class="auth_container">
+    
+    <!-- Переключатель вкладок -->
+    <div class="auth_tabs">
+        <button type="button" id="tab-login" class="auth_tab active">Войти</button>
+        <button type="button" id="tab-register" class="auth_tab">Регистрация</button>
+    </div>
+
+    <!-- ФОРМА ВХОДА -->
+    <form id="form-login" class="auth_form active" method="post" action="{% url 'users:login' %}">
+        {% csrf_token %}
+        {% for field in login_form %}
+            <div class="auth_field_group">
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <span class="auth_error">{{ field.errors.0 }}</span>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="checkout_submit_btn auth_btn">Войти в аккаунт</button>
+    </form>
+
+    <!-- ФОРМА РЕГИСТРАЦИИ -->
+    <form id="form-register" class="auth_form" method="post" action="{% url 'users:register' %}">
+        {% csrf_token %}
+        {% for field in register_form %}
+            <div class="auth_field_group">
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <span class="auth_error">{{ field.errors.0 }}</span>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="checkout_submit_btn auth_btn">Создать аккаунт</button>
+    </form>
+
+</div>
+
+<!-- Подключаем отдельный JS-файл -->
+<script src="{% static 'js/authTabs.js' %}"></script>
+{% endblock %}

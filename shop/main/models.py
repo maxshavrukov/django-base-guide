@@ -38,3 +38,18 @@ class Product(models.Model):
     
     def get_absolute_url(self):
         return reverse("main:product_detail", args=[self.id, self.slug])
+
+class Banner(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Заголовок баннера")
+    subtitle = models.TextField(verbose_name="Описание / Подзаголовок", blank=True)
+    image = models.ImageField(upload_to='promo/', verbose_name="Изображение баннера", blank=True, null=True)
+    link = models.CharField(max_length=200, default="#", verbose_name="Ссылка при клике")
+    is_active = models.BooleanField(default=True, verbose_name="Активен")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Баннер"
+        verbose_name_plural = "Баннеры"
+
+    def __str__(self):
+        return self.title

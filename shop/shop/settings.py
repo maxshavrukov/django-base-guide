@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'basket',
     'main',
     'orders',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -65,6 +66,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'basket.context_processors.basket',  # Добавляем контекстный процессор корзины
+                'main.context_processors.categories', # Добавляем контекстный процессор категорий
             ],
         },
     },

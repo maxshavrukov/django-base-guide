@@ -1,0 +1,34 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{ title }} — BASE GUIDE{% endblock title %}
+
+{% block content %}
+<div class="info_page_container">
+    <h1 class="info_page_title">Доставка и оплата</h1>
+    <p class="info_page_subtitle">Мы заботимся о том, чтобы ваши заказы приезжали вовремя и в полной сохранности.</p>
+
+    <div class="info_grid">
+        <!-- Блок Доставки -->
+        <div class="info_card">
+            <div class="info_card_icon">🚚</div>
+            <h2>Способы доставки</h2>
+            <ul class="info_list">
+                <li><strong>Новая Почта (Отделение / Почтомат)</strong> — доставка по всей стране в течение 1–3 дней.</li>
+                <li><strong>Курьерская доставка</strong> — прямо до вашей двери в удобное время.</li>
+                <li><strong>Самовывоз</strong> — бесплатно из нашего шоурума.</li>
+            </ul>
+        </div>
+
+        <!-- Блок Оплаты -->
+        <div class="info_card">
+            <div class="info_card_icon">💳</div>
+            <h2>Способы оплаты</h2>
+            <ul class="info_list">
+                <li><strong>Оплата картой онлайн</strong> — Visa / Mastercard при оформлении заказа.</li>
+                <li><strong>Наложенный платёж</strong> — оплата при получении в отделении почты.</li>
+                <li><strong>Безналичный расчёт</strong> — для юридических лиц и ФОП.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock content %}

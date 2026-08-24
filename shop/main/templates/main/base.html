@@ -1,60 +1,112 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock title %}</title>
-</head>
-<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'style.css' %}">
-<style></style>
-<body>
-    <header class="header" id="header">
-        <div class="header_content">                
-            <div class="header_content-logo">
-                <a href="{% url 'main:product_list' %}" class="logo_link">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 60" width="280" height="60">
-                        <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" dx="5">
-                            BASE GUIDE                      
-                        </text>
-                    </svg>
-                </a>
-            </div>
-            <div class="header_navigation">
-                <nav class="menu_list">
-                    <li class="menu_list-item">
-                        <a class="menu_list-link" href="{% url 'main:product_list' %}">ВСЕ ТОВАРЫ</a>
-                    </li>
-                    {% for category in categories %}
-                        <li class="menu_list-item">
-                            <a class="menu_list-link" href="{{ category.get_absolute_url }}">{{ category.name }}</a>
-                        </li>
-                    {% endfor %}
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      {% block title %}
 
-                    <li class="menu_list-item">
-                        <a class="menu_list-link" href="{% url 'basket:basket_detail' %}">
-                            Корзина ({% if basket|length > 0 %}{{ basket|length }}{% else %}0{% endif %})
-                        </a>
-                    </li>
-                </nav>
-            </div>
+      {% endblock %}
+    </title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+  </head>
+  <body>
+    <header>
+      <!-- Верхняя мини-панель -->
+      <div class="topbar">
+        <div class="header_container topbar_content">
+          <nav class="topbar_nav">
+            <a href="{% url 'main:product_list' %}">Главная</a>
+            <a href="{% url 'main:new_products' %}">Новинки</a>
+            <a href="{% url 'main:delivery_and_payment' %}">Доставка и оплата</a>
+            <a href="{% url 'main:contacts' %}">Контакты</a>
+          </nav>
+          <div class="topbar_right">
+            <span>Пн-Вс: 09:00 — 21:00</span>
+            {% if user.is_authenticated %}
+              <span class="topbar_username">{{ user.username }}</span>
+              <a href="{% url 'users:logout' %}" class="topbar_logout">Выйти</a>
+            {% else %}
+              <a href="{% url 'users:login' %}" class="topbar_login">Войти</a>
+            {% endif %}
+          </div>
         </div>
+      </div>
+
+      <!-- Средняя панель с логотипом -->
+      <div class="header_main">
+        <div class="header_container main_content">
+          <div class="logo_block">
+            <a href="{% url 'main:product_list' %}"><img src="{% static 'img/logo_base_guide.png' %}" alt="Base Guide Logo" class="logo_img" /></a>
+            <span class="logo_subtitle">Интернет-магазин стильных вещей</span>
+          </div>
+          <div class="header_phone">
+            <a href="tel:+380961234567" class="phone_link">+38 (096) 123-45-67</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ЛИПКАЯ ПАНЕЛЬ: Каталог, Поиск, Навигация, Корзина -->
+      <div class="header_bottom sticky_nav">
+        <div class="header_container bottom_content">
+          <!-- Кнопка Каталога -->
+          <div class="catalog_dropdown">
+            <button class="catalog_btn" id="catalogBtn"><span>☰</span> Каталог товаров</button>
+            <div class="catalog_menu" id="catalogMenu">
+              <a href="{% url 'main:product_list' %}" class="catalog_menu_item">Все товары</a>
+
+              {% for category in categories %}
+                <a href="{% url 'main:product_list_by_category' category.slug %}" class="catalog_menu_item">{{ category.name }}</a>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Поиск -->
+          <form action="#" method="get" class="search_form">
+            <input type="text" name="q" class="search_input" placeholder="Поиск товара в каталоге..." autocomplete="off" />
+            <button type="submit" class="search_btn">🔍</button>
+          </form>
+
+          <!-- Навигация -->
+          <nav class="bottom_nav">
+            <a href="{% url 'main:product_list' %}">Все товары</a>
+            <a href="#">Акции</a>
+            <a href="#">Скидки</a>
+          </nav>
+
+          <!-- Корзина -->
+          <div class="header_cart">
+            <a href="#" class="cart_btn">
+              <div class="cart_icon_wrapper">
+                🛒 <span class="cart_count">0</span>
+              </div>
+              <span>0 грн</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </header>
-    <section class="content">
-        {% block content %}
-        {% endblock content %}
-    </section>
-    <footer class="footer">
-        <div class="footer_content-item">
-            <p>&copy; 2024 Shop</p> 
-        </div>
-    </footer>
-    
-<script src="{% static 'js/dropdown.js' %}"></script>
-<script src="{% static 'js/cartModal.js' %}"></script>
-<script src="{% static 'js/product-quantity.js' %}"></script>
 
-</body>
+    <section class="content">
+      {% block content %}
+
+      {% endblock %}
+    </section>
+
+    <footer class="footer">
+      <div class="footer_content-item">
+        <p>&copy; 2026 Shop</p>
+      </div>
+    </footer>
+
+    <script src="{% static 'js/dropdown.js' %}"></script>
+    <script src="{% static 'js/catalog_dropdown.js' %}"></script>
+    <script src="{% static 'js/cartModal.js' %}"></script>
+    <script src="{% static 'js/product-quantity.js' %}"></script>
+    <script src="{% static 'js/bannerSlider.js' %}"></script>
+    <script src="{% static 'js/catalogMenu.js' %}"></script>
+  </body>
 </html>
