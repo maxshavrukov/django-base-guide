@@ -1,0 +1,42 @@
+{% extends 'users/account_base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'wishlist/css/wishlist.css' %}">
+{% endblock %}
+
+{% block title %}Избранное{% endblock %}
+
+{% block cabinet_content %}
+<div class="cabinet-section-header">
+    <h2 class="cabinet-content-title">Избранное</h2>
+</div>
+
+{% if wishlist %}
+    <!-- Используем класс wishlist-grid вместо инлайн-стилей -->
+    <div class="wishlist-grid">
+        {% for product in wishlist %}
+            <!-- Используем класс wishlist-card -->
+            <div class="wishlist-card">
+                {% if product.image %}
+                    <!-- Используем класс wishlist-card-img -->
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="wishlist-card-img">
+                {% endif %}
+                
+                <h3 class="wishlist-card-title">{{ product.name }}</h3>
+                <p class="wishlist-card-price">{{ product.price }} грн</p>
+                
+                <a href="{% url 'wishlist:wishlist_remove' product.id %}" class="wishlist-remove-btn">
+                    ❌ Удалить из избранного
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <!-- Используем класс cabinet-empty-state, стили для которого мы уже добавили ранее -->
+    <div class="cabinet-empty-state">
+        <p>В вашем избранном пока ничего нет 💔</p>
+        <p>Добавляйте товары, нажав на сердечко в каталоге!</p>
+
+    </div>
+{% endif %}
+{% endblock %}

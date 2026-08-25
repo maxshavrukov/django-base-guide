@@ -24,6 +24,7 @@ urlpatterns = [
     path('basket/', include('basket.urls', namespace='basket')),
     path('orders/', include('orders.urls', namespace='orders')),
     path('users/', include('users.urls', namespace='users')),
+    path('wishlist/', include('wishlist.urls', namespace='wishlist')),
     path('', include('main.urls', namespace='main')),
 ]
 

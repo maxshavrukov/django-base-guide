@@ -1,9 +1,15 @@
 from django.db import models
 from main.models import Product
 from django.db.models import Sum, F
+from django.contrib.auth.models import User # Импортируем модель пользователя
 # Create your models here.
 
 class Order(models.Model):
+    user = models.ForeignKey(User, 
+                             on_delete=models.CASCADE, 
+                             related_name='orders', 
+                             blank=True, null=True, 
+                             verbose_name='Пользователь')
     first_name = models.CharField(max_length=100)
     email = models.EmailField()
     phone = models.CharField(max_length=30)

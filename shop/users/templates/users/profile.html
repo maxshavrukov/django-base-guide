@@ -1,0 +1,15 @@
+{% extends 'users/account_base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'users/css/users.css' %}">
+{% endblock %}
+
+{% block cabinet_content %}
+<h2 class="cabinet-content-title">Контактная информация</h2>
+
+<div class="cabinet-info-group">
+    <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+    <p><strong>Электронная почта:</strong> {{ user.email|default:"Не указана" }}</p>
+    <p><strong>Дата регистрации:</strong> {{ user.date_joined|date:"d.m.Y" }}</p>
+</div>
+{% endblock %}

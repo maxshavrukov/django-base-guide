@@ -1,0 +1,23 @@
+{% extends 'users/account_base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'orders/css/orders.css' %}">
+{% endblock %}
+
+{% block cabinet_content %}
+<div class="cabinet-section-header">
+    <h2 class="cabinet-content-title">Мои заказы</h2>
+</div>
+
+{% if orders %}
+    <div class="orders-list">
+        {% for order in orders %}
+            <!-- карточка заказа -->
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="cabinet-empty-state">
+        <p>У вас пока нет оформленных заказов.</p>
+    </div>
+{% endif %}
+{% endblock %}

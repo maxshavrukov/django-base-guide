@@ -5,7 +5,22 @@ from basket.forms import BasketAddProductForm
 from django.db.models import Q
 # Create your views here.
 
-from django.db.models import Q
+def transliterate_to_cyrillic(text):
+    """Простая функция перевода латиницы в кириллицу"""
+    translit_map = {
+        'shch': 'щ', 'zh': 'ж', 'ch': 'ч', 'sh': 'ш', 'yu': 'ю', 'ya': 'я',
+        'a': 'а', 'b': 'б', 'v': 'в', 'g': 'г', 'd': 'д', 'e': 'е', 'z': 'з',
+        'i': 'і', 'j': 'й', 'k': 'к', 'l': 'л', 'm': 'м', 'n': 'н', 'o': 'о',
+        'p': 'п', 'r': 'р', 's': 'с', 't': 'т', 'u': 'у', 'f': 'ф', 'h': 'х',
+        'c': 'ц', 'y': 'ы'
+    }
+    # Сортируем ключи по длине (сначала длинные вроде shch, ch), чтобы заменялось корректно
+    sorted_keys = sorted(translit_map.keys(), key=len, reverse=True)
+    res = text.lower()
+    for k in sorted_keys:
+        res = res.replace(k, translit_map[k])
+    return res
+
 
 def product_list(request, category_slug=None):
     categories = Category.objects.all()
@@ -82,3 +97,43 @@ def new_products(request):
         'products': latest_products,
     }
     return render(request, 'main/new_products.html', context)
+
+def search_results(request):
+    query = request.GET.get('q', '').strip()
+    products = Product.objects.none()
+    category_suggestion = None
+    
+    if query:
+        query_lower = query.lower()
+        
+        # 1. Ищем товары по названию или описанию
+        products = Product.objects.filter(
+            Q(name__icontains=query) | Q(description__icontains=query)
+        ).distinct()
+        
+        # 2. Если не нашли, пробуем транслитерацию
+        cyrillic_query = transliterate_to_cyrillic(query)
+        cyrillic_lower = cyrillic_query.lower()
+        
+        if not products.exists() and cyrillic_lower != query_lower:
+            products = Product.objects.filter(
+                Q(name__icontains=cyrillic_query) | Q(description__icontains=cyrillic_query)
+            ).distinct()
+            
+        # 3. Идем искать категорию безопасно через Python-фильтрацию по нижнему регистру
+        if not products.exists():
+            all_categories = Category.objects.all()
+            for cat in all_categories:
+                # Сравниваем в нижнем регистре: содержит ли название категории запрос или транслит
+                cat_name_lower = cat.name.lower()
+                if query_lower in cat_name_lower or cyrillic_lower in cat_name_lower:
+                    category_suggestion = cat
+                    products = Product.objects.filter(category=cat)
+                    break
+
+    context = {
+        'query': query,
+        'products': products,
+        'category_suggestion': category_suggestion,
+    }
+    return render(request, 'main/search_results.html', context)

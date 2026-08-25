@@ -1,35 +1,38 @@
 {% extends 'main/base.html' %}
 {% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'orders/css/orders.css' %}">
+{% endblock %}
 
 {% block title %}Оформление заказа{% endblock title %}
 
 {% block content %}
-<div class="checkout_page">
+<div class="order_page">
     <h1 class="catalog_title-item" style="margin-bottom: 24px;">Оформление заказа</h1>
 
-    <div class="checkout_container">
+    <div class="order_container">
         <!-- СЛЕВА: Форма -->
-        <div class="checkout_form_wrapper">
-            <form action="" method="post" class="checkout_form">
+        <div class="order_form_wrapper">
+            <form action="" method="post" class="order_form">
                 {% csrf_token %}
 
-                <div class="checkout_field">
+                <div class="order_field">
                     <label for="id_first_name">Имя и Фамилия</label>
-                    <input type="text" name="first_name" id="id_first_name" class="checkout_input" placeholder="Иван Иванов" required>
+                    <input type="text" name="first_name" id="id_first_name" class="order_input" placeholder="Иван Иванов" required>
                 </div>
 
-                <div class="checkout_field">
+                <div class="order_field">
                     <label for="id_email">Электронная почта</label>
-                    <input type="email" name="email" id="id_email" class="checkout_input" placeholder="example@mail.com" required>
+                    <input type="email" name="email" id="id_email" class="order_input" placeholder="example@mail.com" required>
                 </div>
 
-                <div class="checkout_field">
+                <div class="order_field">
                     <label for="id_phone">Номер телефона</label>
-                    <div class="phone_input_wrapper">
-                        <span class="phone_prefix">+38</span>
+                    <div class="order_phone_wrapper">
+                        <span class="order_phone_prefix">+38</span>
                         <input type="tel"
                         name="phone" 
-                        id="id_phone"class="checkout_input phone_input" 
+                        id="id_phone" class="order_input order_phone_input" 
                         placeholder="0990102034" 
                         maxlength="10" 
                         pattern="[0-9]{10}"
@@ -37,9 +40,9 @@
                     </div>
                 </div>
 
-                <div class="checkout_field">
+                <div class="order_field">
                     <label for="id_delivery_service">Почтовый оператор</label>
-                    <select name="delivery_service" id="id_delivery_service" class="checkout_select" required>
+                    <select name="delivery_service" id="id_delivery_service" class="order_select" required>
                         <option value="" disabled selected>Выберите службу доставки...</option>
                         <option value="nova_poshta">Нова Пошта</option>
                         <option value="ukrposhta">Укрпошта</option>
@@ -47,45 +50,45 @@
                     </select>
                 </div>
 
-                <div class="checkout_field" id="city_group" style="display: none; position: relative;">
+                <div class="order_field" id="city_group" style="display: none; position: relative;">
                     <label for="city_input">Населенный пункт</label>
-                    <input type="text" id="city_input" class="checkout_input" placeholder="Начните вводить город..." autocomplete="off">
+                    <input type="text" id="city_input" class="order_input" placeholder="Начните вводить город..." autocomplete="off">
                     <input type="hidden" name="city_ref" id="city_ref">
-                    <div id="city_suggestions" class="autocomplete_list"></div>
+                    <div id="city_suggestions" class="order_autocomplete_list"></div>
                 </div>
 
-                <div class="checkout_field" id="branch_group" style="display: none;">
+                <div class="order_field" id="branch_group" style="display: none;">
                     <label for="id_address">Отделение доставки</label>
-                    <select name="address" id="id_address" class="checkout_select" required disabled>
+                    <select name="address" id="id_address" class="order_select" required disabled>
                         <option value="">Сначала выберите город...</option>
                     </select>
                 </div>
 
-                <div class="checkout_field">
+                <div class="order_field">
                     <label for="id_comment">Комментарий к заказу</label>
-                    <textarea name="comment" id="id_comment" class="checkout_input checkout_textarea" placeholder="Пожелания к доставке или звонку..."></textarea>
+                    <textarea name="comment" id="id_comment" class="order_input order_textarea" placeholder="Пожелания к доставке или звонку..."></textarea>
                 </div>
 
-                <button type="submit" class="checkout_submit_btn" style="width: 100%; margin-top: 10px;">Подтвердить заказ</button>
+                <button type="submit" class="order_submit_btn">Подтвердить заказ</button>
             </form>
         </div>
 
         <!-- СПРАВА: Ваш заказ -->
-        <div class="checkout_summary">
+        <div class="order_summary">
             <h2>Ваш заказ</h2>
-            <div class="checkout_items_list">
+            <div class="order_items_list">
                 {% for item in basket %}
-                    <div class="checkout_item">
-                        <div class="checkout_item_info">
-                            <span class="checkout_item_title">{{ item.product.name }}</span>
-                            <span class="checkout_item_qty">x{{ item.quantity }}</span>
+                    <div class="order_item">
+                        <div class="order_item_info">
+                            <span class="order_item_title">{{ item.product.name }}</span>
+                            <span class="order_item_qty">x{{ item.quantity }}</span>
                         </div>
-                        <span class="checkout_item_price">{{ item.total_price }} грн.</span>
+                        <span class="order_item_price">{{ item.total_price }} грн.</span>
                     </div>
                 {% endfor %}
             </div>
 
-            <div class="checkout_total">
+            <div class="order_total">
                 <span>Итого к оплате:</span>
                 <span>{{ basket.get_total_price }} грн.</span>
             </div>

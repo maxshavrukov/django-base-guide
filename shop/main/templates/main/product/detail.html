@@ -1,76 +1,83 @@
-{% extends "main/base.html" %}
+{% extends 'main/base.html' %}
 {% load static %}
 
-{% block title %}{{ product.name }}
-{% endblock title %}
+{% block title %}
+  {{ product.name }}
+{% endblock %}
 
 {% block content %}
-<section class="product_detail-container">
+  <section class="product_detail-container">
     <div class="catalog_title">
-        <h1 class="catalog_title-item">
-            <a href="{{ product.category.get_absolute_url }}">
-                {{ product.category.name }}
-            </a>
-        </h1>
+      <h1 class="catalog_title-item"><a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></h1>
     </div>
     <div class="product_wrapper">
-        <div class="product_image">
-            {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product_image-img">
+      <div class="product_image">
+        {% if product.image %}
+          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product_image-img" />
+        {% else %}
+          <img src="{% static 'img/no_image.png' %}" alt="Нет изображения" class="product_image-img" />
+        {% endif %}
+      </div>
+
+      <div class="product_info">
+        <h1 class="product_info-title">{{ product.name }}</h1>
+        <p class="product_info-description">{{ product.description }}</p>
+        <p class="product_info-price">
+          Цена: <span>{{ product.price }} грн.</span>
+        </p>
+
+        <!-- ФОРМА ТЕПЕРЬ СОДЕРЖИТ ТОЛЬКО КОЛИЧЕСТВО И КНОПКУ КОРЗИНЫ -->
+        <!-- ОБЩИЙ КОНТЕЙНЕР ДЛЯ ФОРМЫ И СЕРДЕЧКА (СТАВИМ В РЯД) -->
+        <div class="product-actions-container">
+          <form action="{% url 'basket:basket_add' product.id %}" method="post" class="product_form">
+            {% csrf_token %}
+            <div class="quantity_selector">
+              <label>Количество:</label>
+              <div class="quantity_box">
+                <button type="button" class="quantity_btn minus">−</button>
+                <input type="number" name="quantity" value="1" min="1" max="20" class="quantity_input" />
+                <button type="button" class="quantity_btn plus">+</button>
+              </div>
+            </div>
+
+            <button type="submit" class="buy_button">Добавить в корзину</button>
+          </form>
+
+          <!-- КОНТЕЙНЕР ДЛЯ СЕРДЕЧКА ВЫНЕСЕН СНАРУЖИ ФОРМЫ, НО ОСТАЕТСЯ В ТОМ ЖЕ БЛОКЕ -->
+          <div class="product-actions-container" style="margin-top: 15px;">
+            {% if product.id|slugify in wishlist.wishlist %}
+              <!-- Если товар уже в избранном (красное сердце) -->
+              <a href="{% url 'wishlist:wishlist_remove' product.id %}" class="wishlist-btn" title="Убрать из избранного">❤️</a>
             {% else %}
-                <img src="{% static 'img/no_image.png' %}" alt="Нет изображения" class="product_image-img">
+              <!-- Если товара еще нет в избранном (контурное сердце) -->
+              <a href="{% url 'wishlist:wishlist_add' product.id %}" class="wishlist-btn" title="Добавить в избранное">🤍</a>
             {% endif %}
+          </div>
         </div>
-
-        <div class="product_info">
-            <h1 class="product_info-title">{{ product.name }}</h1>
-            <p class="product_info-description">{{ product.description }}</p>
-            <p class="product_info-price">Цена: <span>{{ product.price }} грн.</span></p>
-            
-            <form action="{% url 'basket:basket_add' product.id %}" method="post" class="product_form">
-                {% csrf_token %}
-                <div class="quantity_selector">
-                    <label>Количество:</label>
-                    <div class="quantity_box">
-                        <button type="button" class="quantity_btn minus">−</button>
-                        <input type="number"
-                        name="quantity"
-                        value="1"
-                        min="1"
-                        max="20"
-                        class="quantity_input">
-                        <button type="button" class="quantity_btn plus">+</button>
-                    </div>
-                </div>
-                <button type="submit" class="buy_button">
-                    Добавить в корзину
-                </button>
-            </form>
-        </div>
+      </div>
     </div>
-</section>
+  </section>
 
-<!-- === Похожие товары === -->
-{% if related_products %}
-<section class="related_products container">
-    <h2 class="related_title">Похожие товары</h2>
-    <div class="related_grid">
+  {% if related_products %}
+    <section class="related_products_container">
+      <h2 class="related_title">Похожие товары</h2>
+      <div class="related_grid">
         {% for item in related_products %}
-        <div class="related_card">
+          <div class="related_card">
             <a href="{{ item.get_absolute_url }}">
-                {% if item.image %}
-                    <img src="{{ item.image.url }}" alt="{{ item.name }}">
-                {% else %}
-                    <img src="{% static 'img/no_image.png' %}" alt="Нет изображения">
-                {% endif %}
+              {% if item.image %}
+                <img src="{{ item.image.url }}" alt="{{ item.name }}" />
+              {% else %}
+                <img src="{% static 'img/no_image.png' %}" alt="Нет изображения" />
+              {% endif %}
             </a>
             <div class="related_info">
-                <h3>{{ item.name }}</h3>
-                <p>{{ item.price }} грн.</p>
+              <h3>{{ item.name }}</h3>
+              <p>{{ item.price }} грн.</p>
             </div>
-        </div>
+          </div>
         {% endfor %}
-    </div>
-</section>
-{% endif %}
-{% endblock content %}
+      </div>
+    </section>
+  {% endif %}
+{% endblock %}

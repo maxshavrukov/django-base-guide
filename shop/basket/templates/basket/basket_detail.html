@@ -1,5 +1,8 @@
 {% extends "main/base.html" %}
 {% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'basket/css/basket.css' %}">
+{% endblock %}
 
 {% block title %}Корзина{% endblock %}
 
@@ -55,7 +58,6 @@
                     {% csrf_token %}
                      <button type="submit" class="remove_btn">Удалить</button>
                 </form>
-                </a>
             </div>
 
         </div>
@@ -63,15 +65,33 @@
     </div>
 
     <div class="cart_summary">
-        <div class="cart_summary-row">
-            <span>Итого:</span>
-            <span class="cart_summary-total">{{ basket.get_total_price }} грн.</span>
-        </div>
+        {% with details=basket.get_basket_details %}
+            {% if details.discount_percent > 0 %}
+                <div class="cart_summary-subtotal">
+                    <span>Сумма товаров:</span>
+                    <span>{{ details.subtotal }} грн.</span>
+                </div>
+                
+                <div class="cart_summary-discounts-list">
+                    <div class="discount_badge">
+                        <span>Скидка ({% for reason in details.applied_discounts %}{{ reason }}{% if not forloop.last %}, {% endif %}{% endfor %}):</span>
+                        <span class="discount_badge-sum">-{{ details.discount_amount }} грн.</span>
+                    </div>
+                </div>
+
+                <hr class="cart_summary-divider">
+            {% endif %}
+            
+            <div class="cart_summary-row">
+                <span>Итого:</span>
+                <span class="cart_summary-total">{{ details.total_price }} грн.</span>
+            </div>
+        {% endwith %}
+
         <a href="{% url 'orders:order_create' %}" class="checkout_btn">
             Оформить заказ
         </a>
     </div>
-
 </div>
 
 {% endif %}

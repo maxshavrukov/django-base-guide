@@ -1,0 +1,40 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'users/css/users.css' %}">
+{% endblock %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block content %}
+<div class="cabinet-page-container">
+    <div class="catalog_title">
+        <h1 class="catalog_title-item">Личный кабинет</h1>
+    </div>
+
+    <!-- Основной макет кабинета -->
+    <div class="cabinet-layout">
+        
+        <!-- Левое меню навигации -->
+        <aside class="cabinet-sidebar">
+            <ul class="cabinet-menu">
+                <li><a href="{% url 'users:order_list' %}" class="cabinet-menu-link {% if request.resolver_match.namespace == 'orders' %}active{% endif %}">Мои заказы</a></li>
+                <li><a href="{% url 'wishlist:wishlist_detail' %}" class="cabinet-menu-link">Избранное</a></li>
+                <li><a href="{% url 'users:profile' %}" class="cabinet-menu-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">Контактная информация</a></li>
+                <li>
+                    <form action="{% url 'users:logout' %}" method="post" class="cabinet-logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="cabinet-logout-btn">Выход</button>
+                    </form>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Правая часть с контентом (здесь будет меняться начинка) -->
+        <main class="cabinet-content">
+            {% block cabinet_content %}{% endblock %}
+        </main>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,19 +1,39 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const dropdown = document.getElementById("catalogDropdown");
-  const btn = document.getElementById("catalogBtn");
+  // Элементы каталога
+  const catalogDropdown = document.querySelector(".catalog_dropdown");
+  const catalogBtn = document.querySelector(".catalog_btn") || document.getElementById("catalogBtn");
+  const catalogMenu = document.querySelector(".catalog_menu");
 
-  if (!dropdown || !btn) return;
+  // Элементы сортировки
+  const sortDropdown = document.querySelector(".sort_dropdown");
+  const sortBtn = document.querySelector(".sort_btn") || document.getElementById("sortBtn");
+  const sortMenu = document.querySelector(".sort_menu");
 
-  // Открытие / закрытие по клику на кнопку
-  btn.addEventListener("click", function (e) {
-    e.stopPropagation();
-    dropdown.classList.toggle("active");
-  });
+  // Открытие/закрытие каталога
+  if (catalogBtn && catalogMenu) {
+    catalogBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      catalogMenu.classList.toggle("is-open");
+      if (sortMenu) sortMenu.classList.remove("is-open"); // закрываем соседнее меню
+    });
+  }
 
-  // Закрытие при клике вне меню
+  // Открытие/закрытие сортировки
+  if (sortBtn && sortMenu) {
+    sortBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      sortMenu.classList.toggle("is-open");
+      if (catalogMenu) catalogMenu.classList.remove("is-open"); // закрываем соседнее меню
+    });
+  }
+
+  // Закрытие обоих меню при клике в любое место вне их
   document.addEventListener("click", function (e) {
-    if (!dropdown.contains(e.target)) {
-      dropdown.classList.remove("active");
+    if (catalogDropdown && !catalogDropdown.contains(e.target)) {
+      if (catalogMenu) catalogMenu.classList.remove("is-open");
+    }
+    if (sortDropdown && !sortDropdown.contains(e.target)) {
+      if (sortMenu) sortMenu.classList.remove("is-open");
     }
   });
 });
