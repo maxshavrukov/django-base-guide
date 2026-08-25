@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'style.css' %}" />
     {% block extra_css %}
+
     {% endblock %}
   </head>
   <body>
@@ -28,12 +29,12 @@
           </nav>
           <div class="topbar_right">
             <span>Пн-Вс: 09:00 — 21:00</span>
-              {% if request.user.is_authenticated %}
+            {% if request.user.is_authenticated %}
               <a href="{% url 'users:profile' %}">Личный кабинет</a>
               <a href="{% url 'users:logout' %}">Выйти</a>
-                {% else %}
+            {% else %}
               <a href="{% url 'users:auth' %}">Войти</a>
-              {% endif %}
+            {% endif %}
           </div>
         </div>
       </div>
@@ -68,7 +69,7 @@
 
           <!-- Поиск -->
           <form class="search_form" action="{% url 'main:search' %}" method="get">
-            <input type="text" name="q" class="search_input" placeholder="Поиск товара в каталоге" value="{{ request.GET.q }}">
+            <input type="text" name="q" class="search_input" placeholder="Поиск товара в каталоге" value="{{ request.GET.q }}" />
             <button type="submit" class="search_btn">🔍</button>
           </form>
 
@@ -83,13 +84,45 @@
           <div class="header_cart">
             <a href="{% url 'basket:basket_detail' %}" class="cart_btn">
               <div class="cart_icon_wrapper">
-                <!-- Количество товаров через длину объекта basket или его метод -->
-                🛒 <span class="cart_count">{{ basket|length }}</span>
+                🛒
+                <span class="cart_count" id="cart-count">{% with total_qty=basket|length %}{% if total_qty > 0 %}{{ total_qty }}{% endif %}{% endwith %}</span>
               </div>
-              <!-- Общая стоимость товаров -->
-              <span>{{ basket.get_total_price }} грн</span>
+              <span class="cart_total" id="cart-total-price">{{ basket.get_total_price }} грн</span>
             </a>
+
+            <!-- Выпадающее окно (мини-корзина) по наведению -->
+            <div class="mini-cart-dropdown">
+              <div class="mini-cart-items-list" id="mini-cart-items">
+                {% if basket %}
+                  {% for item in basket %}
+                    <div class="mini-cart-item">
+                      {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="mini-cart-img">
+                      {% else %}
+                        <div class="mini-cart-img" style="background: #eee;"></div>
+                      {% endif %}
+                      <div class="mini-cart-info">
+                        <div class="mini-cart-title" title="{{ item.product.name }}">{{ item.product.name }}</div>
+                        <div class="mini-cart-details">{{ item.quantity }} шт. × {{ item.price }} грн</div>
+                      </div>
+                      <!-- Кнопка удаления товара -->
+                       <button type="button" class="mini-cart-remove-btn" data-product_id="{{ item.product.id }}" title="Удалить товар">&times;</button>
+                    </div>
+                  {% endfor %}
+                {% else %}
+                  <p class="empty-cart-msg">Корзина пуста</p>
+                {% endif %}
+              </div>
+
+              <div class="mini-cart-footer" id="mini-cart-footer" {% if not basket %}style="display: none;"{% endif %}>
+                <div class="mini-cart-total-sum">
+                  Итого: <strong id="mini-cart-sum">{{ basket.get_total_price }}</strong> грн
+                </div>
+                <a href="{% url 'basket:basket_detail' %}" class="mini-cart-btn">Перейти в корзину</a>
+              </div>
+            </div>
           </div>
+          
         </div>
       </div>
     </header>
@@ -110,5 +143,12 @@
     <script src="{% static 'js/product-quantity.js' %}"></script>
     <script src="{% static 'js/bannerSlider.js' %}"></script>
     <script src="{% static 'js/catalogMenu.js' %}"></script>
+
+    <!-- Всплывающее окно добавления в корзину -->
+    <div id="cartModal" class="cart-modal" style="display: none;">
+      <div class="cart-modal-content">
+        <p>Товар добавлен в корзину!</p>
+      </div>
+    </div>
   </body>
 </html>

@@ -1,64 +1,123 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const forms = document.querySelectorAll("form");
+    const modal = document.getElementById("cartModal");
 
-    forms.forEach(form => {
-        const btn = form.querySelector(".buy_button");
-        if (!btn) return;
-
-        form.addEventListener("submit", function(e){
-            e.preventDefault();
-
-            const url = form.action;
-            const formData = new FormData(form);
-
-            fetch(url, {
-                method: "POST",
-                body: formData,
-                headers: { "X-Requested-With": "XMLHttpRequest" }
-            })
-            .then(() => {
-                // создаём модалку один раз
-                let modal = document.getElementById("cartModal");
-                if (!modal) {
-                    modal = document.createElement("div");
-                    modal.id = "cartModal";
-                    modal.className = "cart-modal";
-                    modal.innerHTML = `
-                        <div class="cart-modal-content">
-                            <p>Товар добавлен в корзину!</p>
-                            <p>Желаете продолжить покупки или перейти в корзину?</p>
-                            <div class="cart-modal-buttons">
-                                <button id="continueShopping" class="modal-btn">Продолжить покупки</button>
-                                <button id="goToCart" class="modal-btn">Перейти в корзину</button>
-                            </div>
-                        </div>
-                    `;
-                    document.body.appendChild(modal);
-
-                    // кнопки
-                    document.getElementById("continueShopping").addEventListener("click", () => hideModal(modal));
-                    document.getElementById("goToCart").addEventListener("click", () => window.location.href = "/basket/");
-
-                    // закрытие по клику на overlay
-                    modal.addEventListener("click", (e) => {
-                        if (e.target === modal) hideModal(modal);
-                    });
-                }
-
-                showModal(modal);
-            })
-            .catch(err => console.error(err));
-        });
-    });
-
-    // функции для показа/скрытия модалки с анимацией
-    function showModal(modal) {
-        modal.classList.add("show");
-        // авто-скрытие через 5 секунд
-        setTimeout(() => hideModal(modal), 5000);
+    function showToast() {
+        if (!modal) return;
+        
+        modal.style.display = "block";
+        modal.style.transition = "none";
+        modal.style.opacity = "1";
+        modal.style.transform = "translateX(0)";
+        
+        setTimeout(() => {
+            modal.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+            modal.style.opacity = "0";
+            modal.style.transform = "translateX(-20px)";
+            
+            setTimeout(() => {
+                modal.style.display = "none";
+            }, 300);
+        }, 2500);
     }
 
-    function hideModal(modal) {
-        modal.classList.remove("show");
+    // 1. Добавление в корзину через AJAX
+    document.addEventListener("submit", function(e) {
+        const form = e.target;
+        
+        if (form.classList.contains("product_form") || form.action.includes("basket/add")) {
+            e.preventDefault();
+            
+            const formData = new FormData(form);
+            
+            fetch(form.action, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRFToken": form.querySelector("[name=csrfmiddlewaretoken]").value
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "ok") {
+                    showToast();
+                    updateMiniCartUI(data);
+                }
+            })
+            .catch(error => console.error("Ошибка добавления в корзину:", error));
+        }
+    });
+
+    // 2. Удаление из мини-корзины через AJAX (с использованием closest для надежности)
+    document.addEventListener("click", function(e) {
+        const removeBtn = e.target.closest(".mini-cart-remove-btn");
+        
+        if (removeBtn) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const productId = removeBtn.getAttribute("data-product_id");
+            const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]")?.value || '';
+
+            fetch(`/basket/remove/${productId}/`, {
+                method: "POST",
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRFToken": csrfToken
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "ok") {
+                    updateMiniCartUI(data);
+                }
+            })
+            .catch(error => console.error("Ошибка удаления из корзины:", error));
+        }
+    });
+
+    // Функция обновления интерфейса шапки и мини-корзины
+    function updateMiniCartUI(data) {
+        const countElement = document.getElementById("cart-count");
+        if (countElement) {
+            countElement.textContent = data.basket_len > 0 ? data.basket_len : "";
+        }
+        
+        const totalElement = document.getElementById("cart-total-price");
+        if (totalElement && data.total_price !== undefined) {
+            totalElement.textContent = data.total_price + " грн";
+        }
+
+        const miniCartSum = document.getElementById("mini-cart-sum");
+        if (miniCartSum && data.total_price !== undefined) {
+            miniCartSum.textContent = data.total_price;
+        }
+
+        const itemsList = document.getElementById("mini-cart-items");
+        const footer = document.getElementById("mini-cart-footer");
+
+        if (itemsList) {
+            if (data.items && data.items.length > 0) {
+                if (footer) footer.style.display = "block";
+                
+                let itemsHtml = "";
+                data.items.forEach(item => {
+                    itemsHtml += `
+                        <div class="mini-cart-item">
+                            ${item.image_url ? `<img src="${item.image_url}" alt="${item.name}" class="mini-cart-img">` : `<div class="mini-cart-img" style="background: #eee;"></div>`}
+                            <div class="mini-cart-info">
+                                <div class="mini-cart-title" title="${item.name}">${item.name}</div>
+                                <div class="mini-cart-details">${item.quantity} шт. × ${item.price} грн</div>
+                            </div>
+                            <button type="button" class="mini-cart-remove-btn" data-product_id="${item.product_id}" title="Удалить товар">&times;</button>
+                        </div>
+                    `;
+                });
+                itemsList.innerHTML = itemsHtml;
+            } else {
+                if (footer) footer.style.display = "none";
+                itemsList.innerHTML = '';
+            }
+        }
     }
 });

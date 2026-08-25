@@ -44,7 +44,7 @@
           </form>
 
           <!-- КОНТЕЙНЕР ДЛЯ СЕРДЕЧКА ВЫНЕСЕН СНАРУЖИ ФОРМЫ, НО ОСТАЕТСЯ В ТОМ ЖЕ БЛОКЕ -->
-          <div class="product-actions-container" style="margin-top: 15px;">
+          <div class="wishlist_action_wrapper" style="margin-top: 15px;">
             {% if product.id|slugify in wishlist.wishlist %}
               <!-- Если товар уже в избранном (красное сердце) -->
               <a href="{% url 'wishlist:wishlist_remove' product.id %}" class="wishlist-btn" title="Убрать из избранного">❤️</a>
