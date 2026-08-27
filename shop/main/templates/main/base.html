@@ -76,18 +76,17 @@
           <!-- Навигация -->
           <nav class="bottom_nav">
             <a href="{% url 'main:product_list' %}">Все товары</a>
-            <a href="#">Акции</a>
             <a href="#">Скидки</a>
           </nav>
 
           <!-- Корзина -->
-          <div class="header_cart">
+          <div class="header_cart {% if basket|length > 0 %}has-items{% endif %}">
             <a href="{% url 'basket:basket_detail' %}" class="cart_btn">
               <div class="cart_icon_wrapper">
                 🛒
                 <span class="cart_count" id="cart-count">{% with total_qty=basket|length %}{% if total_qty > 0 %}{{ total_qty }}{% endif %}{% endwith %}</span>
               </div>
-              <span class="cart_total" id="cart-total-price">{{ basket.get_total_price }} грн</span>
+              <span class="cart_total" id="cart-total-price">{% with price=basket.get_total_price %}{% if price > 0 %}{{ price }} грн{% endif %}{% endwith %}</span>
             </a>
 
             <!-- Выпадающее окно (мини-корзина) по наведению -->
@@ -103,6 +102,17 @@
                       {% endif %}
                       <div class="mini-cart-info">
                         <div class="mini-cart-title" title="{{ item.product.name }}">{{ item.product.name }}</div>
+                        {% if details.discount_percent > 0 %}
+            <div class="cart_summary-discount">
+              <span>Скидка ({{ details.discount_percent }}%):</span>
+              <span class="cart_summary-discount-amount">-{{ details.discount_amount }} грн.</span>
+            </div>
+            {% if details.applied_discounts %}
+              <div class="cart_summary-discount-details">
+                <small>({{ details.applied_discounts|join:', ' }})</small>
+              </div>
+            {% endif %}
+          {% endif %}
                         <div class="mini-cart-details">{{ item.quantity }} шт. × {{ item.price }} грн</div>
                       </div>
                       <!-- Кнопка удаления товара -->
@@ -139,6 +149,7 @@
       </div>
     </footer>
 
+    <script src="{% static 'js/utils.js' %}"></script>
     <script src="{% static 'js/cartModal.js' %}"></script>
     <script src="{% static 'js/product-quantity.js' %}"></script>
     <script src="{% static 'js/bannerSlider.js' %}"></script>

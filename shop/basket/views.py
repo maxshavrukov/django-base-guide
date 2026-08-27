@@ -11,11 +11,16 @@ from .forms import BasketAddProductForm
 def basket_add(request, product_id):
     basket = Basket(request)
     product = get_object_or_404(Product, id=product_id)
-    form = BasketAddProductForm(request.POST)
+    # Передаем request.POST, а если данные пустые — используем дефолтные значения (количество 1)
+    form = BasketAddProductForm(request.POST or None)
 
     if form.is_valid():
         cd = form.cleaned_data
-        basket.add(product=product, quantity=cd['quantity'], override_quantity=cd['override'])
+        basket.add(product=product, quantity=cd.get('quantity', 1), override_quantity=cd.get('override', False))
+    else:
+        # Если форма по какой-то причине не прошла валидацию (например, прилетела из карточки новинок без полей), 
+        # добавляем товар с количеством по умолчанию (1) принудительно:
+        basket.add(product=product, quantity=1)
 
     # Если запрос пришел через AJAX (для мини-корзины и всплывающего окна)
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':

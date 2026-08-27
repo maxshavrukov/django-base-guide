@@ -3,17 +3,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function showToast() {
         if (!modal) return;
-        
+
         modal.style.display = "block";
         modal.style.transition = "none";
         modal.style.opacity = "1";
         modal.style.transform = "translateX(0)";
-        
+
         setTimeout(() => {
             modal.style.transition = "opacity 0.3s ease, transform 0.3s ease";
             modal.style.opacity = "0";
             modal.style.transform = "translateX(-20px)";
-            
+
             setTimeout(() => {
                 modal.style.display = "none";
             }, 300);
@@ -21,43 +21,45 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 1. Добавление в корзину через AJAX
-    document.addEventListener("submit", function(e) {
+    document.addEventListener("submit", function (e) {
         const form = e.target;
-        
+
         if (form.classList.contains("product_form") || form.action.includes("basket/add")) {
             e.preventDefault();
-            
+
             const formData = new FormData(form);
-            
+
             fetch(form.action, {
                 method: "POST",
                 body: formData,
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
-                    "X-CSRFToken": form.querySelector("[name=csrfmiddlewaretoken]").value
+                    "X-CSRFToken": getCookie('csrftoken')
                 }
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === "ok") {
-                    showToast();
-                    updateMiniCartUI(data);
-                }
-            })
-            .catch(error => console.error("Ошибка добавления в корзину:", error));
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "ok") {
+                        showToast();
+                        updateMiniCartUI(data);
+                    }
+                })
+                .catch(error => console.error("Ошибка добавления в корзину:", error));
         }
     });
 
     // 2. Удаление из мини-корзины через AJAX (с использованием closest для надежности)
-    document.addEventListener("click", function(e) {
+document.addEventListener("click", function (e) {
         const removeBtn = e.target.closest(".mini-cart-remove-btn");
-        
+
         if (removeBtn) {
             e.preventDefault();
             e.stopPropagation();
 
             const productId = removeBtn.getAttribute("data-product_id");
-            const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]")?.value || '';
+            
+            // БЕРЕМ ТОКЕН ЧЕРЕЗ НАШУ УТИЛИТУ ИЗ КУК
+            const csrfToken = getCookie('csrftoken');
 
             fetch(`/basket/remove/${productId}/`, {
                 method: "POST",
@@ -66,26 +68,40 @@ document.addEventListener("DOMContentLoaded", () => {
                     "X-CSRFToken": csrfToken
                 }
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === "ok") {
-                    updateMiniCartUI(data);
-                }
-            })
-            .catch(error => console.error("Ошибка удаления из корзины:", error));
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "ok") {
+                        updateMiniCartUI(data);
+                    }
+                })
+                .catch(error => console.error("Ошибка удаления из корзины:", error));
         }
     });
 
-    // Функция обновления интерфейса шапки и мини-корзины
+// Функция обновления интерфейса шапки и мини-корзины
     function updateMiniCartUI(data) {
+        // УПРАВЛЯЕМ КЛАССОМ ДЛЯ ХОВЕРА МИНИ-КОРЗИНЫ
+        const headerCart = document.querySelector(".header_cart");
+        if (headerCart) {
+            if (data.basket_len > 0) {
+                headerCart.classList.add("has-items");
+            } else {
+                headerCart.classList.remove("has-items");
+                // Принудительно скрываем выпадашку, если удалили последний товар
+                const dropdown = headerCart.querySelector(".mini-cart-dropdown");
+                if (dropdown) dropdown.style.display = "none";
+            }
+        }
+
         const countElement = document.getElementById("cart-count");
         if (countElement) {
             countElement.textContent = data.basket_len > 0 ? data.basket_len : "";
         }
-        
+
         const totalElement = document.getElementById("cart-total-price");
         if (totalElement && data.total_price !== undefined) {
-            totalElement.textContent = data.total_price + " грн";
+            const numericPrice = parseFloat(data.total_price);
+            totalElement.textContent = numericPrice > 0 ? numericPrice + " грн" : "";
         }
 
         const miniCartSum = document.getElementById("mini-cart-sum");
@@ -99,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (itemsList) {
             if (data.items && data.items.length > 0) {
                 if (footer) footer.style.display = "block";
-                
+
                 let itemsHtml = "";
                 data.items.forEach(item => {
                     itemsHtml += `

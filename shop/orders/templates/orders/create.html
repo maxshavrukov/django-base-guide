@@ -8,7 +8,9 @@
 
 {% block content %}
 <div class="order_page">
-    <h1 class="catalog_title-item" style="margin-bottom: 24px;">Оформление заказа</h1>
+    <div class="page-header">
+        <h1 class="catalog_title-item">Оформление заказа</h1>
+    </div>
 
     <div class="order_container">
         <!-- СЛЕВА: Форма -->
@@ -31,12 +33,13 @@
                     <div class="order_phone_wrapper">
                         <span class="order_phone_prefix">+38</span>
                         <input type="tel"
-                        name="phone" 
-                        id="id_phone" class="order_input order_phone_input" 
-                        placeholder="0990102034" 
-                        maxlength="10" 
-                        pattern="[0-9]{10}"
-                        required>
+                            name="phone" 
+                            id="id_phone" 
+                            class="order_input order_phone_input" 
+                            placeholder="0990102034" 
+                            maxlength="10" 
+                            pattern="[0-9]{10}"
+                            required>
                     </div>
                 </div>
 
@@ -50,18 +53,16 @@
                     </select>
                 </div>
 
-                <div class="order_field" id="city_group" style="display: none; position: relative;">
+                <div class="order_field" id="city_group">
                     <label for="city_input">Населенный пункт</label>
                     <input type="text" id="city_input" class="order_input" placeholder="Начните вводить город..." autocomplete="off">
                     <input type="hidden" name="city_ref" id="city_ref">
                     <div id="city_suggestions" class="order_autocomplete_list"></div>
                 </div>
 
-                <div class="order_field" id="branch_group" style="display: none;">
+                <div class="order_field" id="branch_group">
                     <label for="id_address">Отделение доставки</label>
-                    <select name="address" id="id_address" class="order_select" required disabled>
-                        <option value="">Сначала выберите город...</option>
-                    </select>
+                    <input type="text" name="address" id="id_address" class="order_input" placeholder="Введите отделение..." />
                 </div>
 
                 <div class="order_field">
@@ -72,6 +73,7 @@
                 <button type="submit" class="order_submit_btn">Подтвердить заказ</button>
             </form>
         </div>
+        <!-- КОНЕЦ order_form_wrapper -->
 
         <!-- СПРАВА: Ваш заказ -->
         <div class="order_summary">
@@ -88,6 +90,23 @@
                 {% endfor %}
             </div>
 
+            <div class="order_subtotal">
+                <span>Сумма товаров:</span>
+                <span>{{ basket_details.subtotal }} грн.</span>
+            </div>
+
+            {% if basket_details.discount_percent > 0 %}
+                <div class="order_discount">
+                    <span>Скидка ({{ basket_details.discount_percent }}%):</span>
+                    <span class="order_discount_amount">-{{ basket_details.discount_amount }} грн.</span>
+                </div>
+                {% if basket_details.applied_discounts %}
+                    <div class="order_discount_details">
+                        <small>({{ basket_details.applied_discounts|join:", " }})</small>
+                    </div>
+                {% endif %}
+            {% endif %}
+
             <div class="order_total">
                 <span>Итого к оплате:</span>
                 <span>{{ basket.get_total_price }} грн.</span>
@@ -96,5 +115,5 @@
     </div>
 </div>
 
-<script src="{% static 'js/checkout.js' %}"></script>
+<script src="{% static 'orders/js/checkout.js' %}"></script>
 {% endblock content %}

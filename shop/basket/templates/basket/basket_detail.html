@@ -1,99 +1,89 @@
-{% extends "main/base.html" %}
+{% extends 'main/base.html' %}
 {% load static %}
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'basket/css/basket.css' %}">
+  <link rel="stylesheet" href="{% static 'basket/css/basket.css' %}" />
 {% endblock %}
 
-{% block title %}Корзина{% endblock %}
+{% block title %}
+  Корзина
+{% endblock %}
 
 {% block content %}
-
-<div class="catalog_title">
+  <div class="catalog_title">
     <h1 class="catalog_title-item">Корзина</h1>
-</div>
+  </div>
 
-{% if basket|length == 0 %}
+  {% if basket|length == 0 %}
     <div class="alert_products">Ваша корзина пуста</div>
-{% else %}
-
-<div class="cart_container">
-
-    <div class="cart_list">
+  {% else %}
+    <div class="cart_container">
+      <div class="cart_list">
         {% for item in basket %}
-        <div class="cart_item">
-
+          <div class="cart_item">
             <div class="cart_item-image">
-                {% if item.product.image %}
-                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
-                {% else %}
-                    <img src="{% static 'img/no-image.png' %}" alt="Нет изображения">
-                {% endif %}
+              {% if item.product.image %}
+                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" />
+              {% else %}
+                <img src="{% static 'img/no-image.png' %}" alt="Нет изображения" />
+              {% endif %}
             </div>
 
             <div class="cart_item-info">
-                <h3 class="cart_item-title">
-                    <a href="{{ item.product.get_absolute_url }}">
-                        {{ item.product.name }}
-                    </a>
-                </h3>
+              <h3 class="cart_item-title"><a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a></h3>
 
-                <p class="cart_item-price">{{ item.product.price }} грн.</p>
+              <p class="cart_item-price">{{ item.product.price }} грн.</p>
 
-                <div class="cart_item-qty">
-                    <form action="{% url 'basket:basket_update' item.product.id 'minus' %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="qty_btn">−</button>
-                    </form>
-                    <span class="qty_value">{{ item.quantity }}</span>
-                    <form action="{% url 'basket:basket_update' item.product.id 'plus' %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="qty_btn">+</button>
-                    </form>
-                </div>
+              <div class="cart_item-qty">
+                <form action="{% url 'basket:basket_update' item.product.id 'minus' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="qty_btn">−</button>
+                </form>
+                <span class="qty_value">{{ item.quantity }}</span>
+                <form action="{% url 'basket:basket_update' item.product.id 'plus' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="qty_btn">+</button>
+                </form>
+              </div>
             </div>
 
             <div class="cart_item-total">
-                <p class="cart_item-sum">{{ item.total_price }} грн.</p>
-                <form action="{% url 'basket:basket_remove' item.product.id %}" method="post">
-                    {% csrf_token %}
-                     <button type="submit" class="remove_btn">Удалить</button>
-                </form>
+              <p class="cart_item-sum">{{ item.total_price }} грн.</p>
+              <form action="{% url 'basket:basket_remove' item.product.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="remove_btn">Удалить</button>
+              </form>
             </div>
-
-        </div>
+          </div>
         {% endfor %}
-    </div>
+      </div>
 
-    <div class="cart_summary">
+      <div class="cart_summary">
         {% with details=basket.get_basket_details %}
-            {% if details.discount_percent > 0 %}
-                <div class="cart_summary-subtotal">
-                    <span>Сумма товаров:</span>
-                    <span>{{ details.subtotal }} грн.</span>
-                </div>
-                
-                <div class="cart_summary-discounts-list">
-                    <div class="discount_badge">
-                        <span>Скидка ({% for reason in details.applied_discounts %}{{ reason }}{% if not forloop.last %}, {% endif %}{% endfor %}):</span>
-                        <span class="discount_badge-sum">-{{ details.discount_amount }} грн.</span>
-                    </div>
-                </div>
+          <div class="cart_summary-subtotal">
+            <span>Сумма товаров:</span>
+            <span>{{ details.subtotal }} грн.</span>
+          </div>
 
-                <hr class="cart_summary-divider">
-            {% endif %}
-            
-            <div class="cart_summary-row">
-                <span>Итого:</span>
-                <span class="cart_summary-total">{{ details.total_price }} грн.</span>
+          {% if details.discount_percent > 0 %}
+            <div class="cart_summary-discount">
+              <span>Скидка ({{ details.discount_percent }}%):</span>
+              <span class="cart_summary-discount-amount">-{{ details.discount_amount }} грн.</span>
             </div>
+            {% if details.applied_discounts %}
+              <div class="cart_summary-discount-details">
+                <small>({{ details.applied_discounts|join:', ' }})</small>
+              </div>
+            {% endif %}
+          {% endif %}
+
+          <div class="cart_summary-total-row">
+            <span><strong>Итого к оплате:</strong></span>
+            <span class="cart_summary-total"><strong>{{ details.total_price }} грн.</strong></span>
+          </div>
         {% endwith %}
 
-        <a href="{% url 'orders:order_create' %}" class="checkout_btn">
-            Оформить заказ
-        </a>
+        <a href="{% url 'orders:order_create' %}" class="checkout_btn">Оформить заказ</a>
+      </div>
     </div>
-</div>
-
-{% endif %}
-
+  {% endif %}
 {% endblock %}

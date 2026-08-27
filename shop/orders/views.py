@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 def order_create(request):
     basket = Basket(request)
+    basket_details = basket.get_basket_details()  # <-- ДОБАВИТЬ
 
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
@@ -27,11 +28,10 @@ def order_create(request):
 
             basket.clear()
 
-            return render(
-                request,
-                'orders/created.html',
-                {'order': order}
-            )
+            return render(request,'orders/created.html', {
+                'order': order,
+                'basket_details': basket_details,
+            })
 
     else:
         form = OrderCreateForm()
@@ -41,6 +41,7 @@ def order_create(request):
         'orders/create.html',
         {
             'basket': basket,
+            'basket_details': basket_details,
             'form': form
         }
     )

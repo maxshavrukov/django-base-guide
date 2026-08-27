@@ -1,14 +1,17 @@
 /* =========================================================
    ПРИЛОЖЕНИЕ ORDERS: Стили для оформления и успешного заказа
 ========================================================= */
-
-.order_page {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 20px 0;
+.city_group {
+    display: none;
+    position: relative;
+}
+.branch_group {
+    display: none;
+    position: relative;
 }
 
 .order_container {
+  margin-top: 24px;
   display: grid;
   grid-template-columns: 1fr 360px;
   gap: 32px;
@@ -294,7 +297,59 @@
   background-color: var(--accent-hover);
   color: #ffffff;
 }
+/* --- Блок со скидкой в сайдбаре заказа --- */
 
+/* Сумма товаров до скидки */
+.order_subtotal {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0 4px 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+  border-bottom: 1px dashed var(--border-color);
+}
+
+/* Блок скидки */
+.order_discount {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0 2px 0;
+  font-size: 14px;
+  color: var(--success-color);
+  font-weight: 600;
+}
+
+.order_discount_amount {
+  color: var(--success-color);
+}
+
+/* Детали скидки (мелкий текст с названиями акций) */
+.order_discount_details {
+  text-align: right;
+  font-size: 12px;
+  color: var(--text-muted);
+  padding-bottom: 6px;
+  border-bottom: 2px dashed var(--border-color);
+  margin-bottom: 4px;
+}
+
+.order_discount_details small {
+  font-style: italic;
+}
+
+/* Итоговая сумма (уже есть, но немного подправим отступ) */
+.order_total {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 2px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-main);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent-color);
+}
 
 /* --- Адаптивность --- */
 @media (max-width: 900px) {

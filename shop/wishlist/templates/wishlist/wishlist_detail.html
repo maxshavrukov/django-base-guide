@@ -1,7 +1,8 @@
 {% extends 'users/account_base.html' %}
 {% load static %}
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'wishlist/css/wishlist.css' %}">
+<!-- Только тут мы ссылаемся на CSS для личного кабинета! -->
+<link rel="stylesheet" href="{% static 'users/css/users.css' %}">
 {% endblock %}
 
 {% block title %}Избранное{% endblock %}

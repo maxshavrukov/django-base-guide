@@ -1,139 +1,92 @@
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404
-from .models import Category, Product, Banner
-from basket.forms import BasketAddProductForm
-from django.db.models import Q
-# Create your views here.
-
-def transliterate_to_cyrillic(text):
-    """Простая функция перевода латиницы в кириллицу"""
-    translit_map = {
-        'shch': 'щ', 'zh': 'ж', 'ch': 'ч', 'sh': 'ш', 'yu': 'ю', 'ya': 'я',
-        'a': 'а', 'b': 'б', 'v': 'в', 'g': 'г', 'd': 'д', 'e': 'е', 'z': 'з',
-        'i': 'і', 'j': 'й', 'k': 'к', 'l': 'л', 'm': 'м', 'n': 'н', 'o': 'о',
-        'p': 'п', 'r': 'р', 's': 'с', 't': 'т', 'u': 'у', 'f': 'ф', 'h': 'х',
-        'c': 'ц', 'y': 'ы'
-    }
-    # Сортируем ключи по длине (сначала длинные вроде shch, ch), чтобы заменялось корректно
-    sorted_keys = sorted(translit_map.keys(), key=len, reverse=True)
-    res = text.lower()
-    for k in sorted_keys:
-        res = res.replace(k, translit_map[k])
-    return res
-
+from itertools import chain
+from django.shortcuts import render, get_object_or_404
+from .models import Product, Smartphone, Headphone, Charger, Cable, Banner, Brand, PowerBank
 
 def product_list(request, category_slug=None):
-    categories = Category.objects.all()
-    products = Product.objects.filter(available=True)
     banners = Banner.objects.filter(is_active=True)
-
-    category = None
-    if category_slug:
-        category = get_object_or_404(Category, slug=category_slug)
-        products = products.filter(category=category)
-        
-    # Логика поиска
-    query = request.GET.get('q')
-    if query:
-        products = products.filter(
-            Q(name__icontains=query) | Q(description__icontains=query)
-        )
-
-    # Сортировка
-    sort = request.GET.get('sort')  # получаем параметр sort
-    if sort == 'price_asc':
-        products = products.order_by('price')
-    elif sort == 'price_desc':
-        products = products.order_by('-price')
-    elif sort == 'name_asc':
-        products = products.order_by('name')
-    elif sort == 'name_desc':
-        products = products.order_by('-name')
     
-    return render(request, 'main/product/list.html',
-                  {'category': category,
-                   'categories': categories,
-                   'products': products,
-                   'current_sort': sort,  # передаём текущую сортировку в шаблон
-                   'banners': banners,    # передаём текущие баннеры в шаблон
-                   'query': query,        # передаём поисковый запрос в шаблон
-                  })
+    category_name = None
+    if category_slug == 'smartphones':
+        products = list(Smartphone.objects.filter(available=True))
+        category_name = "Смартфоны"
+    elif category_slug == 'headphones':
+        products = list(Headphone.objects.filter(available=True))
+        category_name = "Наушники"
+    elif category_slug == 'chargers':
+        products = list(Charger.objects.filter(available=True))
+        category_name = "Зарядные устройства"
+    elif category_slug == 'cables':
+        products = list(Cable.objects.filter(available=True))
+        category_name = "Кабели питания"
+    elif category_slug == 'powerbanks':
+        products = list(PowerBank.objects.filter(available=True))
+        category_name = "Повербанки"
+    else:
+        smartphones = list(Smartphone.objects.filter(available=True))
+        headphones = list(Headphone.objects.filter(available=True))
+        chargers = list(Charger.objects.filter(available=True))
+        cables = list(Cable.objects.filter(available=True))
+        powerbanks = list(PowerBank.objects.filter(available=True))
+        products = list(chain(smartphones, headphones, chargers, cables, powerbanks))
+    
+    sort = request.GET.get('sort')
+    if sort == 'price_asc':
+        products.sort(key=lambda x: x.price)
+    elif sort == 'price_desc':
+        products.sort(key=lambda x: x.price, reverse=True)
+    elif sort == 'name_asc':
+        products.sort(key=lambda x: x.name)
+    elif sort == 'name_desc':
+        products.sort(key=lambda x: x.name, reverse=True)
 
-def product_detail(request, id, slug):
-    product = get_object_or_404(Product, id=id, slug=slug)
-    related_products = (
-        Product.objects.filter(category=product.category)
-        .exclude(id=product.id)[:3]
-    )
-    categories = Category.objects.all()
+    category = {'name': category_name} if category_name else None
 
-    basket_product_form = BasketAddProductForm()
-
-    return render(request, 'main/product/detail.html', {
-        'product': product,
-        'related_products': related_products,
-        'categories': categories,
-        'basket_product_form': basket_product_form,
-    })
+    context = {
+        'banners': banners,
+        'products': products,
+        'category': category,
+    }
+    return render(request, 'main/product/list.html', context)
 
 def delivery_and_payment(request):
-    context = {
-        'title': 'Доставка и оплата',
-    }
-    return render(request, 'main/delivery_and_payment.html', context)
+    return render(request, 'main/delivery_and_payment.html')
 
 def contacts(request):
-    context = {
-        'title': 'Контакты',
-    }
-    return render(request, 'main/contacts.html', context)
+    return render(request, 'main/contacts.html')
 
 def new_products(request):
-    # Берём последние 12 товаров (если есть поле created — используй '-created')
-    latest_products = Product.objects.filter(available=True).order_by('-id')[:12]
-    
-    context = {
-        'title': 'Новинки',
-        'products': latest_products,
-    }
-    return render(request, 'main/new_products.html', context)
+    return render(request, 'main/new_products.html')
 
 def search_results(request):
-    query = request.GET.get('q', '').strip()
-    products = Product.objects.none()
-    category_suggestion = None
-    
+    query = request.GET.get('q')
     if query:
-        query_lower = query.lower()
-        
-        # 1. Ищем товары по названию или описанию
-        products = Product.objects.filter(
-            Q(name__icontains=query) | Q(description__icontains=query)
-        ).distinct()
-        
-        # 2. Если не нашли, пробуем транслитерацию
-        cyrillic_query = transliterate_to_cyrillic(query)
-        cyrillic_lower = cyrillic_query.lower()
-        
-        if not products.exists() and cyrillic_lower != query_lower:
-            products = Product.objects.filter(
-                Q(name__icontains=cyrillic_query) | Q(description__icontains=cyrillic_query)
-            ).distinct()
-            
-        # 3. Идем искать категорию безопасно через Python-фильтрацию по нижнему регистру
-        if not products.exists():
-            all_categories = Category.objects.all()
-            for cat in all_categories:
-                # Сравниваем в нижнем регистре: содержит ли название категории запрос или транслит
-                cat_name_lower = cat.name.lower()
-                if query_lower in cat_name_lower or cyrillic_lower in cat_name_lower:
-                    category_suggestion = cat
-                    products = Product.objects.filter(category=cat)
-                    break
+        smartphones = Smartphone.objects.filter(name__icontains=query, available=True)
+        headphones = Headphone.objects.filter(name__icontains=query, available=True)
+        chargers = Charger.objects.filter(name__icontains=query, available=True)
+        cables = Cable.objects.filter(name__icontains=query, available=True)
+        powerbanks = PowerBank.objects.filter(name__icontains=query, available=True)
+    else:
+        smartphones = Smartphone.objects.none()
+        headphones = Headphone.objects.none()
+        chargers = Charger.objects.none()
+        cables = Cable.objects.none()
+        powerbanks = PowerBank.objects.none()
 
     context = {
         'query': query,
-        'products': products,
-        'category_suggestion': category_suggestion,
+        'smartphones': smartphones,
+        'headphones': headphones,
+        'chargers': chargers,
+        'cables': cables,
+        'powerbanks': powerbanks
     }
     return render(request, 'main/search_results.html', context)
+
+def product_detail(request, id, slug):
+    product = get_object_or_404(Product, id=id, slug=slug, available=True)
+    
+    context = {
+        'product': product,
+    }
+    return render(request, 'main/product/detail.html', context)
+
