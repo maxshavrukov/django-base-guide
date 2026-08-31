@@ -1,0 +1,365 @@
+/* =========================================================
+   ПРИЛОЖЕНИЕ ORDERS: Стили для оформления и успешного заказа
+========================================================= */
+.city_group {
+    display: none;
+    position: relative;
+}
+.branch_group {
+    display: none;
+    position: relative;
+}
+
+.order_container {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 32px;
+  align-items: start;
+}
+
+/* --- Форма оформления заказа --- */
+.order_form_wrapper {
+  background: var(--bg-secondary);
+  padding: 28px;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+}
+
+.order_field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 18px;
+  width: 100%;
+}
+
+.order_field label {
+  font-family: var(--font-nav);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.order_input,
+.order_select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  font-family: var(--font-main);
+  font-size: 14px;
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.order_textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.order_select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232C3E50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+.order_input:focus,
+.order_select:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+.order_select:disabled {
+  background-color: var(--bg-primary);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Обертка для телефона с префиксом +38 */
+.order_phone_wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.order_phone_prefix {
+  position: absolute;
+  left: 14px;
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  user-select: none;
+  pointer-events: none;
+}
+
+.order_phone_input {
+  padding-left: 48px !important;
+}
+
+/* Выпадающий список подсказок городов (Новая Почта) */
+.order_autocomplete_list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-md);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 100;
+  margin-top: 4px;
+}
+
+.order_autocomplete_list div {
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.order_autocomplete_list div:hover {
+  background-color: var(--accent-light);
+  color: var(--accent-color);
+}
+
+/* Кнопка отправки */
+.order_submit_btn {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 14px;
+  background-color: var(--accent-color);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-family: var(--font-nav);
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+.order_submit_btn:hover {
+  background-color: var(--accent-hover);
+  color: #ffffff;
+}
+
+/* --- Сайдбар: Сводка заказа справа --- */
+.order_summary {
+  background: var(--bg-secondary);
+  padding: 24px;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  position: sticky;
+  top: 90px;
+}
+
+.order_summary h2 {
+  font-family: var(--font-main);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.order_items_list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.order_item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.order_item_info {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.order_item_qty {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.order_item_price {
+  font-weight: 600;
+}
+
+.order_total {
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 2px dashed var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-main);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent-color);
+}
+
+
+/* --- Страница успешного заказа (created.html) --- */
+.order_success_page {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.order_success_card {
+  background: var(--bg-secondary);
+  max-width: 550px;
+  margin: 0 auto;
+  padding: 40px;
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.order_success_icon {
+  width: 64px;
+  height: 64px;
+  background: rgba(46, 204, 113, 0.1);
+  color: #2ecc71;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px auto;
+}
+
+.order_success_title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.order_success_number {
+  font-size: 16px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.order_success_number span {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.order_success_text {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+.order_success_btn {
+  display: inline-block;
+  text-decoration: none;
+  width: auto;
+  padding: 12px 28px;
+  background-color: var(--accent-color);
+  color: #ffffff;
+  border-radius: var(--border-radius-md);
+  font-family: var(--font-nav);
+  font-size: 15px;
+  font-weight: 600;
+  transition: background-color var(--transition-fast);
+}
+
+.order_success_btn:hover {
+  background-color: var(--accent-hover);
+  color: #ffffff;
+}
+/* --- Блок со скидкой в сайдбаре заказа --- */
+
+/* Сумма товаров до скидки */
+.order_subtotal {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0 4px 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+  border-bottom: 1px dashed var(--border-color);
+}
+
+/* Блок скидки */
+.order_discount {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0 2px 0;
+  font-size: 14px;
+  color: var(--success-color);
+  font-weight: 600;
+}
+
+.order_discount_amount {
+  color: var(--success-color);
+}
+
+/* Детали скидки (мелкий текст с названиями акций) */
+.order_discount_details {
+  text-align: right;
+  font-size: 12px;
+  color: var(--text-muted);
+  padding-bottom: 6px;
+  border-bottom: 2px dashed var(--border-color);
+  margin-bottom: 4px;
+}
+
+.order_discount_details small {
+  font-style: italic;
+}
+
+/* Итоговая сумма (уже есть, но немного подправим отступ) */
+.order_total {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 2px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-main);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent-color);
+}
+
+/* --- Адаптивность --- */
+@media (max-width: 900px) {
+  .order_container {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .order_summary {
+    position: static;
+    order: -1; /* Переносит сводку заказа наверх на мобильных */
+  }
+}

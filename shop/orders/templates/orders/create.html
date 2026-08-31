@@ -1,119 +1,109 @@
 {% extends 'main/base.html' %}
 {% load static %}
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'orders/css/orders.css' %}">
-{% endblock %}
-
-{% block title %}Оформление заказа{% endblock title %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'orders/css/orders.css' %}">{% endblock %}
+{% block title %}Оформление заказа{% endblock %}
 
 {% block content %}
-<div class="order_page">
-    <div class="page-header">
-        <h1 class="catalog_title-item">Оформление заказа</h1>
+<section class="order-page">
+  <div class="page-hero">
+    <div><span class="eyebrow">Покупка</span><h1>Оформление заказа</h1><p>Заполните данные — мы свяжемся с вами для подтверждения.</p></div>
+  </div>
+
+  <div class="order_container">
+    <div class="order_form_wrapper">
+      <form action="" method="post" class="order_form">
+        {% csrf_token %}
+
+        <div class="order_form_section">
+          <div class="order_form_section__title"><h2>Контактные данные</h2></div>
+
+          <div class="order_form_grid">
+            <div class="order_field">
+              <label for="id_first_name">Имя и фамилия</label>
+              <input type="text" name="first_name" id="id_first_name" class="order_input" placeholder="Иван Иванов" required>
+            </div>
+            <div class="order_field">
+              <label for="id_email">Электронная почта</label>
+              <input type="email" name="email" id="id_email" class="order_input" placeholder="example@mail.com" required>
+            </div>
+            <div class="order_field order_field--full">
+              <label for="id_phone">Номер телефона</label>
+              <div class="order_phone_wrapper">
+                <span class="order_phone_prefix">+38</span>
+                <input type="tel" name="phone" id="id_phone" class="order_input order_phone_input" placeholder="0990102034" maxlength="10" pattern="[0-9]{10}" required>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="order_form_section">
+          <div class="order_form_section__title"><h2>Доставка</h2></div>
+
+          <div class="order_field">
+            <label for="id_delivery_service">Способ доставки</label>
+            <select name="delivery_service" id="id_delivery_service" class="order_select" required>
+              <option value="" disabled selected>Выберите способ доставки…</option>
+              <option value="nova_poshta">Нова Пошта</option>
+              <option value="ukrposhta">Укрпошта</option>
+              <option value="pickup">Самовывоз · Запорожье</option>
+            </select>
+          </div>
+
+          <div class="order_field" id="city_group">
+            <label for="city_input">Населённый пункт</label>
+            <input type="text" id="city_input" class="order_input" placeholder="Начните вводить город…" autocomplete="off">
+            <input type="hidden" name="city_ref" id="city_ref">
+            <div id="city_suggestions" class="order_autocomplete_list" role="listbox"></div>
+          </div>
+
+          <div class="order_field" id="branch_group">
+            <label for="id_address">Отделение / способ получения</label>
+            <select name="address" id="id_address" class="order_select" disabled required>
+              <option value="" disabled selected>Сначала выберите город…</option>
+            </select>
+          </div>
+
+          <div class="order_field">
+            <label for="id_comment">Комментарий</label>
+            <textarea name="comment" id="id_comment" class="order_textarea" placeholder="Пожелания к доставке или заказу…"></textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="order_submit_btn">Подтвердить заказ</button>
+      </form>
     </div>
 
-    <div class="order_container">
-        <!-- СЛЕВА: Форма -->
-        <div class="order_form_wrapper">
-            <form action="" method="post" class="order_form">
-                {% csrf_token %}
+    <aside class="order_summary">
+      <div class="order_summary__eyebrow">Ваш заказ</div>
+      <h2>Состав заказа</h2>
 
-                <div class="order_field">
-                    <label for="id_first_name">Имя и Фамилия</label>
-                    <input type="text" name="first_name" id="id_first_name" class="order_input" placeholder="Иван Иванов" required>
-                </div>
-
-                <div class="order_field">
-                    <label for="id_email">Электронная почта</label>
-                    <input type="email" name="email" id="id_email" class="order_input" placeholder="example@mail.com" required>
-                </div>
-
-                <div class="order_field">
-                    <label for="id_phone">Номер телефона</label>
-                    <div class="order_phone_wrapper">
-                        <span class="order_phone_prefix">+38</span>
-                        <input type="tel"
-                            name="phone" 
-                            id="id_phone" 
-                            class="order_input order_phone_input" 
-                            placeholder="0990102034" 
-                            maxlength="10" 
-                            pattern="[0-9]{10}"
-                            required>
-                    </div>
-                </div>
-
-                <div class="order_field">
-                    <label for="id_delivery_service">Почтовый оператор</label>
-                    <select name="delivery_service" id="id_delivery_service" class="order_select" required>
-                        <option value="" disabled selected>Выберите службу доставки...</option>
-                        <option value="nova_poshta">Нова Пошта</option>
-                        <option value="ukrposhta">Укрпошта</option>
-                        <option value="pickup">Самовывоз (Запорожье)</option>
-                    </select>
-                </div>
-
-                <div class="order_field" id="city_group">
-                    <label for="city_input">Населенный пункт</label>
-                    <input type="text" id="city_input" class="order_input" placeholder="Начните вводить город..." autocomplete="off">
-                    <input type="hidden" name="city_ref" id="city_ref">
-                    <div id="city_suggestions" class="order_autocomplete_list"></div>
-                </div>
-
-                <div class="order_field" id="branch_group">
-                    <label for="id_address">Отделение доставки</label>
-                    <input type="text" name="address" id="id_address" class="order_input" placeholder="Введите отделение..." />
-                </div>
-
-                <div class="order_field">
-                    <label for="id_comment">Комментарий к заказу</label>
-                    <textarea name="comment" id="id_comment" class="order_input order_textarea" placeholder="Пожелания к доставке или звонку..."></textarea>
-                </div>
-
-                <button type="submit" class="order_submit_btn">Подтвердить заказ</button>
-            </form>
-        </div>
-        <!-- КОНЕЦ order_form_wrapper -->
-
-        <!-- СПРАВА: Ваш заказ -->
-        <div class="order_summary">
-            <h2>Ваш заказ</h2>
-            <div class="order_items_list">
-                {% for item in basket %}
-                    <div class="order_item">
-                        <div class="order_item_info">
-                            <span class="order_item_title">{{ item.product.name }}</span>
-                            <span class="order_item_qty">x{{ item.quantity }}</span>
-                        </div>
-                        <span class="order_item_price">{{ item.total_price }} грн.</span>
-                    </div>
-                {% endfor %}
+      <div class="order_items_list">
+        {% for item in basket %}
+          <div class="order_item">
+            <div class="order_item_info">
+              <span class="order_item_name">{{ item.product.name }}</span>
+              <span class="order_item_qty">×{{ item.quantity }}</span>
             </div>
+            <span class="order_item_price">{{ item.total_price }} грн.</span>
+          </div>
+        {% endfor %}
+      </div>
 
-            <div class="order_subtotal">
-                <span>Сумма товаров:</span>
-                <span>{{ basket_details.subtotal }} грн.</span>
-            </div>
+      <div class="order_subtotal"><span>Товары</span><span>{{ basket_details.subtotal }} грн.</span></div>
 
-            {% if basket_details.discount_percent > 0 %}
-                <div class="order_discount">
-                    <span>Скидка ({{ basket_details.discount_percent }}%):</span>
-                    <span class="order_discount_amount">-{{ basket_details.discount_amount }} грн.</span>
-                </div>
-                {% if basket_details.applied_discounts %}
-                    <div class="order_discount_details">
-                        <small>({{ basket_details.applied_discounts|join:", " }})</small>
-                    </div>
-                {% endif %}
-            {% endif %}
+      {% if basket_details.discount_percent > 0 %}
+        <div class="order_discount"><span>Скидка · {{ basket_details.discount_percent }}%</span><span class="order_discount_amount">−{{ basket_details.discount_amount }} грн.</span></div>
+        {% if basket_details.applied_discounts %}
+          <div class="order_discount_details"><small>{{ basket_details.applied_discounts|join:", " }}</small></div>
+        {% endif %}
+      {% endif %}
 
-            <div class="order_total">
-                <span>Итого к оплате:</span>
-                <span>{{ basket.get_total_price }} грн.</span>
-            </div>
-        </div>
-    </div>
-</div>
+      <div class="order_total"><span>К оплате</span><strong>{{ basket.get_total_price }} грн.</strong></div>
+    </aside>
+  </div>
+</section>
+{% endblock %}
 
+{% block extra_js %}
 <script src="{% static 'orders/js/checkout.js' %}"></script>
-{% endblock content %}
+{% endblock %}

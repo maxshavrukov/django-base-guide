@@ -1,125 +1,609 @@
 /* =========================================================
-   10. ЛИЧНЫЙ КАБИНЕТ (User Account & Wishlist)
-========================================================= */
+   USERS APP — Account / orders / wishlist
+   Depends on the global design tokens from style.css
+   ========================================================= */
+
 .cabinet-page-container {
-  max-width: 1200px;
-  margin: 40px auto;
-  padding: 0 20px;
+  width: min(1200px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 28px 0 0;
+}
+
+.cabinet-page-header {
+  margin-bottom: 22px;
+}
+
+.cabinet-page-header h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1.08;
+  letter-spacing: -.045em;
+}
+
+.cabinet-page-header p {
+  max-width: 650px;
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 12px;
 }
 
 .cabinet-layout {
   display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 30px;
-  margin-top: 25px;
+  grid-template-columns: 238px minmax(0, 1fr);
+  gap: 20px;
   align-items: start;
 }
 
 .cabinet-sidebar {
-  background: #fff;
-  border: 1px solid #eaeaea;
-  border-radius: 8px;
-  padding: 15px 0;
+  position: sticky;
+  top: 82px;
+  overflow: hidden;
+  padding: 7px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
 }
 
-.cabinet-menu-link {
-  display: block;
-  padding: 12px 20px;
-  color: #333;
-  transition: background 0.2s, color 0.2s;
+.cabinet-sidebar__profile {
+  margin: 3px 3px 8px;
+  padding: 13px;
+  border-radius: 9px;
+  background: var(--surface-soft);
+}
+
+.cabinet-sidebar__profile-name {
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cabinet-sidebar__profile-meta {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.cabinet-menu-link,
+.cabinet-menu-lagout-btn {
+  width: 100%;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 11px;
+  border-radius: 8px;
+  color: var(--text-2);
+  background: transparent;
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: left;
+  transition: background var(--ease), color var(--ease);
 }
 
 .cabinet-menu-link:hover,
 .cabinet-menu-link.active {
-  color: var(--accent-color);
-  background-color: #fafafa;
+  background: var(--surface-soft);
+  color: var(--text);
+}
+
+.cabinet-menu-link svg,
+.cabinet-menu-lagout-btn svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+  color: var(--muted);
+}
+
+.cabinet-menu-link.active svg {
+  color: var(--text);
 }
 
 .cabinet-menu-lagout-btn {
-  display: block;
-  width: 100%;
-  padding: 12px 20px;
-  color: var(--danger-color, #E63946);
-  font-weight: 700;
-  font-family: var(--font-nav);
-  font-size: 14px;
-  text-align: left;
-  text-decoration: none;
-  background: none;
-  border: none;
+  margin-top: 4px;
+  border: 0;
+  color: var(--danger);
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
 }
 
 .cabinet-menu-lagout-btn:hover {
-  background-color: rgba(230, 57, 70, 0.08);
-  color: #c0392b;
-  text-decoration: none;
+  background: #fff3f3;
+  color: var(--danger);
+}
+
+.cabinet-menu-divider {
+  height: 1px;
+  margin: 6px 4px;
+  background: var(--border);
 }
 
 .cabinet-content {
-  background: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  border: 1px solid #eaeaea;
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
 }
 
+.cabinet-content > h1,
+.cabinet-content > h2,
+.cabinet-content > h3 {
+  margin-top: 0;
+  font-family: var(--font-display);
+}
 
-/* Сетка избранного */
+.cabinet-content > h1 {
+  font-size: 25px;
+}
+
+.cabinet-content > h2 {
+  font-size: 20px;
+}
+
+.cabinet-section-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.cabinet-section-header h1,
+.cabinet-section-header h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  line-height: 1.1;
+}
+
+.cabinet-section-header h1 { font-size: 26px; }
+.cabinet-section-header h2 { font-size: 20px; }
+
+.cabinet-section-header p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
 .wishlist-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
 }
 
 .wishlist-card {
-  border: 1px solid #eee;
-  border-radius: 8px;
-  padding: 15px;
-  background: #fff;
+  min-width: 0;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
+}
+
+.wishlist-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+.wishlist-card-link {
+  display: block;
 }
 
 .wishlist-card-img {
   width: 100%;
-  height: 180px;
+  aspect-ratio: 1 / 1.08;
   object-fit: cover;
-  border-radius: 6px;
-  margin-bottom: 10px;
+  background: var(--surface-soft);
+}
+
+.wishlist-card-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 13px;
+}
+
+.wishlist-card-category {
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.wishlist-card-title {
+  margin: 5px 0 9px;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
 }
 
 .wishlist-card-price {
-  font-weight: 700;
-  color: var(--accent-color);
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
   margin-top: auto;
-  margin-bottom: 10px;
-  font-size: 17px;
+  margin-bottom: 11px;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.wishlist-card-price--sale {
+  color: var(--danger);
+}
+
+.wishlist-card-price-old {
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  text-decoration: line-through;
+}
+
+.wishlist-card-actions {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 7px;
+}
+
+.wishlist-card-actions .btn {
+  min-height: 38px;
+  padding-inline: 11px;
+  font-size: 10px;
+}
+
+.wishlist-remove-btn {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--muted);
+}
+
+.wishlist-remove-btn:hover {
+  border-color: #efc7c7;
+  background: #fff3f3;
+  color: var(--danger);
+}
+
+.wishlist-remove-btn svg {
+  width: 17px;
+  height: 17px;
+}
+
+.wishlist-empty {
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+  padding: 48px 20px;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.wishlist-empty h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 20px;
+}
+
+.wishlist-empty p {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 11px;
 }
 
 .checkout_submit_btn {
+  min-height: 46px;
+  padding: 0 18px;
+}
+
+.order-history {
+  display: grid;
+  gap: 10px;
+}
+
+.order-history__item {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.order-history__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 13px 15px;
+  border-bottom: 1px solid var(--border);
+  background: #fafaf8;
+}
+
+.order-history__number {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.order-history__date {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.order-history__body {
+  display: grid;
+  gap: 5px;
+  padding: 12px 15px;
+}
+
+.order-history__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: var(--text-2);
+  font-size: 11px;
+}
+
+.order-history__row strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.profile-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.profile-form .field-full {
+  grid-column: 1 / -1;
+}
+
+.profile-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.profile-form input,
+.profile-form textarea,
+.profile-form select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+}
+
+.profile-form input:focus,
+.profile-form textarea:focus,
+.profile-form select:focus {
+  border-color: #999;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(0,0,0,.045);
+}
+
+.profile-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.profile-form .errorlist {
+  margin: 5px 0 0;
+  padding-left: 15px;
+  color: var(--danger);
+  font-size: 10px;
+}
+
+@media (max-width: 900px) {
+  .cabinet-page-container {
+    width: min(100% - 24px, 1200px);
+  }
+
+  .cabinet-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cabinet-sidebar {
+    position: static;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    padding: 5px;
+  }
+
+  .cabinet-sidebar__profile,
+  .cabinet-menu-divider {
+    display: none;
+  }
+
+  .cabinet-menu-link,
+  .cabinet-menu-lagout-btn {
+    width: auto;
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 680px) {
+  .cabinet-content {
+    padding: 17px;
+    border-radius: 14px;
+  }
+
+  .wishlist-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  .profile-form {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-form .field-full {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 420px) {
+  .wishlist-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================================
+   USERS APP — Auth Page (Login / Register)
+   ========================================================= */
+
+.auth-page {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 40px 20px;
+  min-height: calc(100vh - 200px);
+}
+
+.auth-card {
   width: 100%;
-  padding: 12px 24px;
-  min-height: 44px;
-  background-color: var(--accent-color);
-  color: #ffffff;
-  border: none;
-  border-radius: var(--border-radius-md);
-  font-family: var(--font-nav);
-  font-size: 15px;
+  max-width: 460px;
+  padding: 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.auth-card__intro {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.auth-card__intro .eyebrow {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 10px;
   font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.auth-card__intro h1 {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-size: 28px;
+  letter-spacing: -.03em;
+}
+
+.auth-card__intro p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* Переключатели (табы) Вход / Регистрация */
+.auth_tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 24px;
+  border-radius: 10px;
+  background: var(--surface-soft);
+}
+
+.auth_tab {
+  min-height: 38px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.25s ease, transform 0.15s ease;
+  transition: all var(--ease);
 }
 
-.checkout_submit_btn:hover {
-  background-color: var(--accent-hover);    /* Текст остается белым, фон меняется */
+.auth_tab:hover {
+  color: var(--text);
 }
 
-.checkout_submit_btn:active {
-  transform: scale(0.97);      /* Эффект нажатия */
+.auth_tab.active {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Формы */
+.auth_form {
+  display: none;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auth_form.active {
+  display: flex;
+}
+
+.auth_field_group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.auth_field_group label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* Стилизация инпутов Django-форм внутри auth_field_group */
+.auth_field_group input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  outline: none;
+  transition: border-color var(--ease), box-shadow var(--ease), background var(--ease);
+}
+
+.auth_field_group input:focus {
+  border-color: var(--border-strong);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, .045);
+}
+
+.auth_error {
+  color: var(--danger);
+  font-size: 10px;
+  margin-top: 2px;
 }

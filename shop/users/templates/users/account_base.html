@@ -1,48 +1,48 @@
 {% extends 'main/base.html' %}
 {% load static %}
-{% block extra_css %}
-  <link rel="stylesheet" href="{% static 'users/css/users.css' %}" />
-{% endblock %}
-
-{% block title %}
-  Личный кабинет
-{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'users/css/users.css' %}">{% endblock %}
+{% block title %}Личный кабинет{% endblock %}
 
 {% block content %}
-  <div class="">
-    <div class="catalog_title">
-      <h1 class="catalog_title-item">Личный кабинет</h1>
-    </div>
-
-    <!-- Основной макет кабинета -->
-    <div class="cabinet-layout">
-      <!-- Левое меню навигации -->
-      <aside class="cabinet-sidebar">
-        <ul class="cabinet-menu">
-          <li>
-            <a href="{% url 'users:order_list' %}" class="cabinet-menu-link {% if request.resolver_match.namespace == 'orders' %}active{% endif %}">Мои заказы</a>
-          </li>
-          <li>
-            <a href="{% url 'wishlist:wishlist_detail' %}" class="cabinet-menu-link">Избранное</a>
-          </li>
-          <li>
-            <a href="{% url 'users:profile' %}" class="cabinet-menu-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">Контактная информация</a>
-          </li>
-          <li>
-            <form action="{% url 'users:logout' %}" method="post" class="cabinet-logout-form">
-              {% csrf_token %}
-              <button type="submit" href="{% url 'users:logout' %}" class="cabinet-menu-lagout-btn">Выйти</button>
-            </form>
-          </li>
-        </ul>
-      </aside>
-
-      <!-- Правая часть с контентом (здесь будет меняться начинка) -->
-      <main class="cabinet-content">
-        {% block cabinet_content %}
-        {% endblock %}
-      </main>
-    </div>
+<section class="cabinet-page-container">
+  <div class="cabinet-page-header">
+    <span class="eyebrow">Мой аккаунт</span>
+    <h1>Личный кабинет</h1>
+    <p>Управляйте профилем, заказами и избранными товарами.</p>
   </div>
-{% endblock %}
 
+  <div class="cabinet-layout">
+    <aside class="cabinet-sidebar">
+      <div class="cabinet-sidebar__profile">
+        <div class="cabinet-sidebar__profile-name">{{ request.user.username }}</div>
+        <div class="cabinet-sidebar__profile-meta">{{ request.user.email|default:"Email не указан" }}</div>
+      </div>
+
+      <a href="{% url 'users:order_list' %}" class="cabinet-menu-link {% if request.resolver_match.url_name == 'order_list' %}active{% endif %}">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M5 5h14v14H5zM8 9h8M8 13h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Мои заказы
+      </a>
+      <a href="{% url 'wishlist:wishlist_detail' %}" class="cabinet-menu-link {% if request.resolver_match.namespace == 'wishlist' %}active{% endif %}">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 20.2 4.9 13.4A5.2 5.2 0 0 1 12 5.9a5.2 5.2 0 0 1 7.1 7.5L12 20.2Z" stroke="currentColor" stroke-width="1.7"/></svg>
+        Избранное
+      </a>
+      <a href="{% url 'users:profile' %}" class="cabinet-menu-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M5 20a7 7 0 0 1 14 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        Профиль
+      </a>
+      <div class="cabinet-menu-divider"></div>
+      <form action="{% url 'users:logout' %}" method="post" class="cabinet-logout-form">
+        {% csrf_token %}
+        <button type="submit" class="cabinet-menu-lagout-btn">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M10 5H5v14h5M13 8l4 4-4 4M17 12H9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Выйти
+        </button>
+      </form>
+    </aside>
+
+    <main class="cabinet-content">
+      {% block cabinet_content %}{% endblock %}
+    </main>
+  </div>
+</section>
+{% endblock %}

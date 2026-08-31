@@ -1,0 +1,32 @@
+{% load static %}
+<article class="product-card">
+  <a href="{{ product.get_absolute_url }}" class="product-card__media">
+    {% if product.discount_percent > 0 %}
+      <span class="product-card__badge product-card__badge--sale">−{{ product.discount_percent }}%</span>
+    {% endif %}
+    {% if product.image %}
+      <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
+    {% else %}
+      <img src="{% static 'img/no-image.png' %}" alt="Нет изображения" loading="lazy">
+    {% endif %}
+  </a>
+
+  <div class="product-card__body">
+    <span class="product-card__category">{{ product.category_name }}</span>
+    <h3 class="product-card__title"><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h3>
+
+    <div class="product-card__price">
+      {% if product.discount_percent > 0 %}
+        <span class="price price--sale">{{ product.get_discounted_price }} грн</span>
+        <span class="price price--old">{{ product.price }} грн</span>
+      {% else %}
+        <span class="price">{{ product.price }} грн</span>
+      {% endif %}
+    </div>
+
+    <a href="{{ product.get_absolute_url }}" class="product-card__link">
+      Подробнее
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</article>

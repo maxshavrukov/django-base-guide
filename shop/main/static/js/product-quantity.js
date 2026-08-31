@@ -1,29 +1,35 @@
 document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".quantity-box").forEach((box) => {
+    const minusBtn = box.querySelector(".minus");
+    const plusBtn = box.querySelector(".plus");
+    const input = box.querySelector(".quantity-input");
 
-    const quantityBoxes = document.querySelectorAll(".quantity_box");
+    if (!minusBtn || !plusBtn || !input) return;
 
-    quantityBoxes.forEach(box => {
-
-        const minusBtn = box.querySelector(".minus");
-        const plusBtn = box.querySelector(".plus");
-        const input = box.querySelector(".quantity_input");
-
-        minusBtn.addEventListener("click", () => {
-            let value = parseInt(input.value);
-
-            if (value > 1) {
-                input.value = value - 1;
-            }
-        });
-
-        plusBtn.addEventListener("click", () => {
-            let value = parseInt(input.value);
-
-            if (value < 20) {
-                input.value = value + 1;
-            }
-        });
-
+    const getBounds = () => ({
+      min: Number(input.min) || 1,
+      max: Number(input.max) || 20,
     });
 
+    const normalize = () => {
+      const { min, max } = getBounds();
+      let value = Number.parseInt(input.value, 10);
+      if (Number.isNaN(value)) value = min;
+      input.value = Math.min(Math.max(value, min), max);
+    };
+
+    minusBtn.addEventListener("click", () => {
+      normalize();
+      const { min } = getBounds();
+      input.value = Math.max(Number(input.value) - 1, min);
+    });
+
+    plusBtn.addEventListener("click", () => {
+      normalize();
+      const { max } = getBounds();
+      input.value = Math.min(Number(input.value) + 1, max);
+    });
+
+    input.addEventListener("change", normalize);
+  });
 });

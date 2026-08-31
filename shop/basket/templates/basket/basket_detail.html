@@ -1,89 +1,75 @@
 {% extends 'main/base.html' %}
 {% load static %}
 {% block extra_css %}
-  <link rel="stylesheet" href="{% static 'basket/css/basket.css' %}" />
+<link rel="stylesheet" href="{% static 'basket/css/basket.css' %}">
 {% endblock %}
-
-{% block title %}
-  Корзина
-{% endblock %}
-
+{% block title %}Корзина{% endblock %}
 {% block content %}
-  <div class="catalog_title">
-    <h1 class="catalog_title-item">Корзина</h1>
+<section class="basket-page">
+  <div class="page-hero page-hero--compact">
+    <div>
+      <span class="eyebrow">Покупки</span>
+      <h1>Корзина</h1>
+      {% if basket|length %}<p>Проверьте товары перед оформлением заказа.</p>{% else %}<p>Здесь появятся товары, которые вы добавите в корзину.</p>{% endif %}
+    </div>
+    <a href="{% url 'main:product_list' %}" class="btn btn--secondary">Продолжить покупки</a>
   </div>
 
   {% if basket|length == 0 %}
-    <div class="alert_products">Ваша корзина пуста</div>
+    <div class="basket-empty">
+      <div class="basket-empty__icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M4 5h2l1.2 9.1a2 2 0 0 0 2 1.9h7.6a2 2 0 0 0 2-1.7L20 8H7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="19" r="1" fill="currentColor"/><circle cx="17" cy="19" r="1" fill="currentColor"/></svg></div>
+      <h2>Корзина пока пуста</h2>
+      <p>Добавьте понравившиеся товары — здесь они останутся до оформления заказа.</p>
+      <a href="{% url 'main:product_list' %}" class="btn btn--primary">Открыть каталог</a>
+    </div>
   {% else %}
     <div class="cart_container">
       <div class="cart_list">
         {% for item in basket %}
-          <div class="cart_item">
+          <article class="cart_item">
             <div class="cart_item-image">
-              {% if item.product.image %}
-                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" />
-              {% else %}
-                <img src="{% static 'img/no-image.png' %}" alt="Нет изображения" />
-              {% endif %}
+              <a href="{{ item.product.get_absolute_url }}">
+                {% if item.product.image %}<img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" loading="lazy">{% else %}<img src="{% static 'img/no-image.png' %}" alt="Нет изображения" loading="lazy">{% endif %}
+              </a>
             </div>
-
             <div class="cart_item-info">
-              <h3 class="cart_item-title"><a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a></h3>
-
-              <p class="cart_item-price">{{ item.product.price }} грн.</p>
-
-              <div class="cart_item-qty">
-                <form action="{% url 'basket:basket_update' item.product.id 'minus' %}" method="post">
-                  {% csrf_token %}
-                  <button type="submit" class="qty_btn">−</button>
-                </form>
+              <span class="cart_item-category">{{ item.product.category_name }}</span>
+              <h2 class="cart_item-title"><a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a></h2>
+              <div class="cart_item-price">
+                {% if item.product_discount_percent > 0 %}
+                  <span class="sale-price">{{ item.price }} грн.</span>
+                  <span class="old-price">{{ item.original_price }} грн.</span>
+                {% else %}{{ item.price }} грн.{% endif %}
+              </div>
+              <div class="cart_item-qty" aria-label="Количество">
+                <form action="{% url 'basket:basket_update' item.product.id 'minus' %}" method="post">{% csrf_token %}<button type="submit" class="qty_btn" aria-label="Уменьшить количество">−</button></form>
                 <span class="qty_value">{{ item.quantity }}</span>
-                <form action="{% url 'basket:basket_update' item.product.id 'plus' %}" method="post">
-                  {% csrf_token %}
-                  <button type="submit" class="qty_btn">+</button>
-                </form>
+                <form action="{% url 'basket:basket_update' item.product.id 'plus' %}" method="post">{% csrf_token %}<button type="submit" class="qty_btn" aria-label="Увеличить количество">+</button></form>
               </div>
             </div>
-
             <div class="cart_item-total">
-              <p class="cart_item-sum">{{ item.total_price }} грн.</p>
-              <form action="{% url 'basket:basket_remove' item.product.id %}" method="post">
-                {% csrf_token %}
-                <button type="submit" class="remove_btn">Удалить</button>
-              </form>
+              <div class="cart_item-sum">{{ item.total_price }} грн.</div>
+              <form action="{% url 'basket:basket_remove' item.product.id %}" method="post">{% csrf_token %}<button type="submit" class="remove_btn"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Удалить</button></form>
             </div>
-          </div>
+          </article>
         {% endfor %}
       </div>
 
-      <div class="cart_summary">
-        {% with details=basket.get_basket_details %}
-          <div class="cart_summary-subtotal">
-            <span>Сумма товаров:</span>
-            <span>{{ details.subtotal }} грн.</span>
-          </div>
-
-          {% if details.discount_percent > 0 %}
-            <div class="cart_summary-discount">
-              <span>Скидка ({{ details.discount_percent }}%):</span>
-              <span class="cart_summary-discount-amount">-{{ details.discount_amount }} грн.</span>
-            </div>
-            {% if details.applied_discounts %}
-              <div class="cart_summary-discount-details">
-                <small>({{ details.applied_discounts|join:', ' }})</small>
-              </div>
-            {% endif %}
-          {% endif %}
-
-          <div class="cart_summary-total-row">
-            <span><strong>Итого к оплате:</strong></span>
-            <span class="cart_summary-total"><strong>{{ details.total_price }} грн.</strong></span>
-          </div>
-        {% endwith %}
-
-        <a href="{% url 'orders:order_create' %}" class="checkout_btn">Оформить заказ</a>
-      </div>
+      <aside class="cart_summary">
+        <div class="cart_summary__heading"><span class="eyebrow">Ваш заказ</span><h2>Итого</h2></div>
+        <div class="cart_summary-row"><span>Товары</span><strong>{{ basket_details.subtotal }} грн.</strong></div>
+        {% if basket_details.product_discount_amount > 0 %}
+          <div class="cart_summary-row cart_summary-row--sale"><span>Скидка на товары</span><strong>−{{ basket_details.product_discount_amount }} грн.</strong></div>
+        {% endif %}
+        {% if basket_details.promo_discount_percent > 0 %}
+          <div class="cart_summary-row cart_summary-row--sale"><span>Доп. скидка {{ basket_details.promo_discount_percent }}%</span><strong>−{{ basket_details.promo_discount_amount }} грн.</strong></div>
+          {% if basket_details.applied_discounts %}<div class="cart_summary-discount-details">{% for discount in basket_details.applied_discounts %}<span>{{ discount }}</span>{% endfor %}</div>{% endif %}
+        {% endif %}
+        <div class="cart_summary-total-row"><span>К оплате</span><strong class="cart_summary-total">{{ basket_details.total_price }} грн.</strong></div>
+        <a href="{% url 'orders:order_create' %}" class="checkout_btn">Перейти к оформлению<svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <p class="cart_summary-note">На следующем шаге вы сможете указать данные доставки.</p>
+      </aside>
     </div>
   {% endif %}
+</section>
 {% endblock %}

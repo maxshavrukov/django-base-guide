@@ -1,57 +1,49 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const container = document.querySelector(".banner_slider_container");
-  if (!container) return;
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".hero-slider").forEach((container) => {
+    const slides = [...container.querySelectorAll(".banner-slide")];
+    const dotsContainer = container.querySelector(".banner-dots");
 
-  const slides = container.querySelectorAll(".banner_slide");
-  const dotsContainer = container.querySelector(".banner_dots");
+    if (slides.length <= 1) {
+      if (dotsContainer) dotsContainer.hidden = true;
+      return;
+    }
 
-  if (slides.length <= 1) {
-    if (dotsContainer) dotsContainer.style.display = "none";
-    return;
-  }
+    let currentIndex = 0;
+    let timer;
 
-  let currentIndex = 0;
-  let autoSlideTimer = null;
-
-  // Очищаем контейнер перед генерацией точек
-  dotsContainer.innerHTML = "";
-
-  // Генерируем точки
-  slides.forEach((_, index) => {
-    const dot = document.createElement("button");
-    dot.classList.add("banner_dot");
-    if (index === 0) dot.classList.add("active");
-    dot.setAttribute("type", "button");
-
-    dot.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      showSlide(index);
-      resetAutoSlide();
+    const dots = slides.map((_, index) => {
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = "banner-dot";
+      dot.setAttribute("aria-label", `Показать слайд ${index + 1}`);
+      dot.addEventListener("click", (event) => {
+        event.preventDefault();
+        showSlide(index);
+        restart();
+      });
+      dotsContainer?.appendChild(dot);
+      return dot;
     });
 
-    dotsContainer.appendChild(dot);
+    function showSlide(index) {
+      currentIndex = (index + slides.length) % slides.length;
+      slides.forEach((slide, i) => slide.classList.toggle("active", i === currentIndex));
+      dots.forEach((dot, i) => dot.classList.toggle("active", i === currentIndex));
+    }
+
+    function start() {
+      timer = window.setInterval(() => showSlide(currentIndex + 1), 5000);
+    }
+
+    function restart() {
+      window.clearInterval(timer);
+      start();
+    }
+
+    container.addEventListener("mouseenter", () => window.clearInterval(timer));
+    container.addEventListener("mouseleave", start);
+
+    showSlide(0);
+    start();
   });
-
-  const dots = dotsContainer.querySelectorAll(".banner_dot");
-
-  function showSlide(index) {
-    slides.forEach((slide) => slide.classList.remove("active"));
-    dots.forEach((dot) => dot.classList.remove("active"));
-
-    currentIndex = (index + slides.length) % slides.length;
-    slides[currentIndex].classList.add("active");
-    dots[currentIndex].classList.add("active");
-  }
-
-  function startAutoSlide() {
-    autoSlideTimer = setInterval(() => showSlide(currentIndex + 1), 5000);
-  }
-
-  function resetAutoSlide() {
-    clearInterval(autoSlideTimer);
-    startAutoSlide();
-  }
-
-  startAutoSlide();
 });

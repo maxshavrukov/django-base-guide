@@ -1,15 +1,18 @@
 {% extends 'users/account_base.html' %}
-{% load static %}
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'users/css/users.css' %}">
-{% endblock %}
-
 {% block cabinet_content %}
-<h2 class="cabinet-content-title">Контактная информация</h2>
+<div class="cabinet-section-header">
+  <div><span class="eyebrow">Профиль</span><h2>Контактная информация</h2><p>Основные данные вашей учётной записи.</p></div>
+</div>
 
-<div class="cabinet-info-group">
-    <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
-    <p><strong>Электронная почта:</strong> {{ user.email|default:"Не указана" }}</p>
-    <p><strong>Дата регистрации:</strong> {{ user.date_joined|date:"d.m.Y" }}</p>
+<div class="profile-summary">
+  <div class="profile-avatar">{{ user.username|first|upper }}</div>
+  <div><strong>{{ user.username }}</strong><span>Пользователь BASE GUIDE</span></div>
+</div>
+
+<div class="profile-info-grid">
+  <div class="profile-info-item"><span>Имя пользователя</span><strong>{{ user.username }}</strong></div>
+  <div class="profile-info-item"><span>Электронная почта</span><strong>{{ user.email|default:"Не указана" }}</strong></div>
+  <div class="profile-info-item"><span>Дата регистрации</span><strong>{{ user.date_joined|date:"d.m.Y" }}</strong></div>
+  <div class="profile-info-item"><span>Статус</span><strong>Активный аккаунт</strong></div>
 </div>
 {% endblock %}

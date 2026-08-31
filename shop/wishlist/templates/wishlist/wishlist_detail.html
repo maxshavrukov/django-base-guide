@@ -1,43 +1,48 @@
 {% extends 'users/account_base.html' %}
 {% load static %}
-{% block extra_css %}
-<!-- Только тут мы ссылаемся на CSS для личного кабинета! -->
-<link rel="stylesheet" href="{% static 'users/css/users.css' %}">
-{% endblock %}
-
-{% block title %}Избранное{% endblock %}
-
 {% block cabinet_content %}
 <div class="cabinet-section-header">
-    <h2 class="cabinet-content-title">Избранное</h2>
+  <div><span class="eyebrow">Сохранённое</span><h2>Избранное</h2><p>Товары, к которым хочется вернуться позже.</p></div>
 </div>
 
 {% if wishlist %}
-    <!-- Используем класс wishlist-grid вместо инлайн-стилей -->
-    <div class="wishlist-grid">
-        {% for product in wishlist %}
-            <!-- Используем класс wishlist-card -->
-            <div class="wishlist-card">
-                {% if product.image %}
-                    <!-- Используем класс wishlist-card-img -->
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="wishlist-card-img">
-                {% endif %}
-                
-                <h3 class="wishlist-card-title">{{ product.name }}</h3>
-                <p class="wishlist-card-price">{{ product.price }} грн</p>
-                
-                <a href="{% url 'wishlist:wishlist_remove' product.id %}" class="wishlist-remove-btn">
-                    ❌ Удалить из избранного
-                </a>
-            </div>
-        {% endfor %}
-    </div>
+  <div class="wishlist-grid">
+    {% for product in wishlist %}
+      <article class="wishlist-card">
+        <a href="{{ product.get_absolute_url }}" class="wishlist-card-link">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="wishlist-card-img" loading="lazy">
+          {% else %}
+            <img src="{% static 'img/no-image.png' %}" alt="Нет изображения" class="wishlist-card-img">
+          {% endif %}
+        </a>
+        <div class="wishlist-card-body">
+          <span class="wishlist-card-category">{{ product.category_name }}</span>
+          <h3 class="wishlist-card-title"><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h3>
+          <div class="wishlist-card-price {% if product.discount_percent > 0 %}wishlist-card-price--sale{% endif %}">
+            {% if product.discount_percent > 0 %}
+              {{ product.get_discounted_price }} грн
+              <span class="wishlist-card-price-old">{{ product.price }} грн</span>
+            {% else %}
+              {{ product.price }} грн
+            {% endif %}
+          </div>
+          <div class="wishlist-card-actions">
+            <a href="{{ product.get_absolute_url }}" class="btn btn--primary">Подробнее</a>
+            <a href="{% url 'wishlist:wishlist_remove' product.id %}" class="wishlist-remove-btn" aria-label="Удалить из избранного" title="Удалить из избранного">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
 {% else %}
-    <!-- Используем класс cabinet-empty-state, стили для которого мы уже добавили ранее -->
-    <div class="cabinet-empty-state">
-        <p>В вашем избранном пока ничего нет 💔</p>
-        <p>Добавляйте товары, нажав на сердечко в каталоге!</p>
-
-    </div>
+  <div class="wishlist-empty">
+    <div class="empty-state__icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 20.2 4.9 13.4A5.2 5.2 0 0 1 12 5.9a5.2 5.2 0 0 1 7.1 7.5L12 20.2Z" stroke="currentColor" stroke-width="1.7"/></svg></div>
+    <h2>Избранное пока пусто</h2>
+    <p>Сохраняйте понравившиеся товары, чтобы быстро вернуться к ним позже.</p>
+    <a href="{% url 'main:product_list' %}" class="btn btn--primary">Перейти в каталог</a>
+  </div>
 {% endif %}
 {% endblock %}

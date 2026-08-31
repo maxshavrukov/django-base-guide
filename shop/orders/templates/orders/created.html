@@ -1,38 +1,23 @@
 {% extends 'main/base.html' %}
 {% load static %}
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'orders/css/orders.css' %}">
-{% endblock %}
-
-{% block title %}Заказ успешно оформлен{% endblock title %}
-
+{% block extra_css %}<link rel="stylesheet" href="{% static 'orders/css/orders.css' %}">{% endblock %}
+{% block title %}Заказ оформлен{% endblock %}
 {% block content %}
-<div class="order_page order_success_page">
-    <div class="order_success_card">
-        
-        <!-- Иконка галочки -->
-        <div class="order_success_icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-        </div>
-
-        <h1 class="order_success_title">Спасибо за заказ!</h1>
-        
-        {% if order %}
-            <p class="order_success_number">
-                Номер вашего заказа: <span>#{{ order.id }}</span>
-            </p>
-        {% endif %}
-
-        <p class="order_success_text">
-            Мы уже начали обработку. В ближайшее время менеджер свяжется с вами для подтверждения деталей.
-        </p>
-
-        <a href="/" class="order_success_btn">
-            Вернуться в магазин
-        </a>
+<section class="order_success_page">
+  <div class="order_success_card">
+    <div class="order_success_icon">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m5 12 4 4L19 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
-</div>
-<script src="{% static 'orders/js/checkout.js' %}"></script>
-{% endblock content %}
+    <span class="eyebrow">Готово</span>
+    <h1 class="order_success_title">Спасибо за заказ!</h1>
+    {% if order %}<p class="order_success_number">Номер заказа: <span>#{{ order.id }}</span></p>{% endif %}
+    <p class="order_success_text">Мы уже начали обработку заказа. В ближайшее время менеджер свяжется с вами для подтверждения деталей.</p>
+    <div class="order_success_actions">
+      <a href="{% url 'main:product_list' %}" class="order_success_btn">Продолжить покупки</a>
+      {% if request.user.is_authenticated %}
+        <a href="{% url 'users:order_list' %}" class="order_success_btn order_success_btn--secondary">Мои заказы</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

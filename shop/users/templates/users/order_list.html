@@ -1,23 +1,30 @@
 {% extends 'users/account_base.html' %}
-{% load static %}
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'users/css/users.css' %}">
-{% endblock %}
-
 {% block cabinet_content %}
 <div class="cabinet-section-header">
-    <h2 class="cabinet-content-title">Мои заказы</h2>
+  <div><span class="eyebrow">История покупок</span><h2>Мои заказы</h2><p>Все оформленные заказы в одном месте.</p></div>
 </div>
 
 {% if orders %}
-    <div class="orders-list">
-        {% for order in orders %}
-            <!-- карточка заказа -->
-        {% endfor %}
-    </div>
+  <div class="order-history">
+    {% for order in orders %}
+      <article class="order-history__item">
+        <div class="order-history__header">
+          <div><span class="order-history__number">Заказ #{{ order.id }}</span></div>
+          <span class="order-history__date">{{ order.created|date:"d.m.Y H:i" }}</span>
+        </div>
+        <div class="order-history__body">
+          <div class="order-history__row"><span>Сумма заказа</span><strong>{{ order.get_total_cost }} грн</strong></div>
+          {% if order.email %}<div class="order-history__row"><span>Email</span><strong>{{ order.email }}</strong></div>{% endif %}
+          {% if order.phone %}<div class="order-history__row"><span>Телефон</span><strong>{{ order.phone }}</strong></div>{% endif %}
+        </div>
+      </article>
+    {% endfor %}
+  </div>
 {% else %}
-    <div class="cabinet-empty-state">
-        <p>У вас пока нет оформленных заказов.</p>
-    </div>
+  <div class="wishlist-empty">
+    <h2>Заказов пока нет</h2>
+    <p>Выберите товары в каталоге и оформите первую покупку.</p>
+    <a href="{% url 'main:product_list' %}" class="btn btn--primary">Открыть каталог</a>
+  </div>
 {% endif %}
 {% endblock %}

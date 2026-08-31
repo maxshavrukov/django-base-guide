@@ -1,3 +1,5 @@
+from decimal import Decimal, ROUND_HALF_UP
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.urls import reverse
 
@@ -25,23 +27,47 @@ class Product(models.Model):
     description = models.TextField(blank=True, verbose_name="Описание")
     color = models.CharField(max_length=50, blank=True, null=True, verbose_name="Цвет")
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена")
-    
+    discount = models.IntegerField(
+        default=0,
+        blank=True,
+        null=True,
+        verbose_name="Скидка (%)",
+        help_text="Скидка от 0 до 100 процентов.",
+    )
     stock = models.PositiveIntegerField(default=0, verbose_name="Количество на складе")
-    available = models.BooleanField(default=True, verbose_name="Доступен для заказа")
-    
-    created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    updated = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
+    available = models.BooleanField(default=True, verbose_name="Доступно")
 
-    class Meta:
-        ordering = ('name',)
-        verbose_name = 'Товар'
-        verbose_name_plural = 'Товары'
+    @property
+    def discount_percent(self):
+        return max(0, min(int(self.discount or 0), 100))
 
-    def __str__(self):
-        return self.name
-    
+    def get_discounted_price(self):
+        if not self.price:
+            return Decimal("0.00")
+        percent = Decimal(self.discount_percent)
+        value = self.price * (Decimal("100") - percent) / Decimal("100")
+        return value.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+
+    def get_discount_amount(self):
+        return (self.price - self.get_discounted_price()).quantize(
+            Decimal("0.01"),
+            rounding=ROUND_HALF_UP,
+        )
+
+    @property
+    def category_name(self):
+        mapping = {
+            "smartphone": "Смартфоны",
+            "headphone": "Наушники",
+            "charger": "Зарядные устройства",
+            "cable": "Кабели",
+            "powerbank": "Повербанки",
+        }
+        return mapping.get(self.__class__.__name__.lower(), "Товары")
+
     def get_absolute_url(self):
         return reverse('main:product_detail', args=[self.id, self.slug])
+
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE, verbose_name="Товар")
@@ -75,7 +101,7 @@ class Smartphone(Product):
     core_speed = models.CharField(max_length=50, blank=True, null=True, verbose_name="Тактовая частота процессора")
     # аккумулятор
     battery_capacity = models.CharField(max_length=50, blank=True, null=True, verbose_name="Емкость батареи")
-    charging_type = models.CharField(max_length=50, blank=True, null=True, verbose_name="Тип зарядки")
+    charging_type = models.CharField(max_length=50, blank=True, null=True, verbose_name="Мощность зарядки")
     # операционная система
     operating_system = models.CharField(max_length=50, blank=True, null=True, verbose_name="Операционная система")
     # камера

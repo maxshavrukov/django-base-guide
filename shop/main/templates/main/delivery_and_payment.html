@@ -1,34 +1,54 @@
 {% extends 'main/base.html' %}
 
-{% block title %}{{ title }} — BASE GUIDE{% endblock title %}
+{% block title %}Доставка и оплата{% endblock %}
 
 {% block content %}
-<div class="info_page_container">
-    <h1 class="info_page_title">Доставка и оплата</h1>
-    <p class="info_page_subtitle">Мы заботимся о том, чтобы ваши заказы приезжали вовремя и в полной сохранности.</p>
-
-    <div class="info_grid">
-        <!-- Блок Доставки -->
-        <div class="info_card">
-            <div class="info_card_icon">🚚</div>
-            <h2>Способы доставки</h2>
-            <ul class="info_list">
-                <li><strong>Новая Почта (Отделение / Почтомат)</strong> — доставка по всей стране в течение 1–3 дней.</li>
-                <li><strong>Курьерская доставка</strong> — прямо до вашей двери в удобное время.</li>
-                <li><strong>Самовывоз</strong> — бесплатно из нашего шоурума.</li>
-            </ul>
-        </div>
-
-        <!-- Блок Оплаты -->
-        <div class="info_card">
-            <div class="info_card_icon">💳</div>
-            <h2>Способы оплаты</h2>
-            <ul class="info_list">
-                <li><strong>Оплата картой онлайн</strong> — Visa / Mastercard при оформлении заказа.</li>
-                <li><strong>Наложенный платёж</strong> — оплата при получении в отделении почты.</li>
-                <li><strong>Безналичный расчёт</strong> — для юридических лиц и ФОП.</li>
-            </ul>
-        </div>
+<section class="static-page">
+  <div class="page-hero">
+    <div>
+      <span class="eyebrow">Всё просто</span>
+      <h1>Доставка и оплата</h1>
+      <p>Выберите удобный способ получения и оплаты заказа — остальное мы сделаем сами.</p>
     </div>
-</div>
-{% endblock content %}
+  </div>
+
+  <div class="info-grid">
+    <article class="info-card">
+      <div class="info-card__number">01</div>
+      <span class="info-card__icon">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M3 7h11v10H3zM14 10h3l4 4v3h-7zM7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM18 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      </span>
+      <h2>Способы доставки</h2>
+      <ul class="info-list">
+        <li><strong>Новая Почта</strong><span>Отделение или почтомат. Обычно 1–3 дня.</span></li>
+        <li><strong>Курьерская доставка</strong><span>До двери в удобное для вас время.</span></li>
+        <li><strong>Самовывоз</strong><span>Бесплатно из нашего шоурума.</span></li>
+      </ul>
+    </article>
+
+    <article class="info-card">
+      <div class="info-card__number">02</div>
+      <span class="info-card__icon">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M3 10h18M7 15h3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      </span>
+      <h2>Способы оплаты</h2>
+      <ul class="info-list">
+        <li><strong>Оплата картой онлайн</strong><span>Visa / Mastercard при оформлении заказа.</span></li>
+        <li><strong>Наложенный платёж</strong><span>Оплата при получении в отделении.</span></li>
+        <li><strong>Безналичный расчёт</strong><span>Для юридических лиц и ФОП.</span></li>
+      </ul>
+    </article>
+  </div>
+
+  <div class="info-note">
+    <span class="info-note__icon">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/><path d="M12 10v6M12 7h.01" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+    </span>
+    <div>
+      <strong>Остались вопросы?</strong>
+      <p>Свяжитесь с нами — подскажем оптимальный способ доставки и ответим на вопросы по оплате.</p>
+    </div>
+    <a href="{% url 'main:contacts' %}" class="btn btn--secondary">Контакты</a>
+  </div>
+</section>
+{% endblock %}

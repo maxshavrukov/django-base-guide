@@ -1,83 +1,324 @@
 {% extends 'main/base.html' %}
 {% load static %}
-
 {% block title %}
   {{ product.name }}
 {% endblock %}
-
 {% block content %}
-  <div class="catalog_title">
-    <h1 class="catalog_title-item"><a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></h1>
-  </div>
-  <div class="product_detail-container">
-    <div class="product_wrapper">
-      <div class="product_image">
-        {% if product.image %}
-          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product_image-img" />
-        {% else %}
-          <img src="{% static 'img/no_image.png' %}" alt="Нет изображения" class="product_image-img" />
+  <section class="product-page">
+    <nav class="breadcrumbs" aria-label="Хлебные крошки">
+      <a href="{% url 'main:product_list' %}">Главная</a>
+      <span>/</span>
+      {% if category_slug %}
+        <a href="{% url 'main:product_list_by_category' category_slug %}">{{ category_name }}</a>
+      {% else %}
+        <span>{{ category_name }}</span>
+      {% endif %}
+      <span>/</span>
+      <span class="breadcrumbs__current">{{ product.name }}</span>
+    </nav>
+
+    <div class="product-detail">
+      <div class="product-gallery" data-product-gallery>
+        <div class="product-main-image" id="openImageModal" role="button" tabindex="0" aria-label="Открыть галерею товара">
+          {% if product.discount_percent > 0 %}
+            <span class="product-main-image__badge">−{{ product.discount_percent }}%</span>
+          {% endif %}
+          {% if gallery %}
+            <img src="{{ gallery.0.url }}" alt="{{ gallery.0.alt }}" id="mainProductImg" />
+          {% elif product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" id="mainProductImg" />
+          {% else %}
+            <img src="{% static 'img/no-image.png' %}" alt="Нет изображения" id="mainProductImg" />
+          {% endif %}
+          <button type="button" class="gallery-nav gallery-nav--prev" aria-label="Предыдущее фото" hidden>‹</button>
+          <button type="button" class="gallery-nav gallery-nav--next" aria-label="Следующее фото" hidden>›</button>
+          <span class="product-main-image__zoom">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.7" />
+              <path d="m16 16 4 4M11 8v6M8 11h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+            </svg>Увеличить
+          </span>
+        </div>
+        {% if gallery|length > 1 %}
+          <div class="gallery-thumbnails" aria-label="Фотографии товара">
+            {% for image in gallery %}
+              <button type="button"
+                class="gallery-thumbnail {% if forloop.first %}is-active{% endif %}"
+                data-gallery-index="{{ forloop.counter0 }}"
+                data-image-url="{{ image.url }}"
+                data-image-alt="{{ image.alt|escape }}"
+                aria-label="Фото {{ forloop.counter }}"
+                aria-current="{% if forloop.first %}
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  true
+
+
+
+
+
+
+
+
+
+
+                {% else %}
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  false
+
+
+
+
+
+
+
+
+
+
+                {% endif %}">
+                <img src="{{ image.url }}" alt="" loading="lazy" />
+              </button>
+            {% endfor %}
+          </div>
+          <div class="gallery-count">Фото: {{ gallery|length }}</div>
         {% endif %}
       </div>
 
-      <div class="product_info">
-        <h1 class="product_info-title">{{ product.name }}</h1>
-        <p class="product_info-description">{{ product.description }}</p>
-        <p class="product_info-price">
-          Цена: <span>{{ product.price }} грн.</span>
-        </p>
-
-        <!-- ОБЩИЙ КОНТЕЙНЕР ДЛЯ ФОРМЫ И СЕРДЕЧКА -->
-        <div class="product-actions-container">
-          <form action="{% url 'basket:basket_add' product.id %}" method="post" class="product_form">
-            {% csrf_token %}
-            
-            <!-- Лейбл "Количество:" -->
-            <span class="quantity-label">Количество:</span>
-
-            <!-- Строка с количеством -->
-            <div class="quantity-group">
-              <div class="quantity_box">
-                <button type="button" class="quantity_btn minus">−</button>
-                <input type="number" name="quantity" value="1" min="1" max="20" class="quantity_input" />
-                <button type="button" class="quantity_btn plus">+</button>
-              </div>
-            </div>
-
-            <!-- Кнопка "Добавить в корзину" внутри формы -->
-            <button type="submit" class="buy_button">Добавить в корзину</button>
-          </form>
-
-          <!-- СЕРДЕЧКО ВЫНЕСЕНО ИЗ ФОРМЫ, НО СТОИТ РЯДОМ В ОБЩЕМ КОНТЕЙНЕРЕ -->
-          {% if product.id|slugify in wishlist.wishlist %}
-            <a href="{% url 'wishlist:wishlist_remove' product.id %}" class="wishlist-btn" title="Убрать из избранного">❤️</a>
+      <div class="product-info">
+        <div class="product-info__eyebrow">
+          {% if product.brand %}
+            {{ product.brand.name }}
           {% else %}
-            <a href="{% url 'wishlist:wishlist_add' product.id %}" class="wishlist-btn" title="Добавить в избранное">🤍</a>
+            BASE GUIDE
           {% endif %}
         </div>
+        <h1>{{ product.name }}</h1>
+        <div class="product-status">
+          {% if product.available %}
+            <span class="status-badge status-badge--success"><span class="status-dot"></span>В наличии</span>
+          {% else %}
+            <span class="status-badge status-badge--muted">Нет в наличии</span>
+          {% endif %}
+          <span class="product-code">Код: {{ product.id }}</span>
+        </div>
+        {% if product.brand %}
+          <div class="brand-link">
+            <span>Бренд</span><strong>{{ product.brand.name }}</strong>
+          </div>
+        {% endif %}
+        <div class="product-characteristics">
+          <dl>
+            {% if product.smartphone %}
+              <div>
+                <dt>Тип экрана:</dt><dd>{{ product.smartphone.display_type }}</dd>
+              </div>
+              <div>
+                <dt>Диагональ дисплея:</dt><dd>{{ product.smartphone.display_size }}</dd>
+              </div>
+              <div>
+                <dt>Модель процессора:</dt><dd>{{ product.smartphone.processor }}</dd>
+              </div>
+              <div>
+                <dt>Основная камера:</dt><dd>{{ product.smartphone.main_camera }}</dd>
+              </div>
+              <div>
+                <dt>Ёмкость аккумулятора:</dt><dd>{{ product.smartphone.battery_capacity }}</dd>
+              </div>
+            {% elif product.headphone %}
+              <div>
+                <dt>Тип подключения:</dt><dd>{{ product.headphone.connection_type }}</dd>
+              </div>
+              <div>
+                <dt>Шумоподавление (ANC):</dt>
+                <dd>
+                  {% if product.headphone.noise_cancellation %}
+                    Да
+                  {% else %}
+                    Нет
+                  {% endif %}
+                </dd>
+              </div>
+              <div>
+                <dt>Время автономной работы:</dt><dd>{{ product.headphone.battery_autonomy }}</dd>
+              </div>
+              <div>
+                <dt>Версия Bluetooth:</dt><dd>{{ product.headphone.bluetooth_version }}</dd>
+              </div>
+            {% elif product.charger %}
+              <div>
+                <dt>Мощность:</dt><dd>{{ product.charger.power }}</dd>
+              </div>
+              <div>
+                <dt>Поддержка быстрой зарядки:</dt><dd>
+                  {% if product.charger.fast_charging %}
+                    Да
+                  {% else %}
+                    Нет
+                  {% endif %}
+                </dd>
+              </div>
+              <div>
+                <dt>Количество портов:</dt><dd>{{ product.charger.ports_count }}</dd>
+              </div>
+            {% elif product.cable %}
+              <div>
+                <dt>Длина кабеля:</dt><dd>{{ product.cable.length }}</dd>
+              </div>
+              <div>
+                <dt>Разъем 1:</dt><dd>{{ product.cable.connector_from }}</dd>
+              </div>
+              <div>
+                <dt>Разъем 2:</dt><dd>{{ product.cable.connector_to }}</dd>
+              </div>
+            {% elif product.powerbank %}
+              <div>
+                <dt>Ёмкость повербанка:</dt><dd>{{ product.powerbank.capacity }}</dd>
+              </div>
+              <div>
+                <dt>Количество портов:</dt><dd>{{ product.powerbank.ports_count }}</dd>
+              </div>
+              <div>
+                <dt>Поддержка быстрой зарядки:</dt><dd>
+                  {% if product.powerbank.fast_charging %}
+                    Да
+                  {% else %}
+                    Нет
+                  {% endif %}
+                </dd>
+              </div>
+              <div>
+                <dt>Выходная мощность (Вт):</dt><dd>{{ product.powerbank.power_output }}</dd>
+              </div>
+            {% endif %}
+            {% if product.color %}
+              <div>
+                <dt>Цвет</dt><dd>{{ product.color }}</dd>
+              </div>
+            {% endif %}
+          </dl>
+        </div>
       </div>
+
+      <aside class="purchase-card">
+        <div class="purchase-card__price">
+          {% if product.discount_percent > 0 %}
+            <div class="purchase-card__old-price">{{ product.price }} грн</div>
+            <div class="purchase-card__price-row">
+              <strong>{{ product.get_discounted_price }} грн</strong><span>−{{ product.discount_percent }}%</span>
+            </div>
+            <div class="purchase-card__saving">Экономия {{ product.get_discount_amount }} грн</div>
+          {% else %}
+            <strong>{{ product.price }} грн</strong>
+          {% endif %}
+        </div>
+
+        {% if product.available and product.stock > 0 %}
+          <form action="{% url 'basket:basket_add' product.id %}" method="post" class="product-form">
+            {% csrf_token %}
+            <label class="field-label" for="product-quantity">Количество</label>
+            <div class="purchase-card__quantity">
+              <div class="quantity-box">
+                <button type="button" class="quantity-btn minus" aria-label="Уменьшить количество">−</button><input id="product-quantity" type="number" name="quantity" value="1" min="1" max="{{ product.stock|default:20 }}" class="quantity-input" aria-label="Количество" /><button type="button" class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+              </div>
+              <a href="{% url 'wishlist:wishlist_add' product.id %}" class="wishlist-btn" title="Добавить в избранное" aria-label="Добавить в избранное">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 20.2 4.9 13.4A5.2 5.2 0 0 1 12 5.9a5.2 5.2 0 0 1 7.1 7.5L12 20.2Z" stroke="currentColor" stroke-width="1.7" />
+                </svg>
+              </a>
+            </div>
+            <button type="submit" class="btn btn--primary btn--large btn--full">
+              Добавить в корзину<svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path d="M4 5h2l1.2 9.1a2 2 0 0 0 2 1.9h7.6a2 2 0 0 0 2-1.7L20 8H7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </form>
+        {% else %}
+          <div class="out-of-stock">Товар временно недоступен</div>
+        {% endif %}
+
+        <div class="purchase-benefits">
+          <div class="purchase-benefit">
+            <span class="purchase-benefit__icon">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path d="M3 7h11v10H3zM14 10h3l4 4v3h-7zM7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM18 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+              </svg>
+            </span><span><strong>Доставка</strong><small>по тарифам перевозчика</small></span>
+          </div>
+          <div class="purchase-benefit">
+            <span class="purchase-benefit__icon">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path d="m5 12 4 4L19 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span><span><strong>Гарантия</strong><small>проверяем товар перед отправкой</small></span>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    {% if related_products %}
+      <section class="related-products">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Вам может понравиться</span><h2>Похожие товары</h2>
+          </div>
+        </div>
+        <div class="product-grid product-grid--related">
+          {% for item in related_products %}
+            {% include 'main/product/_card.html' with product=item %}
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+  </section>
+
+  <div id="imageModal" class="image-modal" style="display:none" aria-hidden="true">
+    <div class="image-modal__content">
+      <button type="button" class="image-modal__close" id="closeImageModal" aria-label="Закрыть">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+          <path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+        </svg>
+      </button>
+      <button type="button" class="image-modal__nav image-modal__nav--prev" id="modalImagePrev" aria-label="Предыдущее фото" hidden>
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+          <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <div class="image-modal__wrapper">
+        <img src="{% if gallery %}
+            {{ gallery.0.url }}
+          {% elif product.image %}
+            {{ product.image.url }}
+          {% else %}
+            {% static 'img/no-image.png' %}
+          {% endif %}"
+          alt="{{ product.name }}"
+          id="modalImg" />
+      </div>
+      <button type="button" class="image-modal__nav image-modal__nav--next" id="modalImageNext" aria-label="Следующее фото" hidden>
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+          <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
     </div>
   </div>
+{% endblock %}
+{% block extra_js %}
 
-{% if related_products %}
-    <div class="related_products_container">
-      <h2 class="related_title">Похожие товары</h2>
-      <div class="related_grid">
-        {% for item in related_products %}
-          <div class="related_card">
-            <a href="{{ item.get_absolute_url }}">
-              {% if item.image %}
-                <img src="{{ item.image.url }}" alt="{{ item.name }}" />
-              {% else %}
-                <img src="{% static 'img/no_image.png' %}" alt="Нет изображения" />
-              {% endif %}
-            </a>
-            <div class="related_info">
-              <h3>{{ item.name }}</h3>
-              <p>{{ item.price }} грн.</p>
-            </div>
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-  {% endif %}
 {% endblock %}

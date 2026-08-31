@@ -1,39 +1,49 @@
-document.addEventListener("DOMContentLoaded", function () {
-  // Элементы каталога
-  const catalogDropdown = document.querySelector(".catalog_dropdown");
-  const catalogBtn = document.querySelector(".catalog_btn") || document.getElementById("catalogBtn");
-  const catalogMenu = document.querySelector(".catalog_menu");
+document.addEventListener("DOMContentLoaded", () => {
+  const catalogDropdown = document.querySelector(".catalog-dropdown");
+  const catalogBtn = document.querySelector(".catalog-btn");
+  const catalogMenu = document.querySelector(".catalog-menu");
 
-  // Элементы сортировки
-  const sortDropdown = document.querySelector(".sort_dropdown");
-  const sortBtn = document.querySelector(".sort_btn") || document.getElementById("sortBtn");
-  const sortMenu = document.querySelector(".sort_menu");
+  const sortDropdown = document.querySelector(".sort-dropdown");
+  const sortBtn = document.querySelector(".sort-btn");
+  const sortMenu = document.querySelector(".sort-menu");
 
-  // Открытие/закрытие каталога
-  if (catalogBtn && catalogMenu) {
-    catalogBtn.addEventListener("click", function (e) {
-      e.stopPropagation();
-      catalogMenu.classList.toggle("is-open");
-      if (sortMenu) sortMenu.classList.remove("is-open"); // закрываем соседнее меню
-    });
-  }
+  const closeMenu = (menu, button) => {
+    if (!menu) return;
+    menu.classList.remove("is-open");
+    if (button) button.setAttribute("aria-expanded", "false");
+  };
 
-  // Открытие/закрытие сортировки
-  if (sortBtn && sortMenu) {
-    sortBtn.addEventListener("click", function (e) {
-      e.stopPropagation();
-      sortMenu.classList.toggle("is-open");
-      if (catalogMenu) catalogMenu.classList.remove("is-open"); // закрываем соседнее меню
-    });
-  }
+  const toggleMenu = (menu, button, otherMenu, otherButton) => {
+    if (!menu || !button) return;
+    const willOpen = !menu.classList.contains("is-open");
+    closeMenu(otherMenu, otherButton);
+    menu.classList.toggle("is-open", willOpen);
+    button.setAttribute("aria-expanded", String(willOpen));
+  };
 
-  // Закрытие обоих меню при клике в любое место вне их
-  document.addEventListener("click", function (e) {
-    if (catalogDropdown && !catalogDropdown.contains(e.target)) {
-      if (catalogMenu) catalogMenu.classList.remove("is-open");
+  catalogBtn?.addEventListener("click", (event) => {
+    event.stopPropagation();
+    toggleMenu(catalogMenu, catalogBtn, sortMenu, sortBtn);
+  });
+
+  sortBtn?.addEventListener("click", (event) => {
+    event.stopPropagation();
+    toggleMenu(sortMenu, sortBtn, catalogMenu, catalogBtn);
+  });
+
+  document.addEventListener("click", (event) => {
+    if (catalogDropdown && !catalogDropdown.contains(event.target)) {
+      closeMenu(catalogMenu, catalogBtn);
     }
-    if (sortDropdown && !sortDropdown.contains(e.target)) {
-      if (sortMenu) sortMenu.classList.remove("is-open");
+    if (sortDropdown && !sortDropdown.contains(event.target)) {
+      closeMenu(sortMenu, sortBtn);
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeMenu(catalogMenu, catalogBtn);
+      closeMenu(sortMenu, sortBtn);
     }
   });
 });

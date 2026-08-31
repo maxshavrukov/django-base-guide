@@ -1,165 +1,158 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      {% block title %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111111">
+  <title>{% block title %}BASE GUIDE{% endblock %} — BASE GUIDE</title>
+  <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+<a class="skip-link" href="#main-content">Перейти к содержимому</a>
 
-      {% endblock %}
-    </title>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="{% static 'style.css' %}" />
-    {% block extra_css %}
-
-    {% endblock %}
-  </head>
-  <body>
-    <header>
-      <!-- Верхняя мини-панель -->
-      <div class="topbar">
-        <div class="header_container topbar_content">
-          <nav class="topbar_nav">
-            <a href="{% url 'main:product_list' %}">Главная</a>
-            <a href="{% url 'main:new_products' %}">Новинки</a>
-            <a href="{% url 'main:delivery_and_payment' %}">Доставка и оплата</a>
-            <a href="{% url 'main:contacts' %}">Контакты</a>
-          </nav>
-          <div class="topbar_right">
-            <span>Пн-Вс: 09:00 — 21:00</span>
-            {% if request.user.is_authenticated %}
-              <a href="{% url 'users:profile' %}">Личный кабинет</a>
-              <a href="{% url 'users:logout' %}">Выйти</a>
-            {% else %}
-              <a href="{% url 'users:auth' %}">Войти</a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-
-      <!-- Средняя панель с логотипом -->
-      <div class="header_main">
-        <div class="header_container main_content">
-          <div class="logo_block">
-            <a href="{% url 'main:product_list' %}"><img src="{% static 'img/logo_base_guide.png' %}" alt="Base Guide Logo" class="logo_img" /></a>
-            <span class="logo_subtitle">Интернет-магазин стильных вещей</span>
-          </div>
-          <div class="header_phone">
-            <a href="tel:+380961234567" class="phone_link">+38 (096) 123-45-67</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- ЛИПКАЯ ПАНЕЛЬ: Каталог, Поиск, Навигация, Корзина -->
-      <div class="header_bottom sticky_nav">
-        <div class="header_container bottom_content">
-          <!-- Кнопка Каталога -->
-          <div class="catalog_dropdown">
-            <button class="catalog_btn" id="catalogBtn"><span>☰</span> Каталог товаров</button>
-            <div class="catalog_menu" id="catalogMenu">
-              <a href="{% url 'main:product_list' %}" class="catalog_menu_item">Все товары</a>
-
-              {% for category in categories %}
-                <a href="{% url 'main:product_list_by_category' category.slug %}" class="catalog_menu_item">{{ category.name }}</a>
-              {% endfor %}
-            </div>
-          </div>
-
-          <!-- Поиск -->
-          <form class="search_form" action="{% url 'main:search' %}" method="get">
-            <input type="text" name="q" class="search_input" placeholder="Поиск товара в каталоге" value="{{ request.GET.q }}" />
-            <button type="submit" class="search_btn">🔍</button>
+<header class="site-header">
+  <div class="topbar">
+    <div class="container topbar__inner">
+      <nav class="topbar__nav" aria-label="Дополнительная навигация">
+        <a href="{% url 'main:product_list' %}">Магазин</a>
+        <a href="{% url 'main:new_products' %}">Новинки</a>
+        <a href="{% url 'main:delivery_and_payment' %}">Доставка и оплата</a>
+        <a href="{% url 'main:contacts' %}">Контакты</a>
+      </nav>
+      <div class="topbar__meta">
+        <span class="topbar__hours">Пн–Вс · 09:00–21:00</span>
+        {% if request.user.is_authenticated %}
+          <a href="{% url 'users:profile' %}">Личный кабинет</a>
+          <form method="post" action="{% url 'users:logout' %}" class="header-logout-form">
+            {% csrf_token %}
+            <button type="submit">Выйти</button>
           </form>
-
-          <!-- Навигация -->
-          <nav class="bottom_nav">
-            <a href="{% url 'main:product_list' %}">Все товары</a>
-            <a href="#">Скидки</a>
-          </nav>
-
-          <!-- Корзина -->
-          <div class="header_cart {% if basket|length > 0 %}has-items{% endif %}">
-            <a href="{% url 'basket:basket_detail' %}" class="cart_btn">
-              <div class="cart_icon_wrapper">
-                🛒
-                <span class="cart_count" id="cart-count">{% with total_qty=basket|length %}{% if total_qty > 0 %}{{ total_qty }}{% endif %}{% endwith %}</span>
-              </div>
-              <span class="cart_total" id="cart-total-price">{% with price=basket.get_total_price %}{% if price > 0 %}{{ price }} грн{% endif %}{% endwith %}</span>
-            </a>
-
-            <!-- Выпадающее окно (мини-корзина) по наведению -->
-            <div class="mini-cart-dropdown">
-              <div class="mini-cart-items-list" id="mini-cart-items">
-                {% if basket %}
-                  {% for item in basket %}
-                    <div class="mini-cart-item">
-                      {% if item.product.image %}
-                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="mini-cart-img">
-                      {% else %}
-                        <div class="mini-cart-img" style="background: #eee;"></div>
-                      {% endif %}
-                      <div class="mini-cart-info">
-                        <div class="mini-cart-title" title="{{ item.product.name }}">{{ item.product.name }}</div>
-                        {% if details.discount_percent > 0 %}
-            <div class="cart_summary-discount">
-              <span>Скидка ({{ details.discount_percent }}%):</span>
-              <span class="cart_summary-discount-amount">-{{ details.discount_amount }} грн.</span>
-            </div>
-            {% if details.applied_discounts %}
-              <div class="cart_summary-discount-details">
-                <small>({{ details.applied_discounts|join:', ' }})</small>
-              </div>
-            {% endif %}
-          {% endif %}
-                        <div class="mini-cart-details">{{ item.quantity }} шт. × {{ item.price }} грн</div>
-                      </div>
-                      <!-- Кнопка удаления товара -->
-                       <button type="button" class="mini-cart-remove-btn" data-product_id="{{ item.product.id }}" title="Удалить товар">&times;</button>
-                    </div>
-                  {% endfor %}
-                {% else %}
-                  <p class="empty-cart-msg">Корзина пуста</p>
-                {% endif %}
-              </div>
-
-              <div class="mini-cart-footer" id="mini-cart-footer" {% if not basket %}style="display: none;"{% endif %}>
-                <div class="mini-cart-total-sum">
-                  Итого: <strong id="mini-cart-sum">{{ basket.get_total_price }}</strong> грн
-                </div>
-                <a href="{% url 'basket:basket_detail' %}" class="mini-cart-btn">Перейти в корзину</a>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-    </header>
-
-    <section class="content">
-      {% block content %}
-
-      {% endblock %}
-    </section>
-
-    <footer class="footer">
-      <div class="footer_content-item">
-        <p>&copy; 2026 Shop</p>
-      </div>
-    </footer>
-
-    <script src="{% static 'js/utils.js' %}"></script>
-    <script src="{% static 'js/cartModal.js' %}"></script>
-    <script src="{% static 'js/product-quantity.js' %}"></script>
-    <script src="{% static 'js/bannerSlider.js' %}"></script>
-    <script src="{% static 'js/catalogMenu.js' %}"></script>
-
-    <!-- Всплывающее окно добавления в корзину -->
-    <div id="cartModal" class="cart-modal" style="display: none;">
-      <div class="cart-modal-content">
-        <p>Товар добавлен в корзину!</p>
+        {% else %}
+          <a href="{% url 'users:auth' %}">Войти</a>
+        {% endif %}
       </div>
     </div>
-  </body>
+  </div>
+
+  <div class="header-main">
+    <div class="container header-main__inner">
+      <a href="{% url 'main:product_list' %}" class="brand" aria-label="BASE GUIDE — на главную">
+        <img src="{% static 'img/logo_base_guide.png' %}" alt="BASE GUIDE" class="brand__logo">
+        <span class="brand__tagline">Style · Everyday · Essential</span>
+      </a>
+      <a href="tel:+380961234567" class="header-phone">
+        <span class="header-phone__label">Связаться с нами</span>
+        <strong>+38 (096) 123-45-67</strong>
+      </a>
+    </div>
+  </div>
+
+  <div class="navigation">
+    <div class="container navigation__inner">
+      <div class="catalog-dropdown">
+        <button class="catalog-btn" id="catalogBtn" type="button" aria-expanded="false" aria-controls="catalogMenu">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <span>Каталог</span>
+          <svg class="icon--chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="catalog-menu" id="catalogMenu">
+          <a href="{% url 'main:product_list' %}" class="catalog-menu__item catalog-menu__item--all">
+            <span>Все товары</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="{% url 'main:product_list_by_category' 'smartphones' %}" class="catalog-menu__item"><span>Смартфоны</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="{% url 'main:product_list_by_category' 'headphones' %}" class="catalog-menu__item"><span>Наушники</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="{% url 'main:product_list_by_category' 'chargers' %}" class="catalog-menu__item"><span>Зарядные устройства</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="{% url 'main:product_list_by_category' 'cables' %}" class="catalog-menu__item"><span>Кабели</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="{% url 'main:product_list_by_category' 'powerbanks' %}" class="catalog-menu__item"><span>Повербанки</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <form class="search-form" action="{% url 'main:search' %}" method="get" role="search">
+        <label class="sr-only" for="site-search">Поиск по каталогу</label>
+        <input id="site-search" type="search" name="q" class="search-input" placeholder="Поиск по каталогу…" value="{{ request.GET.q|default:'' }}" autocomplete="off">
+        <button type="submit" class="search-btn" aria-label="Найти">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+      </form>
+
+      <nav class="primary-nav" aria-label="Основная навигация">
+        <a href="{% url 'main:new_products' %}">Новинки</a>
+        <a href="{% url 'main:product_list' %}">Все товары</a>
+      </nav>
+
+      <div class="header-cart {% if basket|length > 0 %}has-items{% endif %}">
+        <a href="{% url 'basket:basket_detail' %}" class="cart-btn" aria-label="Корзина">
+          <span class="cart-btn__icon">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M4 5h2l1.2 9.1a2 2 0 0 0 2 1.9h7.6a2 2 0 0 0 2-1.7L20 8H7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="19" r="1" fill="currentColor"/><circle cx="17" cy="19" r="1" fill="currentColor"/></svg>
+            <span class="cart-count" id="cart-count">{% with total_qty=basket|length %}{% if total_qty > 0 %}{{ total_qty }}{% endif %}{% endwith %}</span>
+          </span>
+          <span class="cart-btn__label">Корзина</span>
+          <span class="cart-total" id="cart-total-price">{% with price=basket.get_total_price %}{% if price > 0 %}{{ price }} грн{% endif %}{% endwith %}</span>
+        </a>
+        <div class="mini-cart-dropdown">
+          <div class="mini-cart__header"><strong>Ваша корзина</strong><span>{% with total_qty=basket|length %}{{ total_qty }}{% endwith %} шт.</span></div>
+          <div class="mini-cart-items-list" id="mini-cart-items">
+            {% if basket %}
+              {% for item in basket %}
+                <div class="mini-cart-item">
+                  {% if item.product.image %}<img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="mini-cart-img">{% else %}<img src="{% static 'img/no-image.png' %}" alt="" class="mini-cart-img">{% endif %}
+                  <div class="mini-cart-info"><div class="mini-cart-title">{{ item.product.name }}</div><div class="mini-cart-details">{{ item.quantity }} шт. × {{ item.price }} грн</div></div>
+                  <button type="button" class="mini-cart-remove-btn" data-product_id="{{ item.product.id }}" title="Удалить товар" aria-label="Удалить {{ item.product.name }}"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+                </div>
+              {% endfor %}
+            {% else %}
+              <div class="mini-cart-empty"><span class="mini-cart-empty__icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M4 5h2l1.2 9.1a2 2 0 0 0 2 1.9h7.6a2 2 0 0 0 2-1.7L20 8H7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><strong>Корзина пуста</strong><span>Добавьте что-нибудь из каталога</span></div>
+            {% endif %}
+          </div>
+          <div class="mini-cart-footer" id="mini-cart-footer" {% if not basket %}style="display:none"{% endif %}>
+            <div class="mini-cart-total"><span>Итого</span><strong><span id="mini-cart-sum">{{ basket.get_total_price }}</span> грн</strong></div>
+            <a href="{% url 'basket:basket_detail' %}" class="btn btn--primary btn--full">Перейти в корзину</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main-content" class="site-main">
+  <div class="container">
+    {% if messages %}
+      <div class="django-messages" aria-live="polite">
+        {% for message in messages %}<div class="django-message django-message--{{ message.tags|default:'info' }}">{{ message }}</div>{% endfor %}
+      </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer__grid">
+    <div class="footer__brand"><img src="{% static 'img/logo_base_guide.png' %}" alt="BASE GUIDE" class="footer__logo"><p>Техника и аксессуары на каждый день.</p></div>
+    <div><h3 class="footer__title">Магазин</h3><a href="{% url 'main:product_list' %}">Все товары</a><a href="{% url 'main:new_products' %}">Новинки</a><a href="{% url 'main:delivery_and_payment' %}">Доставка и оплата</a></div>
+    <div><h3 class="footer__title">Категории</h3><a href="{% url 'main:product_list_by_category' 'smartphones' %}">Смартфоны</a><a href="{% url 'main:product_list_by_category' 'headphones' %}">Наушники</a><a href="{% url 'main:product_list_by_category' 'powerbanks' %}">Повербанки</a></div>
+    <div class="footer__contact"><h3 class="footer__title">Связаться</h3><a href="{% url 'main:contacts' %}">Контакты</a><a href="tel:+380961234567">+38 (096) 123-45-67</a><a href="mailto:support@baseguide.com">support@baseguide.com</a><span>Пн–Вс · 09:00–21:00</span></div>
+  </div>
+  <div class="container footer__bottom"><span>© 2026 BASE GUIDE</span><span>Все права защищены</span></div>
+</footer>
+
+<div id="cartModal" class="cart-modal" style="display:none" aria-live="polite">
+  <div class="cart-modal__icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m5 12 4 4L19 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div><strong>Товар добавлен</strong><span>Корзина обновлена</span></div>
+</div>
+
+<script src="{% static 'js/utils.js' %}"></script>
+<script src="{% static 'js/cartModal.js' %}"></script>
+<script src="{% static 'js/product-quantity.js' %}"></script>
+<script src="{% static 'js/bannerSlider.js' %}"></script>
+<script src="{% static 'js/catalogMenu.js' %}"></script>
+<script src="{% static "js/imageModal.js" %}" defer></script>
+{% block extra_js %}{% endblock %}
+</body>
 </html>

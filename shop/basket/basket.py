@@ -1,164 +1,243 @@
 from decimal import Decimal
+
 from django.conf import settings
+
 from main.models import Product
-from .models import BasketItem  # Модель в БД
+from .models import BasketItem
+
 
 class Basket:
+    MAX_QUANTITY = 20
+
     def __init__(self, request):
         self.session = request.session
-        self.request = request  # Сохраняем request для проверки пользователя и скидок
+        self.request = request
         self.user = request.user if request.user.is_authenticated else None
-        
+
         if not self.user:
             basket = self.session.get(settings.BASKET_SESSION_ID)
-            if not basket:
-                basket = self.session[settings.BASKET_SESSION_ID] = {}
+            if basket is None:
+                basket = {}
+                self.session[settings.BASKET_SESSION_ID] = basket
             self.basket = basket
-    
-    def add(self, product, quantity=1, override_quantity=False):
-        product_id = str(product.id)
-        
-        if self.user:
-            # Сохранение в базу данных для авторизованного
-            basket_item, created = BasketItem.objects.get_or_create(
-                user=self.user, 
-                product=product,
-                defaults={'quantity': 0} # Указываем 0, чтобы get_or_create не подставлял default=1 раньше времени
-            )
-            
-            if created:
-                # Если товара еще не было в БД, устанавливаем переданное количество
-                basket_item.quantity = quantity
-            else:
-                # Если товар уже был в базе
-                if override_quantity:
-                    basket_item.quantity = quantity
-                else:
-                    basket_item.quantity += quantity
-            basket_item.save()
-        else:
-            # Сохранение в сессию для гостя (здесь у вас всё работало верно)
-            if product_id not in self.basket:
-                self.basket[product_id] = {
-                    'quantity': 0, 
-                    'price': str(product.price)
-                }
 
-            if override_quantity:
-                self.basket[product_id]['quantity'] = quantity
+    def add(self, product, quantity=1, override_quantity=False):
+        quantity = int(quantity)
+        product_id = str(product.id)
+
+        if self.user:
+            basket_item, created = BasketItem.objects.get_or_create(
+                user=self.user,
+                product=product,
+                defaults={'quantity': 0},
+            )
+
+            if override_quantity or created:
+                new_quantity = quantity
             else:
-                self.basket[product_id]['quantity'] += quantity
-            self.save()
-    
+                new_quantity = basket_item.quantity + quantity
+
+            new_quantity = max(0, min(new_quantity, self.MAX_QUANTITY))
+
+            if new_quantity == 0:
+                basket_item.delete()
+            else:
+                basket_item.quantity = new_quantity
+                basket_item.save(update_fields=['quantity'])
+            return
+
+        if product_id not in self.basket:
+            self.basket[product_id] = {
+                'quantity': 0,
+                # For guests keep the base price snapshot; current Product.discount
+                # is applied dynamically when the basket is rendered/calculated.
+                'price': str(product.price),
+            }
+
+        if override_quantity:
+            new_quantity = quantity
+        else:
+            new_quantity = self.basket[product_id]['quantity'] + quantity
+
+        new_quantity = max(0, min(new_quantity, self.MAX_QUANTITY))
+
+        if new_quantity == 0:
+            del self.basket[product_id]
+        else:
+            self.basket[product_id]['quantity'] = new_quantity
+
+        self.save()
+
+    def change_quantity(self, product, delta):
+        """Change quantity consistently for guests and authenticated users."""
+        delta = int(delta)
+
+        if self.user:
+            item = BasketItem.objects.filter(
+                user=self.user,
+                product=product,
+            ).first()
+            if not item:
+                return
+
+            new_quantity = max(0, min(item.quantity + delta, self.MAX_QUANTITY))
+            if new_quantity == 0:
+                item.delete()
+            else:
+                item.quantity = new_quantity
+                item.save(update_fields=['quantity'])
+            return
+
+        product_id = str(product.id)
+        if product_id not in self.basket:
+            return
+
+        new_quantity = max(
+            0,
+            min(self.basket[product_id]['quantity'] + delta, self.MAX_QUANTITY),
+        )
+
+        if new_quantity == 0:
+            del self.basket[product_id]
+        else:
+            self.basket[product_id]['quantity'] = new_quantity
+
+        self.save()
+
     def save(self):
-        # Помечаем сессию как измененную, чтобы Django сохранил её
         self.session.modified = True
-    
+
     def remove(self, product):
         product_id = str(product.id)
-        
+
         if self.user:
             BasketItem.objects.filter(user=self.user, product=product).delete()
-        else:
-            if product_id in self.basket:
-                del self.basket[product_id]
-                self.save()
-    
-    def __iter__(self):
-        """
-        Перебирает товары в корзине с сохранением порядка их добавления 
-        и подтягивает актуальные объекты Product из базы данных.
-        """
-        if self.user:
-            basket_items = BasketItem.objects.filter(user=self.user).select_related('product')
-            for item in basket_items:
-                yield {
-                    'product': item.product,
-                    'quantity': item.quantity,
-                    'price': item.product.price,
-                    'total_price': item.product.price * item.quantity
-                }
-        else:
-            product_ids = self.basket.keys()
-            products = Product.objects.filter(id__in=product_ids)
-            
-            # Создаем словарь для быстрого поиска товаров
-            product_map = {str(p.id): p for p in products}
+        elif product_id in self.basket:
+            del self.basket[product_id]
+            self.save()
 
-            for product_id in product_ids:
-                if product_id in product_map:
-                    # Создаем копию словаря из сессии, чтобы не мутировать оригинал
-                    item = self.basket[product_id].copy()
-                    item['product'] = product_map[product_id]
-                    item['price'] = Decimal(item['price'])
-                    item['total_price'] = item['price'] * item['quantity']
-                    yield item
+    @staticmethod
+    def _product_price(product):
+        """Current selling price after the product-specific discount."""
+        return product.get_discounted_price()
+
+    def __iter__(self):
+        if self.user:
+            basket_items = (
+                BasketItem.objects
+                .filter(user=self.user)
+                .select_related('product', 'product__brand')
+                .order_by('created_at', 'id')
+            )
+            for item in basket_items:
+                product = item.product
+                price = self._product_price(product)
+                yield {
+                    'product': product,
+                    'quantity': item.quantity,
+                    'price': price,
+                    'original_price': product.price,
+                    'product_discount_percent': product.discount_percent,
+                    'product_discount_amount': product.get_discount_amount(),
+                    'total_price': price * item.quantity,
+                }
+            return
+
+        product_ids = list(self.basket.keys())
+        if not product_ids:
+            return
+
+        products = Product.objects.filter(id__in=product_ids).select_related('brand')
+        product_map = {str(product.id): product for product in products}
+
+        for product_id in product_ids:
+            product = product_map.get(product_id)
+            if not product:
+                continue
+
+            quantity = self.basket[product_id]['quantity']
+            price = self._product_price(product)
+            yield {
+                'product': product,
+                'quantity': quantity,
+                'price': price,
+                'original_price': product.price,
+                'product_discount_percent': product.discount_percent,
+                'product_discount_amount': product.get_discount_amount(),
+                'total_price': price * quantity,
+            }
 
     def __len__(self):
         if self.user:
-            items = BasketItem.objects.filter(user=self.user)
-            return sum(item.quantity for item in items)
+            return sum(
+                item.quantity
+                for item in BasketItem.objects.filter(user=self.user).only('quantity')
+            )
         return sum(item['quantity'] for item in self.basket.values())
-    
+
     def get_subtotal_price(self):
-        """Сумма без учета скидок"""
-        if self.user:
-            items = BasketItem.objects.filter(user=self.user).select_related('product')
-            total = sum((item.product.price * item.quantity for item in items), Decimal('0.00'))
-        else:
-            total = sum((Decimal(item['price']) * item['quantity'] for item in self.basket.values()), Decimal('0.00'))
-        
+        """Full catalogue price before product- and promotion-level discounts."""
+        total = Decimal('0.00')
+        for item in self:
+            total += item['original_price'] * item['quantity']
+        return total.quantize(Decimal('0.01'))
+
+    def get_product_discount_amount(self):
+        """Total discount coming from Product.discount values."""
+        total = Decimal('0.00')
+        for item in self:
+            total += item['product_discount_amount'] * item['quantity']
         return total.quantize(Decimal('0.01'))
 
     def _get_discount_data(self):
-        """Вспомогательный метод для расчета скидок (избегаем дублирования кода)"""
         total_quantity = len(self)
         discount_percent = 0
         applied_discounts = []
-        
-        # Акция 1: Скидка при покупке от 3 товаров
+
         if total_quantity >= 3:
             discount_percent += 10
             applied_discounts.append('10% от 3 товаров')
-            
-        # Акция 2: Скидка для авторизованных пользователей
-        if self.request.user.is_authenticated:
+
+        if self.user:
             discount_percent += 5
             applied_discounts.append('5% за регистрацию')
-            
-        # Ограничение максимальной скидки (например, не более 25%)
+
         discount_percent = min(discount_percent, 25)
         return discount_percent, applied_discounts
 
     def get_discount_percentage(self):
-        """Возвращает общий процент скидки"""
-        percent, _ = self._get_discount_data()
-        return percent
+        return self._get_discount_data()[0]
 
     def get_basket_details(self):
-        """Возвращает детальную информацию о суммах, процентах и примененных скидках"""
         subtotal = self.get_subtotal_price()
-        discount_percent, applied_discounts = self._get_discount_data()
-        
-        # Считаем сумму скидки
-        discount_amount = (subtotal * Decimal(discount_percent) / Decimal(100)).quantize(Decimal('0.01'))
-        total_price = (subtotal - discount_amount).quantize(Decimal('0.01')) # <--- И здесь тоже
-        
+        product_discount_amount = self.get_product_discount_amount()
+        after_product_discount = subtotal - product_discount_amount
+
+        promo_percent, applied_discounts = self._get_discount_data()
+        promo_discount_amount = (
+            after_product_discount * Decimal(promo_percent) / Decimal('100')
+        ).quantize(Decimal('0.01'))
+
+        total_discount_amount = (
+            product_discount_amount + promo_discount_amount
+        ).quantize(Decimal('0.01'))
+        total_price = (subtotal - total_discount_amount).quantize(Decimal('0.01'))
+
         return {
             'subtotal': subtotal,
-            'discount_percent': discount_percent,
-            'discount_amount': discount_amount,
+            'product_discount_amount': product_discount_amount,
+            'promo_discount_percent': promo_percent,
+            'promo_discount_amount': promo_discount_amount,
+            'discount_percent': promo_percent,
+            'discount_amount': total_discount_amount,
             'total_price': total_price,
             'applied_discounts': applied_discounts,
         }
 
     def get_total_price(self):
-        """Итоговая сумма с учетом всех скидок"""
-        details = self.get_basket_details()
-        return details['total_price']
-    
+        return self.get_basket_details()['total_price']
+
     def clear(self):
-        """Безопасная очистка корзины"""
         if self.user:
             BasketItem.objects.filter(user=self.user).delete()
         else:
