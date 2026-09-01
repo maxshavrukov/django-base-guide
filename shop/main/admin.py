@@ -10,6 +10,7 @@ from .models import (
     Headphone,
     PowerBank,
     Product,
+    ProductGroup,
     ProductImage,
     Smartphone,
 )
@@ -32,7 +33,7 @@ class CustomDiscountForm(forms.Form):
     )
 
 
-@admin.action(description="Установить свою скидку для выбранных товаров")
+@admin.action(description="Установить скидку для выбранных товаров")
 def set_custom_discount(modeladmin, request, queryset):
     if "apply" in request.POST:
         form = CustomDiscountForm(request.POST)
@@ -88,6 +89,16 @@ class BrandAdmin(admin.ModelAdmin):
 class SmartphoneAdmin(CommonProductAdminMixin, admin.ModelAdmin):
     fieldsets = (
         (
+            "Группа и цвет",
+            {
+                "fields": (
+                    "group",
+                    "color",
+                    "color_code",
+                )
+            },
+        ),
+        (
             "Основная информация",
             {
                 "fields": (
@@ -96,7 +107,6 @@ class SmartphoneAdmin(CommonProductAdminMixin, admin.ModelAdmin):
                     "slug",
                     "image",
                     "description",
-                    "color",
                     "price",
                     "discount",
                     "stock",
@@ -199,3 +209,25 @@ class BannerAdmin(admin.ModelAdmin):
     list_editable = ("is_active",)
     list_filter = ("is_active",)
     search_fields = ("title", "subtitle")
+
+
+class ProductInline(admin.TabularInline):
+    model = Product
+    fields = ("name", "color", "color_code", "price", "stock", "available")
+    readonly_fields = ("name", "color", "color_code", "price", "stock", "available")
+    extra = 0
+    show_change_link = True
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(ProductGroup)
+class ProductGroupAdmin(admin.ModelAdmin):
+    list_display = ("name", "get_products_count")
+    search_fields = ("name",)
+    inlines = [ProductInline]
+
+    @admin.display(description="Количество товаров")
+    def get_products_count(self, obj):
+        return obj.products.count()

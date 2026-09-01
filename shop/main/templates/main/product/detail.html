@@ -49,48 +49,12 @@
                 data-image-alt="{{ image.alt|escape }}"
                 aria-label="Фото {{ forloop.counter }}"
                 aria-current="{% if forloop.first %}
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
+                                  
                   true
-
-
-
-
-
-
-
-
-
 
                 {% else %}
                   
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
                   false
-
-
-
-
-
-
-
-
-
 
                 {% endif %}">
                 <img src="{{ image.url }}" alt="" loading="lazy" />
@@ -213,6 +177,23 @@
               </div>
             {% endif %}
           </dl>
+          {% if product.group and product.get_variants.count > 1 %}
+            <div class="product-variants">
+              <span class="product-variants__title">Доступные цвета:</span>
+
+              <div class="product-variants__list">
+                {% for variant in product.get_variants %}
+                  <a href="{{ variant.get_absolute_url }}" class="variant-badge {% if variant.id == product.id %}variant-badge--active{% endif %}" title="{{ variant.color }}">
+                    {% if variant.color_code %}
+                      <span class="variant-badge__color" style="background-color: {{ variant.color_code }};"></span>
+                    {% endif %}
+
+                    <span class="variant-badge__name">{{ variant.color }}</span>
+                  </a>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
         </div>
       </div>
 

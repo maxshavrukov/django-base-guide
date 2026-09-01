@@ -18,6 +18,20 @@ class Brand(models.Model):
     def get_absolute_url(self):
         return reverse("main:product_list_by_category", args=[self.slug])
 
+class ProductGroup(models.Model):
+    name = models.CharField(
+        max_length=255, 
+        verbose_name="Название серии / линейки",
+        help_text="Например: Samsung Galaxy S26 или Sony WH-CH720N"
+    )
+
+    class Meta:
+        verbose_name = "Группа товаров"
+        verbose_name_plural = "Группы товаров"
+
+    def __str__(self):
+        return self.name
+
 # Базовый класс для ВСЕХ товаров (общие поля)
 class Product(models.Model):
     brand = models.ForeignKey(Brand, related_name='products', on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Бренд")
@@ -36,6 +50,22 @@ class Product(models.Model):
     )
     stock = models.PositiveIntegerField(default=0, verbose_name="Количество на складе")
     available = models.BooleanField(default=True, verbose_name="Доступно")
+
+    group = models.ForeignKey(
+        ProductGroup,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="products",
+        verbose_name="Группа товаров",
+        help_text="Выберите серию, к которой относится данный товар"
+    )
+    color_code = models.CharField(
+        max_length=7,
+        blank=True,
+        verbose_name="HEX-код цвета",
+        help_text="Например: #000000 для черного, #FFFFFF для белого"
+    )
 
     @property
     def discount_percent(self):
@@ -64,6 +94,12 @@ class Product(models.Model):
             "powerbank": "Повербанки",
         }
         return mapping.get(self.__class__.__name__.lower(), "Товары")
+
+    def get_variants(self):
+        "Возвращает все активные товары из текущей группы"
+        if self.group:
+            return self.group.products.filter(available=True)
+        return Product.objects.none()
 
     def get_absolute_url(self):
         return reverse('main:product_detail', args=[self.id, self.slug])
