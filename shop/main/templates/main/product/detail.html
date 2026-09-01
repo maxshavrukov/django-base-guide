@@ -1,20 +1,24 @@
 {% extends 'main/base.html' %}
 {% load static %}
+
 {% block title %}
   {{ product.name }}
 {% endblock %}
+
 {% block content %}
   <section class="product-page">
-    <nav class="breadcrumbs" aria-label="Хлебные крошки">
-      <a href="{% url 'main:product_list' %}">Главная</a>
-      <span>/</span>
+    <!-- Хлебные крошки -->
+    <nav class="breadcrumbs" style="margin-bottom: 20px;">
+      <a href="{% url 'main:product_list' %}">Главная</a> —
       {% if category_slug %}
-        <a href="{% url 'main:product_list_by_category' category_slug %}">{{ category_name }}</a>
-      {% else %}
-        <span>{{ category_name }}</span>
+        <a href="{% url 'main:product_list_by_category' category_slug %}">{{ category_name }}</a> —
       {% endif %}
-      <span>/</span>
-      <span class="breadcrumbs__current">{{ product.name }}</span>
+
+      {% if product.group %}
+        <a href="{{ product.group.get_absolute_url }}">{{ product.group.name }}</a> —
+      {% endif %}
+
+      <span>{{ product.name }}</span>
     </nav>
 
     <div class="product-detail">
@@ -48,15 +52,7 @@
                 data-image-url="{{ image.url }}"
                 data-image-alt="{{ image.alt|escape }}"
                 aria-label="Фото {{ forloop.counter }}"
-                aria-current="{% if forloop.first %}
-                                  
-                  true
-
-                {% else %}
-                  
-                  false
-
-                {% endif %}">
+                aria-current="{% if forloop.first %}true{% else %}false{% endif %}">
                 <img src="{{ image.url }}" alt="" loading="lazy" />
               </button>
             {% endfor %}
@@ -282,15 +278,7 @@
         </svg>
       </button>
       <div class="image-modal__wrapper">
-        <img src="{% if gallery %}
-            {{ gallery.0.url }}
-          {% elif product.image %}
-            {{ product.image.url }}
-          {% else %}
-            {% static 'img/no-image.png' %}
-          {% endif %}"
-          alt="{{ product.name }}"
-          id="modalImg" />
+        <img src="{% if gallery %}{{ gallery.0.url }}{% elif product.image %}{{ product.image.url }}{% else %}{% static 'img/no-image.png' %}{% endif %}" alt="{{ product.name }}" id="modalImg" />
       </div>
       <button type="button" class="image-modal__nav image-modal__nav--next" id="modalImageNext" aria-label="Следующее фото" hidden>
         <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
@@ -300,6 +288,6 @@
     </div>
   </div>
 {% endblock %}
-{% block extra_js %}
 
+{% block extra_js %}
 {% endblock %}

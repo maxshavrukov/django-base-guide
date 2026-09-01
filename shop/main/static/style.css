@@ -448,6 +448,7 @@ button { cursor: pointer; }
 
 .brand-strip {
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 18px;
   margin-bottom: 35px;
@@ -462,18 +463,144 @@ button { cursor: pointer; }
   letter-spacing: .12em;
   text-transform: uppercase;
 }
-.brands-scroll { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+.brands-scroll {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 4px 2px;
+}
 .brands-scroll::-webkit-scrollbar { display: none; }
+
+/* Плашка бренда */
 .brand-chip {
   flex: 0 0 auto;
-  padding: 7px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 8px 18px;
   border: 1px solid var(--border);
-  border-radius: 99px;
+  border-radius: 12px; /* Прямоугольные закругленные карточки смотрятся под логотипы лучше пилюль */
   background: var(--surface);
-  font-size: 12px;
-  transition: background var(--ease), color var(--ease), border-color var(--ease);
+  text-decoration: none;
+  color: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
-.brand-chip:hover { border-color: #111; background: #111; color: #fff; }
+/* Hover-эффект */
+.brand-chip:hover {
+  border-color: #111;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Настройки иконки/SVG */
+.brand-chip__icon {
+  height: 30px;
+  max-height: 45px;
+  width: auto;
+  max-width: 130px;
+  object-fit: contain;
+  /* Приглушаем все логотипы, чтобы они выглядели в едином стиле */
+  filter: grayscale(100%) opacity(0.6);
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.brand-chip:hover .brand-chip__icon {
+  filter: grayscale(0%) opacity(1); /* Проявляем оригинальный цвет SVG */
+  transform: scale(1.05);
+}
+
+/* Активный выбранный бренд */
+.brand-chip.active {
+  border-color: #111;
+  background: #111;
+  color: #fff;
+}
+
+.brand-chip.active .brand-chip__icon {
+  /* Делает любой логотип полностью белым для контраста с темным фоном */
+  filter: brightness(0) invert(1) opacity(1); 
+}
+
+.catalog-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr; /* 260px под фильтр, остальное под товары */
+  gap: 30px;
+  align-items: start;
+}
+
+.catalog-sidebar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  position: sticky;
+  top: 20px; /* Сайдбар будет зафиксирован при скролле */
+}
+
+.filter-block {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.filter-block__title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.price-inputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.price-inputs input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.filter-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-apply {
+  width: 100%;
+  padding: 10px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-reset {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: underline;
+}
 
 .catalog-section { margin-top: 34px; }
 .catalog-section--secondary { margin-top: 45px; padding-bottom: 10px; }
@@ -981,6 +1108,7 @@ button { cursor: pointer; }
 }
 
 @media (max-width: 860px) {
+  .catalog-layout{ grid-template-columns: 1fr; }
   .topbar__nav { display: none; }
   .header-phone { display: none; }
   .navigation__inner { flex-wrap: wrap; padding: 10px 0; }

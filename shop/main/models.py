@@ -6,6 +6,12 @@ from django.urls import reverse
 class Brand(models.Model):
     name = models.CharField(max_length=100, unique=True, verbose_name="Бренд")
     slug = models.SlugField(max_length=100, unique=True)
+    logo = models.FileField(
+        upload_to="brands/", 
+        blank=True, 
+        null=True, 
+        verbose_name="Логотип (SVG/PNG)"
+    )
 
     class Meta:
         ordering = ('name',)
@@ -16,14 +22,11 @@ class Brand(models.Model):
         return self.name
     
     def get_absolute_url(self):
-        return reverse("main:product_list_by_category", args=[self.slug])
+        return reverse("main:product_list_by_brand", args=[self.slug])
 
 class ProductGroup(models.Model):
-    name = models.CharField(
-        max_length=255, 
-        verbose_name="Название серии / линейки",
-        help_text="Например: Samsung Galaxy S26 или Sony WH-CH720N"
-    )
+    name = models.CharField(max_length=255, verbose_name="Название серии / линейки")
+    slug = models.SlugField(max_length=255, unique=True, null=True, blank=True, verbose_name="Slug (URL)")
 
     class Meta:
         verbose_name = "Группа товаров"
@@ -31,6 +34,9 @@ class ProductGroup(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("main:product_list_by_group", args=[self.slug])
 
 # Базовый класс для ВСЕХ товаров (общие поля)
 class Product(models.Model):

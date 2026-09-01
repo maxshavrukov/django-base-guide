@@ -1,114 +1,195 @@
 {% extends 'main/base.html' %}
 {% load static %}
 
-{% block title %}{% if category %}{{ category.name }}{% else %}Каталог{% endif %}{% endblock %}
+{% block title %}
+  {{ category_name|default:"Каталог" }}
+{% endblock %}
 
 {% block content %}
-<section class="catalog-page">
-  {% if banners %}
-    <div class="hero-slider" aria-label="Специальные предложения">
-      <div class="banner-slides">
-        {% for banner in banners %}
-          {% if banner.image %}
-            <a href="{{ banner.link|default:'#' }}" class="banner-slide {% if forloop.first %}active{% endif %}">
-              <img src="{{ banner.image.url }}" alt="{{ banner.title }}" class="banner-img">
-              {% if banner.title or banner.subtitle %}
-                <span class="banner-caption">
-                  {% if banner.title %}<strong>{{ banner.title }}</strong>{% endif %}
-                  {% if banner.subtitle %}<small>{{ banner.subtitle }}</small>{% endif %}
-                </span>
-              {% endif %}
-            </a>
-          {% endif %}
-        {% endfor %}
-      </div>
-      <div class="banner-dots" aria-label="Слайды"></div>
-    </div>
-  {% endif %}
-
-  {% if brands %}
-    <div class="brand-strip">
-      <span class="brand-strip__label">Бренды</span>
-      <div class="brands-scroll">
-        {% for brand in brands %}
-          <a href="?brand={{ brand.id }}" class="brand-chip">{{ brand.name }}</a>
-        {% endfor %}
-      </div>
-    </div>
-  {% endif %}
-
-  {% if recently_viewed_products %}
-    <section class="catalog-section catalog-section--secondary">
-      <div class="section-heading">
-        <div>
-          <span class="eyebrow">Для вас</span>
-          <h2>Вы недавно смотрели</h2>
+  <section class="catalog-page">
+    {% if banners %}
+      <div class="hero-slider" aria-label="Специальные предложения">
+        <div class="banner-slides">
+          {% for banner in banners %}
+            {% if banner.image %}
+              <a href="{{ banner.link|default:'#' }}" class="banner-slide {% if forloop.first %}active{% endif %}">
+                <img src="{{ banner.image.url }}" alt="{{ banner.title }}" class="banner-img" />
+                {% if banner.title or banner.subtitle %}
+                  <span class="banner-caption">
+                    {% if banner.title %}
+                      <strong>{{ banner.title }}</strong>
+                    {% endif %}
+                    {% if banner.subtitle %}
+                      <small>{{ banner.subtitle }}</small>
+                    {% endif %}
+                  </span>
+                {% endif %}
+              </a>
+            {% endif %}
+          {% endfor %}
         </div>
-      </div>
-      <div class="product-grid product-grid--compact">
-        {% for product in recently_viewed_products %}
-          {% include "main/product/_card.html" with product=product %}
-        {% endfor %}
-      </div>
-    </section>
-  {% endif %}
-
-  {% if discounted_products %}
-    <section class="catalog-section catalog-section--secondary">
-      <div class="section-heading">
-        <div>
-          <span class="eyebrow eyebrow--accent">Предложение</span>
-          <h2>Скидки и спецпредложения</h2>
-        </div>
-      </div>
-      <div class="product-grid product-grid--compact">
-        {% for product in discounted_products %}
-          {% include "main/product/_card.html" with product=product show_discount=True %}
-        {% endfor %}
-      </div>
-    </section>
-  {% endif %}
-
-  <section class="catalog-section">
-    <div class="catalog-heading">
-      <div>
-        <span class="eyebrow">Каталог</span>
-        <h1>{% if category %}{{ category.name }}{% else %}Все товары{% endif %}</h1>
-        {% if products %}
-          <span class="catalog-heading__count">{{ products|length }} товаров</span>
-        {% endif %}
-      </div>
-
-      <div class="sort-dropdown">
-        <button class="sort-btn" type="button" id="sortBtn" aria-expanded="false">
-          <span>Сортировка</span>
-          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <div class="sort-menu" id="sortMenu">
-          <a href="?sort=price_asc" class="sort-menu__item">Цена: по возрастанию</a>
-          <a href="?sort=price_desc" class="sort-menu__item">Цена: по убыванию</a>
-          <a href="?sort=name_asc" class="sort-menu__item">Название: А–Я</a>
-          <a href="?sort=name_desc" class="sort-menu__item">Название: Я–А</a>
-        </div>
-      </div>
-    </div>
-
-    {% if not products %}
-      <div class="empty-state">
-        <div class="empty-state__icon">
-          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.7"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-        </div>
-        <h2>Товары не найдены</h2>
-        <p>В этой категории пока нет доступных товаров.</p>
-        <a href="{% url 'main:product_list' %}" class="btn btn--primary">Перейти в каталог</a>
-      </div>
-    {% else %}
-      <div class="product-grid">
-        {% for product in products %}
-          {% include "main/product/_card.html" with product=product %}
-        {% endfor %}
+        <div class="banner-dots" aria-label="Слайды"></div>
       </div>
     {% endif %}
+
+    {% if brands %}
+      <div class="brand-strip">
+        <div class="brands-scroll">
+          {% for brand in brands %}
+            <a href="{{ brand.get_absolute_url }}" class="brand-chip {% if current_brand and current_brand.id == brand.id %}active{% endif %}" title="{{ brand.name }}">
+              {% if brand.logo %}
+                <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="brand-chip__icon" />
+              {% else %}
+                <span class="brand-chip__name">{{ brand.name }}</span>
+              {% endif %}
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    <section class="catalog-section">
+      <div class="catalog-heading">
+        <div>
+          <span class="eyebrow">Каталог</span>
+          <h1>{{ category_name|default:"Все товары" }}</h1>
+          {% if products %}
+            <span class="catalog-heading__count">{{ products|length }} товаров</span>
+          {% endif %}
+        </div>
+
+        <div class="sort-dropdown">
+          <button class="sort-btn" type="button" id="sortBtn" aria-expanded="false">
+            <span>Сортировка</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+          <div class="sort-menu" id="sortMenu">
+            <a href="?sort=price_asc" class="sort-menu__item">Цена: по возрастанию</a>
+            <a href="?sort=price_desc" class="sort-menu__item">Цена: по убыванию</a>
+            <a href="?sort=name_asc" class="sort-menu__item">Название: А–Я</a>
+            <a href="?sort=name_desc" class="sort-menu__item">Название: Я–А</a>
+          </div>
+        </div>
+      </div>
+
+      {% if category_slug or current_group %}
+        <!-- ДВУХКОЛОНОЧНЫЙ РЕЖИМ С САЙДБАРОМ (ДЛЯ КАТЕГОРИЙ И ГРУПП) -->
+        <div class="catalog-layout">
+          
+          <aside class="catalog-sidebar">
+            <form method="get" class="filter-form">
+              
+              {% if request.GET.sort %}
+                <input type="hidden" name="sort" value="{{ request.GET.sort }}">
+              {% endif %}
+
+              <div class="filter-block">
+                <h3 class="filter-block__title">Цена, грн</h3>
+                <div class="price-inputs">
+                  <input type="number" name="price_min" placeholder="От" value="{{ request.GET.price_min }}" min="0">
+                  <span class="price-dash">—</span>
+                  <input type="number" name="price_max" placeholder="До" value="{{ request.GET.price_max }}" min="0">
+                </div>
+              </div>
+
+              <div class="filter-block">
+                <label class="checkbox-label">
+                  <input type="checkbox" name="in_stock" value="1" {% if request.GET.in_stock %}checked{% endif %}>
+                  <span>Только в наличии</span>
+                </label>
+              </div>
+
+              <div class="filter-actions">
+                <button type="submit" class="btn-apply">Применить</button>
+                {% if request.GET.price_min or request.GET.price_max or request.GET.in_stock %}
+                  <a href="{{ request.path }}" class="btn-reset">Сбросить</a>
+                {% endif %}
+              </div>
+
+            </form>
+          </aside>
+
+          <main class="catalog-content">
+            {% if not products %}
+              <div class="empty-state">
+                <div class="empty-state__icon">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                    <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.7" />
+                    <path d="m16 16 4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                  </svg>
+                </div>
+                <h2>Товары не найдены</h2>
+                <p>В этой категории пока нет доступных товаров.</p>
+                <a href="{% url 'main:product_list' %}" class="btn btn--primary">Перейти в каталог</a>
+              </div>
+            {% else %}
+              <div class="product-grid">
+                {% for product in products %}
+                  {% include 'main/product/_card.html' with product=product %}
+                {% endfor %}
+              </div>
+            {% endif %}
+          </main>
+
+        </div>
+
+      {% else %}
+        <!-- ПОЛНОШИРИННЫЙ РЕЖИМ БЕЗ САЙДБАРА (ВСЕ ТОВАРЫ И БРЕНДЫ) -->
+        {% if not products %}
+          <div class="empty-state">
+            <div class="empty-state__icon">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.7" />
+                <path d="m16 16 4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+              </svg>
+            </div>
+            <h2>Товары не найдены</h2>
+            <p>В этой категории пока нет доступных товаров.</p>
+            <a href="{% url 'main:product_list' %}" class="btn btn--primary">Перейти в каталог</a>
+          </div>
+        {% else %}
+          <div class="product-grid">
+            {% for product in products %}
+              {% include 'main/product/_card.html' with product=product %}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+      {% endif %}
+    </section>
+
+    {% if discounted_products %}
+      <section class="catalog-section catalog-section--secondary">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow eyebrow--accent">Предложение</span>
+            <h2>Скидки и спецпредложения</h2>
+          </div>
+        </div>
+        <div class="product-grid product-grid--compact">
+          {% for product in discounted_products %}
+            {% include 'main/product/_card.html' with product=product show_discount=True %}
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+
+    {% if recently_viewed_products %}
+      <section class="catalog-section catalog-section--secondary">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Для вас</span>
+            <h2>Вы недавно смотрели</h2>
+          </div>
+        </div>
+        <div class="product-grid product-grid--compact">
+          {% for product in recently_viewed_products %}
+            {% include 'main/product/_card.html' with product=product %}
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
   </section>
-</section>
 {% endblock %}

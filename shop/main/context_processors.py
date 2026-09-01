@@ -1,4 +1,4 @@
-from .models import Brand
+from .models import Brand, ProductGroup
 
 def categories(request):
     shop_categories = [
@@ -14,3 +14,12 @@ def categories(request):
         'categories': shop_categories,
         'brands': brands,
     }
+
+def catalog_menu(request):
+    # Получаем бренды вместе с их группами товаров за один запрос без проседания FPS
+    groups_by_brand = ProductGroup.objects.prefetch_related('products__brand').all()
+    # Возвращаем сформированное дерево категорий, брендов и серий
+    return {
+        'catalog_tree': ... # сформированное дерево
+    }
+
