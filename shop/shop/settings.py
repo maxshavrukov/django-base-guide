@@ -67,8 +67,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'basket.context_processors.basket',  # Добавляем контекстный процессор корзины
-                'main.context_processors.categories',
-                'main.context_processors.catalog_menu',
+                'main.context_processors.categories', # Добавляем контекстный процессор категорий
+                'main.context_processors.catalog_menu', # Добавляем контекстный процессор каталога
+                'wishlist.context_processors.wishlist',  # Добавляем контекстный процессор списка желаемого
             ],
         },
     },

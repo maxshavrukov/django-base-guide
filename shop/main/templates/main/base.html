@@ -104,7 +104,9 @@
       <nav class="primary-nav" aria-label="Основная навигация">
         <a href="{% url 'main:new_products' %}">Новинки</a>
         <a href="{% url 'main:product_list' %}">Все товары</a>
+        <!-- <a href="{% url 'wishlist:wishlist_detail' %}">Избранное <span class="badge">{{ wishlist|length }}</span></a> -->
       </nav>
+      
 
       <div class="header-cart {% if basket|length > 0 %}has-items{% endif %}">
         <a href="{% url 'basket:basket_detail' %}" class="cart-btn" aria-label="Корзина">

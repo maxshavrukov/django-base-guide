@@ -3,37 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
 from main.models import Product
-from .basket import Basket
 from .forms import BasketAddProductForm
-
-
-def _ajax_payload(basket):
-    items_data = []
-    for item in basket:
-        product = item['product']
-        items_data.append({
-            'product_id': product.id,
-            'name': product.name,
-            'price': str(item['price']),
-            'original_price': str(item['original_price']),
-            'product_discount_percent': item['product_discount_percent'],
-            'quantity': item['quantity'],
-            'total_price': str(item['total_price']),
-            'image_url': product.image.url if product.image else '',
-        })
-
-    details = basket.get_basket_details()
-    return {
-        'status': 'ok',
-        'total_price': str(details['total_price']),
-        'subtotal': str(details['subtotal']),
-        'product_discount_amount': str(details['product_discount_amount']),
-        'promo_discount_percent': details['promo_discount_percent'],
-        'promo_discount_amount': str(details['promo_discount_amount']),
-        'discount_amount': str(details['discount_amount']),
-        'basket_len': len(basket),
-        'items': items_data,
-    }
+from .services.basket import Basket, get_basket_ajax_payload
 
 
 @require_POST
@@ -53,7 +24,7 @@ def basket_add(request, product_id):
         basket.add(product=product, quantity=1)
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        return JsonResponse(_ajax_payload(basket))
+        return JsonResponse(get_basket_ajax_payload(basket))
 
     referer_url = request.META.get('HTTP_REFERER')
     return redirect(referer_url or 'basket:basket_detail')
@@ -66,7 +37,7 @@ def basket_remove(request, product_id):
     basket.remove(product)
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        return JsonResponse(_ajax_payload(basket))
+        return JsonResponse(get_basket_ajax_payload(basket))
 
     return redirect('basket:basket_detail')
 

@@ -1,4 +1,4 @@
-from .basket import Basket
+from basket.services.basket import Basket
 
 def basket(request):
     """
