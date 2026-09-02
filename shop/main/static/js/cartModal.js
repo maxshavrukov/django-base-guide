@@ -19,6 +19,15 @@ document.addEventListener("DOMContentLoaded", () => {
     return response.json();
   }
 
+  const preserveMiniCartOpen = () => {
+    const miniCart = document.getElementById("miniCart");
+    const cartBtn = document.getElementById("cartBtn");
+    if (miniCart && cartBtn && miniCart.classList.contains("is-open")) {
+      miniCart.hidden = false;
+      cartBtn.setAttribute("aria-expanded", "true");
+    }
+  };
+
   document.addEventListener("submit", async (event) => {
     const form = event.target;
     if (!form.matches(".product-form") && !form.action.includes("/basket/add/")) return;
@@ -60,13 +69,16 @@ document.addEventListener("DOMContentLoaded", () => {
           "X-CSRFToken": getCookie("csrftoken"),
         },
       });
-      if (data.status === "ok") updateMiniCartUI(data);
+      if (data.status === "ok") {
+        updateMiniCartUI(data);
+        preserveMiniCartOpen();
+      }
     } catch (error) {
       console.error("Ошибка удаления из корзины:", error);
     }
   });
 
-  function updateMiniCartUI(data) {
+ function updateMiniCartUI(data) {
     const headerCart = document.querySelector(".header-cart");
     if (headerCart) headerCart.classList.toggle("has-items", data.basket_len > 0);
 
@@ -77,20 +89,35 @@ document.addEventListener("DOMContentLoaded", () => {
     if (totalElement) totalElement.textContent = Number(data.total_price) > 0 ? `${data.total_price} грн` : "";
 
     const miniCartSum = document.getElementById("mini-cart-sum");
+    const miniCartSubtotal = document.getElementById("mini-cart-subtotal");
+    const miniCartProductDiscount = document.getElementById("mini-cart-product-discount");
+    const miniCartPromoDiscount = document.getElementById("mini-cart-promo-discount");
+    const miniCartProductDiscountRow = document.getElementById("mini-cart-product-discount-row");
+    const miniCartPromoRow = document.getElementById("mini-cart-promo-row");
+
     if (miniCartSum) miniCartSum.textContent = data.total_price || "0.00";
+    if (miniCartSubtotal) miniCartSubtotal.textContent = data.subtotal || "0.00";
+    if (miniCartProductDiscount) miniCartProductDiscount.textContent = data.product_discount_amount || "0.00";
+    if (miniCartPromoDiscount) miniCartPromoDiscount.textContent = data.promo_discount_amount || "0.00";
+    if (miniCartProductDiscountRow) miniCartProductDiscountRow.hidden = Number(data.product_discount_amount || 0) <= 0;
+    if (miniCartPromoRow) miniCartPromoRow.hidden = Number(data.promo_discount_amount || 0) <= 0;
 
     const itemsList = document.getElementById("mini-cart-items");
-    const footer = document.getElementById("mini-cart-footer");
+    const footer = document.getElementById('mini-cart-footer');
     if (!itemsList) return;
 
     if (data.items && data.items.length) {
-      if (footer) footer.style.display = "block";
+      if (footer) footer.style.display = "";
+
       itemsList.innerHTML = data.items.map((item) => `
         <div class="mini-cart-item">
           ${item.image_url ? `<img src="${item.image_url}" alt="${escapeHtml(item.name)}" class="mini-cart-img">` : `<div class="mini-cart-img"></div>`}
           <div class="mini-cart-info">
             <div class="mini-cart-title" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>
-            <div class="mini-cart-details">${item.quantity} шт. × ${item.price} грн</div>
+            <div class="mini-cart-details">
+              <span>${item.quantity} шт. × ${item.price} грн</span>
+              ${Number(item.product_discount_percent) > 0 ? `<span class="mini-cart-discount">−${item.product_discount_percent}% · было ${item.original_price} грн</span>` : ""}
+            </div>
           </div>
           <button type="button" class="mini-cart-remove-btn" data-product_id="${item.product_id}" title="Удалить товар" aria-label="Удалить товар">
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
@@ -98,6 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>`).join("");
     } else {
       if (footer) footer.style.display = "none";
+
       itemsList.innerHTML = `
         <div class="mini-cart-empty">
           <span class="mini-cart-empty__icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M4 5h2l1.2 9.1a2 2 0 0 0 2 1.9h7.6a2 2 0 0 0 2-1.7L20 8H7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>

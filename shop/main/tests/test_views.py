@@ -65,9 +65,49 @@ class MainViewsTest(TestCase):
         )
         self.assertNotContains(response, self.product.name)
 
+
+    def test_brand_filter_uses_brand_name(self):
+        other_brand = Brand.objects.create(name='Other Brand', slug='other-brand')
+        other_product = Smartphone.objects.create(
+            brand=other_brand,
+            group=self.group,
+            name='Другой смартфон',
+            slug='other-smartphone',
+            price=Decimal('600.00'),
+            available=True,
+            stock=3,
+        )
+        response = self.client.get(
+            reverse('main:product_list_by_category', args=['smartphones']),
+            {'brand': self.brand.name},
+        )
+        self.assertContains(response, self.product.name)
+        self.assertNotContains(response, other_product.name)
+
+    def test_catalog_menu_and_sort_markup(self):
+        response = self.client.get(reverse('main:product_list_by_category', args=['smartphones']))
+        self.assertContains(response, 'catalog-menu--mega')
+        self.assertContains(response, 'catalog-menu__panels')
+        self.assertContains(response, 'data-catalog-switch="smartphones"')
+        self.assertContains(response, 'id="sortMenu"')
+
+    def test_product_detail_does_not_reference_removed_gallery_script(self):
+        url = reverse('main:product_detail', args=[self.product.id, self.product.slug])
+        response = self.client.get(url)
+        self.assertNotContains(response, 'imageGallery.js')
+        self.assertContains(response, 'imageModal.js')
+
+    def test_mini_cart_is_click_controlled(self):
+        response = self.client.get(reverse('main:product_list'))
+        self.assertContains(response, 'id="cartBtn"')
+        self.assertContains(response, 'id="miniCart"')
+        self.assertNotContains(response, 'header-cart.has-items:hover .mini-cart-dropdown')
+
     def test_product_detail_page(self):
         url = reverse('main:product_detail', args=[self.product.id, self.product.slug])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.product.name)
-        self.assertEqual(response.context['variants'][0].id, self.product.id)
+        self.assertEqual(response.context['product'].id, self.product.id)
+        self.assertIn('storage_variants', response.context)
+        self.assertIn('color_variants', response.context)

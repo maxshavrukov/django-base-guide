@@ -5,8 +5,8 @@ from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase, RequestFactory
 from django.contrib.sessions.backends.db import SessionStore
 
-from main.models import Smartphone
-from wishlist.wishlist import Wishlist
+from main.models import Product, Smartphone
+from wishlist.services.wishlist import Wishlist
 
 User = get_user_model()
 
@@ -34,6 +34,23 @@ class WishlistClassTest(TestCase):
         self.assertIn(self.product, list(wishlist))
         wishlist.remove(self.product.id)
         self.assertEqual(len(wishlist), 0)
+
+
+    def test_base_product_without_concrete_child_is_supported(self):
+        base_product = Product.objects.create(
+            name='Базовый товар',
+            slug='base-product',
+            price=Decimal('500.00'),
+            available=True,
+        )
+        request = self.factory.get('/')
+        request.session = SessionStore()
+        request.user = AnonymousUser()
+        wishlist = Wishlist(request)
+        wishlist.add(base_product.id)
+        products = list(wishlist)
+        self.assertEqual(products[0].id, base_product.id)
+        self.assertIs(type(products[0]), Product)
 
     def test_authenticated_wishlist_methods(self):
         request = self.factory.get('/')

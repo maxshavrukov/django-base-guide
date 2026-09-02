@@ -35,7 +35,11 @@ def filter_products(products: list, request) -> tuple[list, str]:
     in_stock = request.GET.get('in_stock') == '1'
 
     if brand_id:
-        products = [p for p in products if str(p.brand_id) == str(brand_id)]
+        brand_value = str(brand_id).strip().casefold()
+        products = [
+            p for p in products
+            if p.brand and p.brand.name.strip().casefold() == brand_value
+        ]
 
     if price_min is not None:
         products = [p for p in products if p.get_discounted_price() >= price_min]

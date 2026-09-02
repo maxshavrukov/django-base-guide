@@ -1,3 +1,5 @@
+from django.core.exceptions import ObjectDoesNotExist
+
 from main.models import Product
 from wishlist.models import WishlistItem
 
@@ -18,7 +20,7 @@ def _concrete_product(product):
     for relation_name in CONCRETE_RELATIONS:
         try:
             return getattr(product, relation_name)
-        except Product.DoesNotExist:
+        except ObjectDoesNotExist:
             continue
 
     return product

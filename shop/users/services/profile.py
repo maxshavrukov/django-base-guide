@@ -7,5 +7,5 @@ def get_user_orders(user) -> QuerySet:
     return (
         Order.objects.filter(user=user)
         .prefetch_related('items__product')
-        .order_by('-created_at')
+        .order_by('-created')
     )
