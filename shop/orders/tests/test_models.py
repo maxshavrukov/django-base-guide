@@ -1,13 +1,11 @@
 from decimal import Decimal
 from django.test import TestCase
-from main.models import Category, Product
+from main.models import Smartphone
 from orders.models import Order, OrderItem
 
 class OrderModelTest(TestCase):
     def setUp(self):
-        self.category = Category.objects.create(name='Техника', slug='tech')
-        self.product = Product.objects.create(
-            category=self.category,
+        self.product = Smartphone.objects.create(
             name='Планшет',
             slug='tablet',
             price=Decimal('5000.00'),

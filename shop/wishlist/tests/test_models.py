@@ -1,7 +1,7 @@
 from decimal import Decimal
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-from main.models import Category, Product
+from main.models import Smartphone
 from wishlist.models import WishlistItem
 
 User = get_user_model()
@@ -9,9 +9,7 @@ User = get_user_model()
 class WishlistItemModelTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='wishuser', password='password123')
-        self.category = Category.objects.create(name='Книги', slug='books')
-        self.product = Product.objects.create(
-            category=self.category,
+        self.product = Smartphone.objects.create(
             name='Python книга',
             slug='python-book',
             price=Decimal('1200.00'),

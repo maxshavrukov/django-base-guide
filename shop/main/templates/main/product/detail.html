@@ -8,17 +8,19 @@
 {% block content %}
   <section class="product-page">
     <!-- Хлебные крошки -->
-    <nav class="breadcrumbs" style="margin-bottom: 20px;">
-      <a href="{% url 'main:product_list' %}">Главная</a> —
+    <nav class="breadcrumbs" aria-label="Хлебные крошки">
+      <a href="{% url 'main:product_list' %}">Главная</a>
       {% if category_slug %}
-        <a href="{% url 'main:product_list_by_category' category_slug %}">{{ category_name }}</a> —
+        <span class="breadcrumbs__separator" aria-hidden="true">/</span>
+        <a href="{% url 'main:product_list_by_category' category_slug %}">{{ category_name }}</a>
       {% endif %}
 
       {% if product.group %}
-        <a href="{{ product.group.get_absolute_url }}">{{ product.group.name }}</a> —
+        <span class="breadcrumbs__separator" aria-hidden="true">/</span>
+        <a href="{{ product.group.get_absolute_url }}">{{ product.group.name }}</a>
       {% endif %}
-
-      <span>{{ product.name }}</span>
+      <span class="breadcrumbs__separator" aria-hidden="true">/</span>
+      <span class="breadcrumbs__current">{{ product.name }}</span>
     </nav>
 
     <div class="product-detail">
@@ -173,12 +175,12 @@
               </div>
             {% endif %}
           </dl>
-          {% if product.group and product.get_variants.count > 1 %}
+          {% if variants|length > 1 %}
             <div class="product-variants">
               <span class="product-variants__title">Доступные цвета:</span>
 
               <div class="product-variants__list">
-                {% for variant in product.get_variants %}
+                {% for variant in variants %}
                   <a href="{{ variant.get_absolute_url }}" class="variant-badge {% if variant.id == product.id %}variant-badge--active{% endif %}" title="{{ variant.color }}">
                     {% if variant.color_code %}
                       <span class="variant-badge__color" style="background-color: {{ variant.color_code }};"></span>
@@ -290,4 +292,5 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="{% static 'js/imageGallery.js' %}"></script>
 {% endblock %}

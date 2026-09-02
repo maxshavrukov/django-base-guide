@@ -1,46 +1,73 @@
 from decimal import Decimal
+
 from django.test import TestCase, Client
 from django.urls import reverse
-from main.models import Category, Product
+
+from main.models import Brand, ProductGroup, Smartphone
+
 
 class MainViewsTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        # Создаем тестового клиента (он заменяет нам браузер)
         cls.client = Client()
-        
-        # Создаем категорию и товар, чтобы страница каталога не была пустой
-        cls.category = Category.objects.create(name='Одежда', slug='clothes')
-        cls.product = Product.objects.create(
-            category=cls.category,
-            name='Футболка',
-            slug='t-shirt',
+        cls.brand = Brand.objects.create(name='Test Brand', slug='test-brand')
+        cls.group = ProductGroup.objects.create(name='Test Series', slug='test-series')
+        cls.product = Smartphone.objects.create(
+            brand=cls.brand,
+            group=cls.group,
+            name='Тестовый смартфон',
+            slug='test-smartphone',
             price=Decimal('500.00'),
-            available=True
+            available=True,
+            stock=3,
         )
 
-    def test_product_list_page(self, ):
-        """Проверяем, что страница каталога/главная открывается успешно"""
-        # Используем reverse для получения URL по имени из urls.py
-        # Обрати внимание: если у тебя главная страница называется иначе (например, 'index' или 'home'), 
-        # поменяй имя в кавычках на то, что прописано в твоих urls.py
-        url = reverse('main:product_list') 
-        response = self.client.get(url)
-        
-        # Проверяем, что страница ответила со статусом 200 (Всё ок)
+    def test_product_list_page(self):
+        response = self.client.get(reverse('main:product_list'))
         self.assertEqual(response.status_code, 200)
-        
-        # Проверяем, что используется правильный HTML-шаблон
         self.assertTemplateUsed(response, 'main/product/list.html')
+        self.assertContains(response, self.product.name)
+
+    def test_category_page(self):
+        response = self.client.get(
+            reverse('main:product_list_by_category', args=['smartphones'])
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.product.name)
+
+    def test_group_page(self):
+        response = self.client.get(
+            reverse('main:product_list_by_group', args=[self.group.slug])
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.product.name)
+
+    def test_brand_page(self):
+        response = self.client.get(
+            reverse('main:product_list_by_brand', args=[self.brand.slug])
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.product.name)
+
+    def test_discounted_price_filter(self):
+        self.product.discount = 20
+        self.product.save(update_fields=['discount'])
+        response = self.client.get(
+            reverse('main:product_list_by_category', args=['smartphones']),
+            {'price_max': '450'},
+        )
+        self.assertContains(response, self.product.name)
+
+    def test_price_filter(self):
+        response = self.client.get(
+            reverse('main:product_list_by_category', args=['smartphones']),
+            {'price_max': '400'},
+        )
+        self.assertNotContains(response, self.product.name)
 
     def test_product_detail_page(self):
-        """Проверяем, что детальная страница конкретного товара открывается успешно"""
-        # Передаем ID и slug товара в reverse
         url = reverse('main:product_detail', args=[self.product.id, self.product.slug])
         response = self.client.get(url)
-        
-        # Проверяем, что страница ответила со статусом 200
         self.assertEqual(response.status_code, 200)
-        
-        # Проверяем, что на странице отображается название товара
         self.assertContains(response, self.product.name)
+        self.assertEqual(response.context['variants'][0].id, self.product.id)

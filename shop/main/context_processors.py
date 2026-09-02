@@ -1,25 +1,25 @@
-from .models import Brand, ProductGroup
+from .constants import PRODUCT_CATEGORIES
+from .models import Brand
+from .services.catalog import get_catalog_tree
+
 
 def categories(request):
-    shop_categories = [
-        {'name': 'Смартфоны', 'slug': 'smartphones'},
-        {'name': 'Наушники', 'slug': 'headphones'},
-        {'name': 'Зарядные устройства', 'slug': 'chargers'},
-        {'name': 'Кабели питания', 'slug': 'cables'},
-        {'name': 'Повербанки', 'slug': 'powerbanks'},
-    ]
-    brands = Brand.objects.all()
-    
+    """Shared simple category/brand data for public templates."""
+    if request.path.startswith('/admin/'):
+        return {'categories': [], 'brands': []}
+
     return {
-        'categories': shop_categories,
-        'brands': brands,
+        'categories': [
+            {'name': name, 'slug': slug}
+            for slug, name, _ in PRODUCT_CATEGORIES
+        ],
+        'brands': Brand.objects.all(),
     }
+
 
 def catalog_menu(request):
-    # Получаем бренды вместе с их группами товаров за один запрос без проседания FPS
-    groups_by_brand = ProductGroup.objects.prefetch_related('products__brand').all()
-    # Возвращаем сформированное дерево категорий, брендов и серий
-    return {
-        'catalog_tree': ... # сформированное дерево
-    }
+    """Shared Каталог → категория → бренд → линейка tree."""
+    if request.path.startswith('/admin/'):
+        return {'catalog_tree': []}
 
+    return {'catalog_tree': get_catalog_tree()}

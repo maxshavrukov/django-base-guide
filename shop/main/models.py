@@ -2,6 +2,7 @@ from decimal import Decimal, ROUND_HALF_UP
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.urls import reverse
+from django.utils.text import slugify
 
 class Brand(models.Model):
     name = models.CharField(max_length=100, unique=True, verbose_name="Бренд")
@@ -38,6 +39,17 @@ class ProductGroup(models.Model):
     def get_absolute_url(self):
         return reverse("main:product_list_by_group", args=[self.slug])
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.name) or "group"
+            candidate = base_slug
+            counter = 2
+            while ProductGroup.objects.filter(slug=candidate).exclude(pk=self.pk).exists():
+                candidate = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = candidate
+        super().save(*args, **kwargs)
+
 # Базовый класс для ВСЕХ товаров (общие поля)
 class Product(models.Model):
     brand = models.ForeignKey(Brand, related_name='products', on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Бренд")
@@ -73,6 +85,9 @@ class Product(models.Model):
         help_text="Например: #000000 для черного, #FFFFFF для белого"
     )
 
+    def __str__(self):
+        return self.name
+
     @property
     def discount_percent(self):
         return max(0, min(int(self.discount or 0), 100))
@@ -99,7 +114,17 @@ class Product(models.Model):
             "cable": "Кабели",
             "powerbank": "Повербанки",
         }
-        return mapping.get(self.__class__.__name__.lower(), "Товары")
+        model_name = self.__class__.__name__.lower()
+        if model_name in mapping:
+            return mapping[model_name]
+
+        for relation_name, label in mapping.items():
+            try:
+                getattr(self, relation_name)
+                return label
+            except ObjectDoesNotExist:
+                continue
+        return "Товары"
 
     def get_variants(self):
         "Возвращает все активные товары из текущей группы"

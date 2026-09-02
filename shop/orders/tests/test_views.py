@@ -1,15 +1,13 @@
 from decimal import Decimal
 from django.test import TestCase, Client
 from django.urls import reverse
-from main.models import Category, Product
+from main.models import Smartphone
 from orders.models import Order
 
 class OrderCreateViewTest(TestCase):
     def setUp(self):
         self.client = Client()
-        self.category = Category.objects.create(name='Спорт', slug='sport')
-        self.product = Product.objects.create(
-            category=self.category,
+        self.product = Smartphone.objects.create(
             name='Мяч',
             slug='ball',
             price=Decimal('600.00'),
@@ -44,5 +42,5 @@ class OrderCreateViewTest(TestCase):
         self.assertEqual(order.items.count(), 1)
         
         item = order.items.first()
-        self.assertEqual(item.product, self.product)
+        self.assertEqual(item.product_id, self.product.id)
         self.assertEqual(item.quantity, 3)

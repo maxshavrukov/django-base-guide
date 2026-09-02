@@ -147,7 +147,14 @@ class Basket:
         if not product_ids:
             return
 
-        products = Product.objects.filter(id__in=product_ids).select_related('brand')
+        products = Product.objects.filter(id__in=product_ids).select_related(
+            "brand",
+            "smartphone",
+            "headphone",
+            "charger",
+            "cable",
+            "powerbank",
+        )
         product_map = {str(product.id): product for product in products}
 
         for product_id in product_ids:

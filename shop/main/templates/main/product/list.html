@@ -66,10 +66,10 @@
             </svg>
           </button>
           <div class="sort-menu" id="sortMenu">
-            <a href="?sort=price_asc" class="sort-menu__item">Цена: по возрастанию</a>
-            <a href="?sort=price_desc" class="sort-menu__item">Цена: по убыванию</a>
-            <a href="?sort=name_asc" class="sort-menu__item">Название: А–Я</a>
-            <a href="?sort=name_desc" class="sort-menu__item">Название: Я–А</a>
+            <a href="{{ sort_urls.price_asc }}" class="sort-menu__item">Цена: по возрастанию</a>
+            <a href="{{ sort_urls.price_desc }}" class="sort-menu__item">Цена: по убыванию</a>
+            <a href="{{ sort_urls.name_asc }}" class="sort-menu__item">Название: А–Я</a>
+            <a href="{{ sort_urls.name_desc }}" class="sort-menu__item">Название: Я–А</a>
           </div>
         </div>
       </div>
@@ -100,6 +100,18 @@
                   <span>Только в наличии</span>
                 </label>
               </div>
+
+              {% if category_groups %}
+                <div class="filter-block">
+                  <h3 class="filter-block__title">Линейки</h3>
+                  <div class="filter-groups-list">
+                    <a href="{% if category_slug %}{% url 'main:product_list_by_category' category_slug %}{% else %}{% url 'main:product_list' %}{% endif %}" class="filter-group-link {% if not current_group %}is-active{% endif %}">Все линейки</a>
+                    {% for group in category_groups %}
+                      <a href="{{ group.get_absolute_url }}" class="filter-group-link {% if current_group and current_group.id == group.id %}is-active{% endif %}">{{ group.name }}</a>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endif %}
 
               <div class="filter-actions">
                 <button type="submit" class="btn-apply">Применить</button>

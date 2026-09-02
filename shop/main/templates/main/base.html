@@ -61,16 +61,35 @@
           <span>Каталог</span>
           <svg class="icon--chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <div class="catalog-menu" id="catalogMenu">
+        <div class="catalog-menu catalog-menu--mega" id="catalogMenu">
           <a href="{% url 'main:product_list' %}" class="catalog-menu__item catalog-menu__item--all">
             <span>Все товары</span>
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <a href="{% url 'main:product_list_by_category' 'smartphones' %}" class="catalog-menu__item"><span>Смартфоны</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          <a href="{% url 'main:product_list_by_category' 'headphones' %}" class="catalog-menu__item"><span>Наушники</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          <a href="{% url 'main:product_list_by_category' 'chargers' %}" class="catalog-menu__item"><span>Зарядные устройства</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          <a href="{% url 'main:product_list_by_category' 'cables' %}" class="catalog-menu__item"><span>Кабели</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          <a href="{% url 'main:product_list_by_category' 'powerbanks' %}" class="catalog-menu__item"><span>Повербанки</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          {% for category in catalog_tree %}
+            <div class="catalog-mega-category">
+              <a href="{% url 'main:product_list_by_category' category.slug %}" class="catalog-menu__item catalog-menu__item--category">
+                <span>{{ category.name }}</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              {% if category.brands %}
+                <div class="catalog-submenu">
+                  {% for brand in category.brands %}
+                    <div class="catalog-submenu__brand">
+                      <a href="{% url 'main:product_list_by_brand' brand.slug %}">{{ brand.name }}</a>
+                      {% if brand.groups %}
+                        <div class="catalog-submenu__groups">
+                          {% for group in brand.groups %}
+                            <a href="{{ group.url }}">{{ group.name }}</a>
+                          {% endfor %}
+                        </div>
+                      {% endif %}
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
         </div>
       </div>
 
