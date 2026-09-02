@@ -54,7 +54,11 @@
                 data-image-url="{{ image.url }}"
                 data-image-alt="{{ image.alt|escape }}"
                 aria-label="Фото {{ forloop.counter }}"
-                aria-current="{% if forloop.first %}true{% else %}false{% endif %}">
+                aria-current="{% if forloop.first %}
+                  true
+                {% else %}
+                  false
+                {% endif %}">
                 <img src="{{ image.url }}" alt="" loading="lazy" />
               </button>
             {% endfor %}
@@ -175,18 +179,29 @@
               </div>
             {% endif %}
           </dl>
-          {% if variants|length > 1 %}
+          <!-- Выбор памяти -->
+          {% if storage_variants %}
             <div class="product-variants">
-              <span class="product-variants__title">Доступные цвета:</span>
-
+              <span class="product-variants__title">Встроенная память:</span>
               <div class="product-variants__list">
-                {% for variant in variants %}
-                  <a href="{{ variant.get_absolute_url }}" class="variant-badge {% if variant.id == product.id %}variant-badge--active{% endif %}" title="{{ variant.color }}">
-                    {% if variant.color_code %}
-                      <span class="variant-badge__color" style="background-color: {{ variant.color_code }};"></span>
-                    {% endif %}
+                {% for item in storage_variants %}
+                  <a href="{{ item.product.get_absolute_url }}" class="variant-badge {% if item.is_active %}variant-badge--active{% endif %}"><span class="variant-badge__name">{{ item.value }}</span></a>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
 
-                    <span class="variant-badge__name">{{ variant.color }}</span>
+          <!-- Выбор цвета -->
+          {% if color_variants %}
+            <div class="product-variants">
+              <span class="product-variants__title">Цвет:</span>
+              <div class="product-variants__list">
+                {% for item in color_variants %}
+                  <a href="{{ item.product.get_absolute_url }}" class="variant-badge {% if item.is_active %}variant-badge--active{% endif %}" title="{{ item.value }}">
+                    {% if item.product.color_code %}
+                      <span class="variant-badge__color" style="background-color: {{ item.product.color_code }};"></span>
+                    {% endif %}
+                    <span class="variant-badge__name">{{ item.value }}</span>
                   </a>
                 {% endfor %}
               </div>
@@ -280,7 +295,15 @@
         </svg>
       </button>
       <div class="image-modal__wrapper">
-        <img src="{% if gallery %}{{ gallery.0.url }}{% elif product.image %}{{ product.image.url }}{% else %}{% static 'img/no-image.png' %}{% endif %}" alt="{{ product.name }}" id="modalImg" />
+        <img src="{% if gallery %}
+            {{ gallery.0.url }}
+          {% elif product.image %}
+            {{ product.image.url }}
+          {% else %}
+            {% static 'img/no-image.png' %}
+          {% endif %}"
+          alt="{{ product.name }}"
+          id="modalImg" />
       </div>
       <button type="button" class="image-modal__nav image-modal__nav--next" id="modalImageNext" aria-label="Следующее фото" hidden>
         <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
@@ -292,5 +315,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/imageGallery.js' %}"></script>
+  <script src="{% static 'js/imageGallery.js' %}"></script>
 {% endblock %}

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-  {{ category_name|default:"Каталог" }}
+  {{ category_name|default:'Каталог' }}
 {% endblock %}
 
 {% block content %}
@@ -52,7 +52,7 @@
       <div class="catalog-heading">
         <div>
           <span class="eyebrow">Каталог</span>
-          <h1>{{ category_name|default:"Все товары" }}</h1>
+          <h1>{{ category_name|default:'Все товары' }}</h1>
           {% if products %}
             <span class="catalog-heading__count">{{ products|length }} товаров</span>
           {% endif %}
@@ -77,26 +77,28 @@
       {% if category_slug or current_group %}
         <!-- ДВУХКОЛОНОЧНЫЙ РЕЖИМ С САЙДБАРОМ (ДЛЯ КАТЕГОРИЙ И ГРУПП) -->
         <div class="catalog-layout">
-          
           <aside class="catalog-sidebar">
             <form method="get" class="filter-form">
-              
               {% if request.GET.sort %}
-                <input type="hidden" name="sort" value="{{ request.GET.sort }}">
+                <input type="hidden" name="sort" value="{{ request.GET.sort }}" />
               {% endif %}
 
               <div class="filter-block">
                 <h3 class="filter-block__title">Цена, грн</h3>
                 <div class="price-inputs">
-                  <input type="number" name="price_min" placeholder="От" value="{{ request.GET.price_min }}" min="0">
+                  <input type="number" name="price_min" placeholder="От" value="{{ request.GET.price_min }}" min="0" />
                   <span class="price-dash">—</span>
-                  <input type="number" name="price_max" placeholder="До" value="{{ request.GET.price_max }}" min="0">
+                  <input type="number" name="price_max" placeholder="До" value="{{ request.GET.price_max }}" min="0" />
                 </div>
               </div>
 
               <div class="filter-block">
                 <label class="checkbox-label">
-                  <input type="checkbox" name="in_stock" value="1" {% if request.GET.in_stock %}checked{% endif %}>
+                  {% if request.GET.in_stock %}
+                    <input type="checkbox" name="in_stock" value="1" checked />
+                  {% else %}
+                    <input type="checkbox" name="in_stock" value="1" />
+                  {% endif %}
                   <span>Только в наличии</span>
                 </label>
               </div>
@@ -105,7 +107,14 @@
                 <div class="filter-block">
                   <h3 class="filter-block__title">Линейки</h3>
                   <div class="filter-groups-list">
-                    <a href="{% if category_slug %}{% url 'main:product_list_by_category' category_slug %}{% else %}{% url 'main:product_list' %}{% endif %}" class="filter-group-link {% if not current_group %}is-active{% endif %}">Все линейки</a>
+                    <a href="{% if category_slug %}
+                        {% url 'main:product_list_by_category' category_slug %}
+                      {% else %}
+                        {% url 'main:product_list' %}
+                      {% endif %}"
+                      class="filter-group-link {% if not current_group %}is-active{% endif %}">
+                      Все линейки
+                    </a>
                     {% for group in category_groups %}
                       <a href="{{ group.get_absolute_url }}" class="filter-group-link {% if current_group and current_group.id == group.id %}is-active{% endif %}">{{ group.name }}</a>
                     {% endfor %}
@@ -113,13 +122,39 @@
                 </div>
               {% endif %}
 
+              <!-- Динамические фильтры категории -->
+              {% if category_filters %}
+                {% for filter in category_filters %}
+                  <div class="filter-block">
+                    <h3 class="filter-block__title">{{ filter.label }}</h3>
+                    {% for option in filter.options %}
+                      <label class="checkbox-label">
+                        {% if filter.type == 'boolean' %}
+                          {% if option.selected %}
+                            <input type="radio" name="{{ filter.param }}" value="{{ option.value }}" checked />
+                          {% else %}
+                            <input type="radio" name="{{ filter.param }}" value="{{ option.value }}" />
+                          {% endif %}
+                        {% else %}
+                          {% if option.selected %}
+                            <input type="checkbox" name="{{ filter.param }}" value="{{ option.value }}" checked />
+                          {% else %}
+                            <input type="checkbox" name="{{ filter.param }}" value="{{ option.value }}" />
+                          {% endif %}
+                        {% endif %}
+                        <span>{{ option.label }}</span>
+                      </label>
+                    {% endfor %}
+                  </div>
+                {% endfor %}
+              {% endif %}
+
               <div class="filter-actions">
                 <button type="submit" class="btn-apply">Применить</button>
-                {% if request.GET.price_min or request.GET.price_max or request.GET.in_stock %}
+                {% if request.GET %}
                   <a href="{{ request.path }}" class="btn-reset">Сбросить</a>
                 {% endif %}
               </div>
-
             </form>
           </aside>
 
@@ -144,9 +179,7 @@
               </div>
             {% endif %}
           </main>
-
         </div>
-
       {% else %}
         <!-- ПОЛНОШИРИННЫЙ РЕЖИМ БЕЗ САЙДБАРА (ВСЕ ТОВАРЫ И БРЕНДЫ) -->
         {% if not products %}
@@ -168,7 +201,6 @@
             {% endfor %}
           </div>
         {% endif %}
-
       {% endif %}
     </section>
 

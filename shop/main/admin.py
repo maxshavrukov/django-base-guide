@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.db.models import Count
 from django.shortcuts import render
 
@@ -37,6 +37,52 @@ def set_custom_discount(modeladmin, request, queryset):
     })
 
 
+@admin.action(description='Дублировать выбранные товары (вместе с фото)')
+def duplicate_products(modeladmin, request, queryset):
+    created_count = 0
+
+    for obj in queryset:
+        # 1. Сохраняем фотографии исходного товара в память
+        original_images = list(ProductImage.objects.filter(product=obj))
+
+        # 2. Клонируем запись товара
+        obj.pk = None
+        obj.id = None
+        # Если модель наследуется от Product, сбрасываем указатель на родителя
+        if hasattr(obj, 'product_ptr_id'):
+            obj.product_ptr_id = None
+
+        obj.name = f"{obj.name} (Копия)"
+
+        # Генерируем уникальный slug, чтобы не было ошибок IntegrityError
+        if hasattr(obj, 'slug') and obj.slug:
+            base_slug = f"{obj.slug}-copy"
+            new_slug = base_slug
+            counter = 1
+            while modeladmin.model.objects.filter(slug=new_slug).exists():
+                new_slug = f"{base_slug}-{counter}"
+                counter += 1
+            obj.slug = new_slug
+
+        # Сохраняем новый товар
+        obj.save()
+
+        # 3. Создаем копии фотографий галереи для нового товара
+        for img in original_images:
+            ProductImage.objects.create(
+                product=obj,
+                image=img.image
+            )
+
+        created_count += 1
+
+    modeladmin.message_user(
+        request,
+        f'Успешно дублировано товаров: {created_count} (все фото скопированы).',
+        messages.SUCCESS
+    )
+
+
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
     extra = 4
@@ -45,13 +91,14 @@ class ProductImageInline(admin.TabularInline):
 
 
 class CommonProductAdminMixin:
+    save_as = True
     list_display = ('name', 'brand', 'price', 'discount', 'stock', 'available')
     list_editable = ('price', 'discount', 'stock', 'available')
     list_filter = ('available', 'brand', 'discount')
     search_fields = ('name', 'slug', 'brand__name')
     prepopulated_fields = {'slug': ('name',)}
     inlines = [ProductImageInline]
-    actions = [set_custom_discount]
+    actions = [set_custom_discount, duplicate_products]
 
 
 @admin.register(Brand)

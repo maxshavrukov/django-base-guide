@@ -145,6 +145,7 @@ button { cursor: pointer; }
 .navigation__inner {
   min-height: 62px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 14px;
 }
@@ -702,7 +703,7 @@ button { cursor: pointer; }
 }
 .quantity-input::-webkit-outer-spin-button,
 .quantity-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-.quantity-input { -moz-appearance: textfield; }
+.quantity-input { appearance: textfield; -moz-appearance: textfield; }
 .wishlist-btn {
   width: 50px; height: 50px; flex: 0 0 50px;
   display: grid; place-items: center; border: 1px solid var(--border-strong);
@@ -963,44 +964,72 @@ button { cursor: pointer; }
 /* =========================================================
    BRAND STRIP — logo-aware chips
    ========================================================= */
+
 .brand-strip {
-  justify-content: flex-start;
+  display: flex;
+  justify-content: center; /* Центрируем по горизонтали */
+  align-items: center;
+  margin-bottom: 35px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
 }
 
+.brands-scroll {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap; /* Позволяет иконкам аккуратно переноситься на новую строку на узких экранах */
+  gap: 14px;
+  scrollbar-width: none;
+  padding: 4px 2px;
+}
+.brands-scroll::-webkit-scrollbar { display: none; }
+
+/* Увеличенные плашки брендов */
 .brand-chip {
-  min-width: 92px;
-  height: 44px;
-  padding: 7px 13px;
-  border-radius: 10px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 54px; /* Увеличили высоту */
+  padding: 10px 24px; /* Увеличили внутренние отступы */
+  border: 1px solid var(--border);
+  border-radius: 14px;
   background: var(--surface);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
 }
 
+/* Увеличенный размер логотипов/SVG */
 .brand-chip__icon {
+  height: 30px; /* Сделали иконку заметно крупнее */
   width: auto;
-  max-width: 108px;
-  height: 27px;
+  max-width: 120px;
   object-fit: contain;
-  filter: grayscale(100%) opacity(.62);
-  transition: filter var(--ease), transform var(--ease);
+  filter: grayscale(100%) opacity(0.6);
+  transition: filter 0.2s ease, transform 0.2s ease;
 }
 
-.brand-chip__name {
-  white-space: nowrap;
+.brand-chip:hover {
+  border-color: #111;
+  background: #fff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
 }
 
 .brand-chip:hover .brand-chip__icon {
-  filter: grayscale(0) opacity(1);
-  transform: scale(1.04);
+  filter: grayscale(0%) opacity(1);
+  transform: scale(1.06);
 }
 
 .brand-chip.active {
-  border-color: var(--accent);
-  background: var(--accent);
+  border-color: #111;
+  background: #111;
   color: #fff;
 }
 
 .brand-chip.active .brand-chip__icon {
-  filter: brightness(0) invert(1) opacity(1);
+  filter: brightness(0) invert(1) opacity(1); 
 }
 
 /* =========================================================

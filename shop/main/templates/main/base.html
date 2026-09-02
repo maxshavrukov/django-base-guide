@@ -113,7 +113,6 @@
             <span class="cart-count" id="cart-count">{% with total_qty=basket|length %}{% if total_qty > 0 %}{{ total_qty }}{% endif %}{% endwith %}</span>
           </span>
           <span class="cart-btn__label">Корзина</span>
-          <span class="cart-total" id="cart-total-price">{% with price=basket.get_total_price %}{% if price > 0 %}{{ price }} грн{% endif %}{% endwith %}</span>
         </a>
         <div class="mini-cart-dropdown">
           <div class="mini-cart__header"><strong>Ваша корзина</strong><span>{% with total_qty=basket|length %}{{ total_qty }}{% endwith %} шт.</span></div>
