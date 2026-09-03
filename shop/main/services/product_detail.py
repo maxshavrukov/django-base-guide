@@ -9,7 +9,6 @@ def update_recently_viewed(request, product_id: int) -> None:
     request.session['recently_viewed'] = recently_viewed[:4]
     request.session.modified = True
 
-
 def get_product_gallery(product) -> list[dict]:
     """Собирает список изображений товара для слайдера."""
     gallery = []
@@ -21,6 +20,17 @@ def get_product_gallery(product) -> list[dict]:
             gallery.append({'url': image.image.url, 'alt': product.name, 'is_primary': False})
 
     return gallery
+
+
+def _get_storage_val(instance):
+    """Вспомогательный метод для получения текстового отображения объёма памяти."""
+    if instance is None:
+        return None
+    if hasattr(instance, 'storage_display'):
+        return instance.storage_display
+    if hasattr(instance, 'storage_gb') and instance.storage_gb:
+        return f"{instance.storage_gb} ГБ"
+    return getattr(instance, 'storage', None)
 
 
 def get_product_variants(product, category_slug: str) -> tuple[list, list]:
@@ -35,7 +45,7 @@ def get_product_variants(product, category_slug: str) -> tuple[list, list]:
         concrete_model = CATEGORY_BY_SLUG[category_slug][1]
         relation_name = concrete_model._meta.model_name
         concrete_instance = getattr(product, relation_name, product)
-        current_storage = getattr(concrete_instance, 'storage', None)
+        current_storage = _get_storage_val(concrete_instance)
 
     if concrete_model:
         group_products = list(
@@ -55,14 +65,19 @@ def get_product_variants(product, category_slug: str) -> tuple[list, list]:
     # 1. Варианты встроенной памяти
     storages_seen = []
     for item in group_products:
-        st = getattr(item, 'storage', None)
+        st = _get_storage_val(item)
         if st and st not in storages_seen:
             storages_seen.append(st)
 
     storage_variants = []
     for st in storages_seen:
-        target = next((i for i in group_products if getattr(i, 'color', None) == current_color and getattr(i, 'storage', None) == st), None) \
-              or next((i for i in group_products if getattr(i, 'storage', None) == st), None)
+        target = next(
+            (i for i in group_products if getattr(i, 'color', None) == current_color and _get_storage_val(i) == st),
+            None
+        ) or next(
+            (i for i in group_products if _get_storage_val(i) == st),
+            None
+        )
         if target:
             storage_variants.append({
                 'value': st,
@@ -79,8 +94,13 @@ def get_product_variants(product, category_slug: str) -> tuple[list, list]:
 
     color_variants = []
     for c in colors_seen:
-        target = next((i for i in group_products if getattr(i, 'storage', None) == current_storage and getattr(i, 'color', None) == c), None) \
-              or next((i for i in group_products if getattr(i, 'color', None) == c), None)
+        target = next(
+            (i for i in group_products if _get_storage_val(i) == current_storage and getattr(i, 'color', None) == c),
+            None
+        ) or next(
+            (i for i in group_products if getattr(i, 'color', None) == c),
+            None
+        )
         if target:
             color_variants.append({
                 'value': c,

@@ -26,6 +26,8 @@ urlpatterns = [
     path('users/', include('users.urls', namespace='users')),
     path('wishlist/', include('wishlist.urls', namespace='wishlist')),
     path('', include('main.urls', namespace='main')),
+    # Путь для CKEditor 5 (важно написать ck_editor_5/)
+    path('ck_editor_5/', include('django_ckeditor_5.urls')),
 ]
 
 if settings.DEBUG:

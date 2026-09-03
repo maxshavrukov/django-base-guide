@@ -1,7 +1,5 @@
 from django.db.models import QuerySet
 
-
-# 1. Карта специфичных полей для каждой категории.
 CATEGORY_FILTER_FIELDS = {
     'smartphones': [
         {
@@ -25,19 +23,13 @@ CATEGORY_FILTER_FIELDS = {
         {   
             'param': 'display_size',
             'field': 'display_size',
-            'label': 'Размер экрана',
-            'type': 'checkbox',
-        },
-        {
-            'param': 'display_resolution',
-            'field': 'display_resolution',
-            'label': 'Разрешение экрана',
+            'label': 'Диагональ экрана (дюймы)',
             'type': 'checkbox',
         },
         {
             'param': 'display_refresh_rate',
             'field': 'display_refresh_rate',
-            'label': 'Частота обновления экрана',
+            'label': 'Частота обновления (Гц)',
             'type': 'checkbox',
         },
         {
@@ -47,33 +39,27 @@ CATEGORY_FILTER_FIELDS = {
             'type': 'checkbox',
         },
         {
-            'param': 'core_count',
-            'field': 'core_count',
-            'label': 'Количество ядер',
-            'type': 'checkbox',
-        },
-        {
             'param': 'ram',
             'field': 'ram',
-            'label': 'Оперативная память (RAM)',
+            'label': 'Оперативная память (ГБ)',
             'type': 'checkbox',
         },
         {
             'param': 'storage',
             'field': 'storage',
-            'label': 'Встроенная память (Storage)',
-            'type': 'checkbox',
-        },
-        {
-            'param': 'extra_storage',
-            'field': 'extra_storage',
-            'label': 'Дополнительная память',
+            'label': 'Встроенная память (ГБ)',
             'type': 'checkbox',
         },
         {
             'param': 'nfc_support',
             'field': 'nfc_support',
             'label': 'Поддержка NFC',
+            'type': 'boolean',
+        },
+        {
+            'param': 'has_esim',
+            'field': 'has_esim',
+            'label': 'Поддержка eSIM',
             'type': 'boolean',
         },
     ],
@@ -85,38 +71,75 @@ CATEGORY_FILTER_FIELDS = {
             'type': 'checkbox',
         },
         {
+            'param': 'headphone_type',
+            'field': 'headphone_type',
+            'label': 'Тип наушников',
+            'type': 'checkbox',
+        },
+        {
             'param': 'connection_type',
             'field': 'connection_type',
             'label': 'Тип подключения',
             'type': 'checkbox',
         },
         {
-            'param': 'noise_cancellation',
-            'field': 'noise_cancellation',
+            'param': 'has_anc',
+            'field': 'has_anc',
             'label': 'Шумоподавление (ANC)',
             'type': 'boolean',
         },
         {
-            'param': 'bluetooth_version',
-            'field': 'bluetooth_version',
-            'label': 'Версия Bluetooth',
-            'type': 'checkbox',
+            'param': 'has_microphone',
+            'field': 'has_microphone',
+            'label': 'Микрофон',
+            'type': 'boolean',
         },
     ],
     'chargers': [
         {
-            'param': 'fast_charging',
-            'field': 'fast_charging',
-            'label': 'Быстрая зарядка',
+            'param': 'brand',
+            'field': 'brand__name',
+            'label': 'Бренд',
+            'type': 'checkbox',
+        },
+        {
+            'param': 'charger_type',
+            'field': 'charger_type',
+            'label': 'Тип зарядного',
+            'type': 'checkbox',
+        },
+        {
+            'param': 'is_gan',
+            'field': 'is_gan',
+            'label': 'Технология GaN',
             'type': 'boolean',
         },
     ],
-    'cables': [],
+    'cables': [
+        {
+            'param': 'brand',
+            'field': 'brand__name',
+            'label': 'Бренд',
+            'type': 'checkbox',
+        },
+    ],
     'powerbanks': [
         {
-            'param': 'fast_charging',
-            'field': 'fast_charging',
-            'label': 'Быстрая зарядка',
+            'param': 'brand',
+            'field': 'brand__name',
+            'label': 'Бренд',
+            'type': 'checkbox',
+        },
+        {
+            'param': 'has_wireless_charging',
+            'field': 'has_wireless_charging',
+            'label': 'Беспроводная зарядка',
+            'type': 'boolean',
+        },
+        {
+            'param': 'has_magsafe',
+            'field': 'has_magsafe',
+            'label': 'Поддержка MagSafe',
             'type': 'boolean',
         },
     ],
@@ -124,10 +147,7 @@ CATEGORY_FILTER_FIELDS = {
 
 
 def get_category_filter_options(category_slug: str, base_queryset: QuerySet, request_get=None) -> list[dict]:
-    """
-    Возвращает список доступных фильтров с их возможными значениями из БД.
-    Если передан request_get, отмечается выбранное состояние (selected).
-    """
+    """Возвращает список доступных фильтров с их возможными значениями из БД."""
     field_configs = CATEGORY_FILTER_FIELDS.get(category_slug, [])
     filters_data = []
     request_get = request_get or {}
@@ -148,7 +168,6 @@ def get_category_filter_options(category_slug: str, base_queryset: QuerySet, req
                 ]
             })
         else:
-            # Безопасно исключаем NULL из БД без сравнения с пустой строкой ''
             values = (
                 base_queryset
                 .values_list(field_lookup, flat=True)
@@ -159,15 +178,31 @@ def get_category_filter_options(category_slug: str, base_queryset: QuerySet, req
 
             selected_values = request_get.getlist(param_name) if hasattr(request_get, 'getlist') else []
 
-            # Исключаем None и пустые строки на уровне Python
-            options = [
-                {
+            # Автоматически считываем человекочитаемые названия из Choices (если они есть)
+            choices_dict = {}
+            if '__' not in field_lookup and hasattr(base_queryset.model, '_meta'):
+                try:
+                    model_field = base_queryset.model._meta.get_field(field_lookup)
+                    if model_field.choices:
+                        choices_dict = dict(model_field.choices)
+                except Exception:
+                    pass
+
+            options = []
+            for val in values:
+                if val is None or str(val).strip() == '':
+                    continue
+                
+                # Использование понятного пользователю текста вместо сырых ключей БД
+                display_label = choices_dict.get(val, str(val))
+                if param_name in ('storage_gb', 'ram_gb'):
+                    display_label = f"{val} ГБ"
+
+                options.append({
                     'value': str(val),
-                    'label': str(val),
+                    'label': str(display_label),
                     'selected': str(val) in selected_values
-                }
-                for val in values if val is not None and str(val).strip() != ''
-            ]
+                })
 
             if options:
                 filters_data.append({
@@ -181,9 +216,7 @@ def get_category_filter_options(category_slug: str, base_queryset: QuerySet, req
 
 
 def apply_category_filters(queryset: QuerySet, category_slug: str, request_get) -> QuerySet:
-    """
-    Применяет специфичные фильтры категории к переданному QuerySet.
-    """
+    """Применяет специфичные фильтры категории к переданному QuerySet."""
     field_configs = CATEGORY_FILTER_FIELDS.get(category_slug, [])
 
     for config in field_configs:
@@ -199,7 +232,6 @@ def apply_category_filters(queryset: QuerySet, category_slug: str, request_get) 
                 queryset = queryset.filter(**{field_lookup: False})
 
         else:
-            # Отфильтровываем пустые строки из GET-параметров
             values = [v for v in request_get.getlist(param) if v != '']
             if values:
                 queryset = queryset.filter(**{f"{field_lookup}__in": values})

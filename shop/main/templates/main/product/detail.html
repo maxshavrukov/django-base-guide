@@ -54,11 +54,7 @@
                 data-image-url="{{ image.url }}"
                 data-image-alt="{{ image.alt|escape }}"
                 aria-label="Фото {{ forloop.counter }}"
-                aria-current="{% if forloop.first %}
-                  true
-                {% else %}
-                  false
-                {% endif %}">
+                aria-current="{% if forloop.first %}true{% else %}false{% endif %}">
                 <img src="{{ image.url }}" alt="" loading="lazy" />
               </button>
             {% endfor %}
@@ -89,96 +85,193 @@
             <span>Бренд</span><strong>{{ product.brand.name }}</strong>
           </div>
         {% endif %}
+
         <div class="product-characteristics">
           <dl>
+            <!-- ================= СМАРТФОН ================= -->
             {% if product.smartphone %}
-              <div>
-                <dt>Тип экрана:</dt><dd>{{ product.smartphone.display_type }}</dd>
-              </div>
-              <div>
-                <dt>Диагональ дисплея:</dt><dd>{{ product.smartphone.display_size }}</dd>
-              </div>
-              <div>
-                <dt>Модель процессора:</dt><dd>{{ product.smartphone.processor }}</dd>
-              </div>
-              <div>
-                <dt>Основная камера:</dt><dd>{{ product.smartphone.main_camera }}</dd>
-              </div>
-              <div>
-                <dt>Ёмкость аккумулятора:</dt><dd>{{ product.smartphone.battery_capacity }}</dd>
-              </div>
+              {% with phone=product.smartphone %}
+                {% if phone.display_size %}
+                  <div>
+                    <dt>Экран:</dt>
+                    <dd>{{ phone.display_size }}" ({{ phone.get_display_type_display }}{% if phone.display_refresh_rate %}, {{ phone.display_refresh_rate }} Гц{% endif %})</dd>
+                  </div>
+                {% endif %}
+
+                {% if phone.processor %}
+                  <div>
+                    <dt>Процессор:</dt>
+                    <dd>{{ phone.processor }}{% if phone.core_count %} ({{ phone.core_count }} ядер){% endif %}</dd>
+                  </div>
+                {% endif %}
+
+                {% if phone.ram_mb or phone.ram_gb %}
+                  <div>
+                    <dt>Оперативная память:</dt>
+                    <dd>{{ phone.ram_display }}</dd>
+                  </div>
+                {% endif %}
+
+                {% if phone.storage_gb %}
+                  <div>
+                    <dt>Встроенная память:</dt>
+                    <dd>{{ phone.storage_display }}</dd>
+                  </div>
+                {% endif %}
+
+                {% if phone.main_camera_mp %}
+                  <div>
+                    <dt>Основная камера:</dt>
+                    <dd>{{ phone.main_camera_mp }} Мп</dd>
+                  </div>
+                {% endif %}
+
+                {% if phone.front_camera_mp %}
+                  <div>
+                    <dt>Фронтальная камера:</dt>
+                    <dd>{{ phone.front_camera_mp }} Мп</dd>
+                  </div>
+                {% endif %}
+
+                {% if phone.battery_mah %}
+                  <div>
+                    <dt>Ёмкость аккумулятора:</dt>
+                    <dd>{{ phone.battery_display }}{% if phone.charging_power %} (быстрая зарядка {{ phone.charging_power }} Вт){% endif %}</dd>
+                  </div>
+                {% endif %}
+
+                <div>
+                  <dt>NFC:</dt>
+                  <dd>{% if phone.nfc_support %}Есть{% else %}Нет{% endif %}</dd>
+                </div>
+
+                <div>
+                  <dt>Поддержка eSIM:</dt>
+                  <dd>{% if phone.has_esim %}Есть{% else %}Нет{% endif %}</dd>
+                </div>
+
+                {% if phone.protection_class %}
+                  <div>
+                    <dt>Класс защиты:</dt>
+                    <dd>{{ phone.protection_class }}</dd>
+                  </div>
+                {% endif %}
+              {% endwith %}
+
+            <!-- ================= НАУШНИКИ ================= -->
             {% elif product.headphone %}
-              <div>
-                <dt>Тип подключения:</dt><dd>{{ product.headphone.connection_type }}</dd>
-              </div>
-              <div>
-                <dt>Шумоподавление (ANC):</dt>
-                <dd>
-                  {% if product.headphone.noise_cancellation %}
-                    Да
-                  {% else %}
-                    Нет
-                  {% endif %}
-                </dd>
-              </div>
-              <div>
-                <dt>Время автономной работы:</dt><dd>{{ product.headphone.battery_autonomy }}</dd>
-              </div>
-              <div>
-                <dt>Версия Bluetooth:</dt><dd>{{ product.headphone.bluetooth_version }}</dd>
-              </div>
+              {% with hp=product.headphone %}
+                <div>
+                  <dt>Тип наушников:</dt>
+                  <dd>{{ hp.get_headphone_type_display }}</dd>
+                </div>
+                <div>
+                  <dt>Тип подключения:</dt>
+                  <dd>{{ hp.get_connection_type_display }}</dd>
+                </div>
+                <div>
+                  <dt>Шумоподавление (ANC):</dt>
+                  <dd>{% if hp.has_anc %}Да{% else %}Нет{% endif %}</dd>
+                </div>
+                {% if hp.battery_autonomy_h %}
+                  <div>
+                    <dt>Время работы:</dt>
+                    <dd>{{ hp.battery_display }}</dd>
+                  </div>
+                {% endif %}
+                <div>
+                  <dt>Микрофон:</dt>
+                  <dd>{% if hp.has_microphone %}Есть{% else %}Нет{% endif %}</dd>
+                </div>
+              {% endwith %}
+
+            <!-- ================= ЗАРЯДНОЕ УСТРОЙСТВО ================= -->
             {% elif product.charger %}
-              <div>
-                <dt>Мощность:</dt><dd>{{ product.charger.power }}</dd>
-              </div>
-              <div>
-                <dt>Поддержка быстрой зарядки:</dt><dd>
-                  {% if product.charger.fast_charging %}
-                    Да
-                  {% else %}
-                    Нет
-                  {% endif %}
-                </dd>
-              </div>
-              <div>
-                <dt>Количество портов:</dt><dd>{{ product.charger.ports_count }}</dd>
-              </div>
+              {% with ch=product.charger %}
+                <div>
+                  <dt>Тип зарядного:</dt>
+                  <dd>{{ ch.get_charger_type_display }}</dd>
+                </div>
+                <div>
+                  <dt>Макс. мощность:</dt>
+                  <dd>{{ ch.max_power_w }} Вт</dd>
+                </div>
+                <div>
+                  <dt>Разъемы/Порты:</dt>
+                  <dd>{{ ch.ports_display }}</dd>
+                </div>
+                <div>
+                  <dt>GaN-технология:</dt>
+                  <dd>{% if ch.is_gan %}Да{% else %}Нет{% endif %}</dd>
+                </div>
+                {% if ch.fast_charging_protocols %}
+                  <div>
+                    <dt>Протоколы быстрой зарядки:</dt>
+                    <dd>{{ ch.fast_charging_protocols }}</dd>
+                  </div>
+                {% endif %}
+              {% endwith %}
+
+            <!-- ================= КАБЕЛЬ ================= -->
             {% elif product.cable %}
-              <div>
-                <dt>Длина кабеля:</dt><dd>{{ product.cable.length }}</dd>
-              </div>
-              <div>
-                <dt>Разъем 1:</dt><dd>{{ product.cable.connector_from }}</dd>
-              </div>
-              <div>
-                <dt>Разъем 2:</dt><dd>{{ product.cable.connector_to }}</dd>
-              </div>
+              {% with cb=product.cable %}
+                <div>
+                  <dt>Разъемы:</dt>
+                  <dd>{{ cb.connection_display }}</dd>
+                </div>
+                <div>
+                  <dt>Длина кабеля:</dt>
+                  <dd>{{ cb.length_m }} м</dd>
+                </div>
+                <div>
+                  <dt>Макс. мощность:</dt>
+                  <dd>до {{ cb.max_power_w }} Вт</dd>
+                </div>
+                {% if cb.braiding_material %}
+                  <div>
+                    <dt>Материал оплетки:</dt>
+                    <dd>{{ cb.braiding_material }}</dd>
+                  </div>
+                {% endif %}
+              {% endwith %}
+
+            <!-- ================= ПОВЕРБАНК ================= -->
             {% elif product.powerbank %}
-              <div>
-                <dt>Ёмкость повербанка:</dt><dd>{{ product.powerbank.capacity }}</dd>
-              </div>
-              <div>
-                <dt>Количество портов:</dt><dd>{{ product.powerbank.ports_count }}</dd>
-              </div>
-              <div>
-                <dt>Поддержка быстрой зарядки:</dt><dd>
-                  {% if product.powerbank.fast_charging %}
-                    Да
-                  {% else %}
-                    Нет
-                  {% endif %}
-                </dd>
-              </div>
-              <div>
-                <dt>Выходная мощность (Вт):</dt><dd>{{ product.powerbank.power_output }}</dd>
-              </div>
+              {% with pb=product.powerbank %}
+                <div>
+                  <dt>Ёмкость:</dt>
+                  <dd>{{ pb.capacity_display }}</dd>
+                </div>
+                <div>
+                  <dt>Макс. выходная мощность:</dt>
+                  <dd>{{ pb.max_power_w }} Вт</dd>
+                </div>
+                <div>
+                  <dt>Беспроводная зарядка:</dt>
+                  <dd>{% if pb.has_wireless_charging %}Да{% else %}Нет{% endif %}</dd>
+                </div>
+                <div>
+                  <dt>Поддержка MagSafe:</dt>
+                  <dd>{% if pb.has_magsafe %}Да{% else %}Нет{% endif %}</dd>
+                </div>
+                {% if pb.display_type %}
+                  <div>
+                    <dt>Индикация заряда:</dt>
+                    <dd>{{ pb.get_display_type_display }}</dd>
+                  </div>
+                {% endif %}
+              {% endwith %}
             {% endif %}
+
+            <!-- ================= ОБЩИЕ СВОЙСТВА ================= -->
             {% if product.color %}
               <div>
-                <dt>Цвет</dt><dd>{{ product.color }}</dd>
+                <dt>Цвет:</dt>
+                <dd>{{ product.color }}</dd>
               </div>
             {% endif %}
           </dl>
+
           <!-- Выбор памяти -->
           {% if storage_variants %}
             <div class="product-variants">
@@ -295,13 +388,7 @@
         </svg>
       </button>
       <div class="image-modal__wrapper">
-        <img src="{% if gallery %}
-            {{ gallery.0.url }}
-          {% elif product.image %}
-            {{ product.image.url }}
-          {% else %}
-            {% static 'img/no-image.png' %}
-          {% endif %}"
+        <img src="{% if gallery %}{{ gallery.0.url }}{% elif product.image %}{{ product.image.url }}{% else %}{% static 'img/no-image.png' %}{% endif %}"
           alt="{{ product.name }}"
           id="modalImg" />
       </div>

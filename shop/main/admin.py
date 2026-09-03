@@ -42,19 +42,15 @@ def duplicate_products(modeladmin, request, queryset):
     created_count = 0
 
     for obj in queryset:
-        # 1. Сохраняем фотографии исходного товара в память
         original_images = list(ProductImage.objects.filter(product=obj))
 
-        # 2. Клонируем запись товара
         obj.pk = None
         obj.id = None
-        # Если модель наследуется от Product, сбрасываем указатель на родителя
         if hasattr(obj, 'product_ptr_id'):
             obj.product_ptr_id = None
 
         obj.name = f"{obj.name} (Копия)"
 
-        # Генерируем уникальный slug, чтобы не было ошибок IntegrityError
         if hasattr(obj, 'slug') and obj.slug:
             base_slug = f"{obj.slug}-copy"
             new_slug = base_slug
@@ -64,10 +60,8 @@ def duplicate_products(modeladmin, request, queryset):
                 counter += 1
             obj.slug = new_slug
 
-        # Сохраняем новый товар
         obj.save()
 
-        # 3. Создаем копии фотографий галереи для нового товара
         for img in original_images:
             ProductImage.objects.create(
                 product=obj,
@@ -110,36 +104,82 @@ class BrandAdmin(admin.ModelAdmin):
 
 @admin.register(Smartphone)
 class SmartphoneAdmin(CommonProductAdminMixin, admin.ModelAdmin):
+    list_display = ('name', 'brand', 'price', 'discount', 'stock', 'ram', 'storage', 'available')
+    list_filter = ('brand', 'operating_system', 'nfc_support', 'has_esim', 'available')
+    
     fieldsets = (
-        ('Группа и цвет', {'fields': ('group', 'color', 'color_code')}),
-        ('Основная информация', {'fields': ('brand', 'name', 'slug', 'image', 'description', 'price', 'discount', 'stock', 'available')}),
-        ('Дисплей', {'fields': ('display_type', 'display_refresh_rate', 'display_size', 'display_resolution'), 'classes': ('collapse',)}),
-        ('Связь и SIM-карты', {'fields': ('communication_standards', 'quantity_of_sim_cards', 'sim_card_type'), 'classes': ('collapse',)}),
-        ('Память и процессор', {'fields': ('ram', 'storage', 'extra_storage', 'processor', 'core_count', 'core_speed'), 'classes': ('collapse',)}),
-        ('Автономность и ОС', {'fields': ('battery_capacity', 'charging_type', 'operating_system'), 'classes': ('collapse',)}),
-        ('Камера', {'fields': ('main_camera', 'front_camera'), 'classes': ('collapse',)}),
-        ('Интерфейсы и корпус', {'fields': ('wi_fi_standards', 'bluetooth_version', 'nfc_support', 'navigational_systems', 'interfaces_usb', 'protection_class', 'material'), 'classes': ('collapse',)}),
+        ("Основная информация", {
+            "fields": ("name", "slug", "brand", "group", "price", "discount", "stock", "available", "color", "color_code", "image", "description")
+        }),
+        ("Дисплей", {
+            "fields": ("display_type", "display_size", "display_resolution", "display_refresh_rate")
+        }),
+        ("Процессор и графика", {
+            "fields": ("processor", "gpu", "core_count", "core_speed")
+        }),
+        ("Память и слоты", {
+            "fields": ("ram", "storage", "slot_config", "max_sd_capacity")
+        }),
+        ("Камеры", {
+            "fields": ("main_camera_mp", "main_camera_desc", "front_camera_mp", "max_video_resolution", "optical_zoom")
+        }),
+        ("Аккумулятор и зарядка", {
+            "fields": ("battery_capacity", "charging_power", "has_wireless_charging", "has_reverse_charging")
+        }),
+        ("Связь и интерфейсы", {
+            "fields": ("communication_standards", "sim_count", "has_esim", "usb_type", "nfc_support", "has_jack_3_5", "wi_fi_standards", "bluetooth_version")
+        }),
+        ("Корпус и ОС", {
+            "fields": ("operating_system", "os_version", "protection_class", "material")
+        }),
     )
 
 
 @admin.register(Headphone)
 class HeadphoneAdmin(CommonProductAdminMixin, admin.ModelAdmin):
-    pass
+    list_display = ('name', 'brand', 'price', 'discount', 'stock', 'headphone_type', 'connection_type', 'has_anc', 'available')
+    list_filter = ('brand', 'headphone_type', 'connection_type', 'has_anc', 'available')
+    
+    fieldsets = (
+        ("Основная информация", {"fields": ("name", "slug", "brand", "group", "price", "discount", "stock", "available", "color", "color_code", "image", "description")}),
+        ("Тип и звук", {"fields": ("headphone_type", "connection_type", "has_anc", "has_transparency_mode", "audio_codecs")}),
+        ("Автономность", {"fields": ("battery_life_hours", "total_battery_life_hours", "has_wireless_charging_case")}),
+        ("Дополнительно", {"fields": ("bluetooth_version", "has_microphone", "protection_class")}),
+    )
 
 
 @admin.register(Charger)
 class ChargerAdmin(CommonProductAdminMixin, admin.ModelAdmin):
-    pass
+    list_display = ('name', 'brand', 'price', 'discount', 'stock', 'charger_type', 'max_power_w', 'is_gan', 'available')
+    list_filter = ('brand', 'charger_type', 'is_gan', 'available')
+    
+    fieldsets = (
+        ("Основная информация", {"fields": ("name", "slug", "brand", "group", "price", "discount", "stock", "available", "color", "color_code", "image", "description")}),
+        ("Характеристики", {"fields": ("charger_type", "max_power_w", "usb_c_ports", "usb_a_ports", "is_gan", "fast_charging_protocols", "has_cable_included")}),
+    )
 
 
 @admin.register(Cable)
 class CableAdmin(CommonProductAdminMixin, admin.ModelAdmin):
-    pass
+    list_display = ('name', 'brand', 'price', 'discount', 'stock', 'connector_from', 'connector_to', 'length_m', 'max_power_w', 'available')
+    list_filter = ('brand', 'connector_from', 'connector_to', 'available')
+    
+    fieldsets = (
+        ("Основная информация", {"fields": ("name", "slug", "brand", "group", "price", "discount", "stock", "available", "color", "color_code", "image", "description")}),
+        ("Параметры кабеля", {"fields": ("connector_from", "connector_to", "length_m", "max_power_w", "max_current_a", "data_transfer_speed", "braiding_material")}),
+    )
 
 
 @admin.register(PowerBank)
 class PowerBankAdmin(CommonProductAdminMixin, admin.ModelAdmin):
-    pass
+    list_display = ('name', 'brand', 'price', 'discount', 'stock', 'capacity_mah', 'max_power_w', 'has_wireless_charging', 'available')
+    list_filter = ('brand', 'has_wireless_charging', 'has_magsafe', 'available')
+    
+    fieldsets = (
+        ("Основная информация", {"fields": ("name", "slug", "brand", "group", "price", "discount", "stock", "available", "color", "color_code", "image", "description")}),
+        ("Емкость и мощность", {"fields": ("capacity_mah", "max_power_w", "usb_c_ports", "usb_a_ports", "display_type")}),
+        ("Доп. функции", {"fields": ("has_wireless_charging", "has_magsafe", "has_built_in_cable", "is_pass_through_supported")}),
+    )
 
 
 @admin.register(Banner)

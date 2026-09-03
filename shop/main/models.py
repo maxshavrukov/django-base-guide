@@ -3,6 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from django_ckeditor_5.fields import CKEditor5Field
 
 class Brand(models.Model):
     name = models.CharField(max_length=100, unique=True, verbose_name="Бренд")
@@ -56,7 +57,7 @@ class Product(models.Model):
     name = models.CharField(max_length=150, db_index=True, verbose_name="Название товара")
     slug = models.SlugField(max_length=150, unique=True)
     image = models.ImageField(upload_to='products/%Y/%m/%d', blank=True, verbose_name="Изображение")
-    description = models.TextField(blank=True, verbose_name="Описание")
+    description = CKEditor5Field('Описание', config_name='extends', blank=True, null=True)
     color = models.CharField(max_length=50, blank=True, null=True, verbose_name="Цвет")
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена")
     discount = models.IntegerField(
@@ -147,90 +148,360 @@ class ProductImage(models.Model):
     def __str__(self):
         return f"Фото для {self.product.name}"
 
+    
+    # ==========================================
+    # 1. СМАРТФОНЫ
+    # ==========================================
 class Smartphone(Product):
-    # харатрестики смартфонов
-    # дисплей
-    display_type = models.CharField(max_length=50, blank=True, null=True, verbose_name="Тип дисплея")
-    display_refresh_rate = models.CharField(max_length=50, blank=True, null=True, verbose_name="Частота обновления дисплея")
-    display_size = models.CharField(max_length=50, blank=True, null=True, verbose_name="Размер дисплея")
-    display_resolution = models.CharField(max_length=50, blank=True, null=True, verbose_name="Разрешение дисплея")
-    # связь
-    communication_standards = models.CharField(max_length=100, blank=True, null=True, verbose_name="Стандарты связи")
-    quantity_of_sim_cards = models.PositiveIntegerField(blank=True, null=True, verbose_name="Количество SIM-карт")
-    sim_card_type = models.CharField(max_length=50, blank=True, null=True, verbose_name="Тип SIM-карты")
-    # память
-    ram = models.CharField(max_length=50, blank=True, null=True, verbose_name="Оперативная память (RAM)")
-    storage = models.CharField(max_length=50, blank=True, null=True, verbose_name="Встроенная память")
-    extra_storage = models.CharField(max_length=50, blank=True, null=True, verbose_name="Расширение памяти")
-    # процессор
-    processor = models.CharField(max_length=100, blank=True, null=True, verbose_name="Модель процессора")
-    core_count = models.PositiveIntegerField(blank=True, null=True, verbose_name="Количество ядер процессора")
-    core_speed = models.CharField(max_length=50, blank=True, null=True, verbose_name="Тактовая частота процессора")
-    # аккумулятор
-    battery_capacity = models.CharField(max_length=50, blank=True, null=True, verbose_name="Емкость батареи")
-    charging_type = models.CharField(max_length=50, blank=True, null=True, verbose_name="Мощность зарядки")
-    # операционная система
-    operating_system = models.CharField(max_length=50, blank=True, null=True, verbose_name="Операционная система")
-    # камера
-    main_camera = models.CharField(max_length=50, blank=True, null=True, verbose_name="Основная камера")
-    front_camera = models.CharField(max_length=50, blank=True, null=True, verbose_name="Фронтальная камера")
-    # дополнительные характеристики
-    wi_fi_standards = models.CharField(max_length=50, blank=True, null=True, verbose_name="Стандарты Wi-Fi")
-    bluetooth_version = models.CharField(max_length=50, blank=True, null=True, verbose_name="Версия Bluetooth")
-    nfc_support = models.BooleanField(default=False, verbose_name="Поддержка NFC")
-    navigational_systems = models.CharField(max_length=100, blank=True, null=True, verbose_name="Навигационные системы")
-    interfaces_usb = models.CharField(max_length=50, blank=True, null=True, verbose_name="Интерфейсы USB")
-    protection_class = models.CharField(max_length=50, blank=True, null=True, verbose_name="Класс защиты")
-    material = models.CharField(max_length=50, blank=True, null=True, verbose_name="Материал корпуса")
+    class DisplayType(models.TextChoices):
+        AMOLED = 'amoled', 'AMOLED'
+        OLED = 'oled', 'OLED'
+        IPS = 'ips', 'IPS'
+        LTPO = 'ltpo', 'LTPO OLED'
+
+    class VideoResolution(models.TextChoices):
+        RES_8K = '8k', '8K UHD (7680x4320)'
+        RES_4K = '4k', '4K UHD (3840x2160)'
+        RES_FHD = '1080p', 'Full HD (1920x1080)'
+        RES_HD = '720p', 'HD (1280x720)'
+
+    class SlotConfig(models.TextChoices):
+        SIM_ONLY = 'sim_only', 'Только SIM (без карты памяти)'
+        HYBRID = 'hybrid', 'Комбинированный (SIM или MicroSD)'
+        DEDICATED = 'dedicated', 'Отдельный (2x SIM + MicroSD)'
+        NO_PHYSICAL = 'no_physical', 'Только eSIM'
+
+    class UsbType(models.TextChoices):
+        TYPE_C = 'type_c', 'USB Type-C'
+        LIGHTNING = 'lightning', 'Lightning'
+        MICRO_USB = 'micro_usb', 'Micro-USB'
+
+    class OSChoices(models.TextChoices):
+        ANDROID = 'android', 'Android'
+        IOS = 'ios', 'iOS'
+        OTHER = 'other', 'Другая'
+
+    # ==========================================
+    # БЛОК 1: ДИСПЛЕЙ
+    # ==========================================
+    display_type = models.CharField(
+        max_length=20, choices=DisplayType.choices, default=DisplayType.AMOLED, verbose_name="Тип матрицы"
+    )
+    display_size = models.DecimalField(
+        max_digits=3, decimal_places=1, verbose_name="Диагональ (\")", help_text="Например: 6.7"
+    )
+    display_resolution = models.CharField(
+        max_length=50, blank=True, null=True, verbose_name="Разрешение", help_text="Например: 2400x1080"
+    )
+    display_refresh_rate = models.PositiveIntegerField(
+        default=60, verbose_name="Частота обновления (Гц)", help_text="60, 90, 120, 144"
+    )
+
+    # ==========================================
+    # БЛОК 2: ПРОЦЕССОР И ГРАФИКА
+    # ==========================================
+    processor = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Модель процессора", help_text="Snapdragon 8 Gen 3"
+    )
+    gpu = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Графический процессор (GPU)", help_text="Adreno 750, Mali-G720"
+    )
+    core_count = models.PositiveSmallIntegerField(
+        default=8, verbose_name="Количество ядер"
+    )
+    core_speed = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Тактовая частота", help_text="1x3.3 ГГц + 3x3.2 ГГц"
+    )
+
+    # ==========================================
+    # БЛОК 3: ПАМЯТЬ И СЛОТЫ
+    # ==========================================
+    ram = models.PositiveIntegerField(
+        verbose_name="ОЗУ (ГБ)", help_text="Например: 8, 12, 16"
+    )
+    storage = models.PositiveIntegerField(
+        verbose_name="Встроенная память (ГБ)", help_text="Например: 128, 256, 512, 1024"
+    )
+    slot_config = models.CharField(
+        max_length=20, choices=SlotConfig.choices, default=SlotConfig.SIM_ONLY, verbose_name="Конфигурация слота"
+    )
+    max_sd_capacity = models.PositiveIntegerField(
+        blank=True, null=True, verbose_name="Макс. карта памяти (ГБ)", help_text="Пусто, если SD не поддерживается"
+    )
+
+    # ==========================================
+    # БЛОК 4: КАМЕРЫ
+    # ==========================================
+    main_camera_mp = models.PositiveIntegerField(
+        verbose_name="Основная камера (Мп)", help_text="Главный модуль для фильтров (например: 50)"
+    )
+    main_camera_desc = models.CharField(
+        max_length=150, blank=True, null=True, verbose_name="Полный блок камер", help_text="50 Мп + 12 Мп + 10 Мп"
+    )
+    front_camera_mp = models.PositiveIntegerField(
+        blank=True, null=True, verbose_name="Фронтальная камера (Мп)", help_text="Например: 32"
+    )
+    max_video_resolution = models.CharField(
+        max_length=20, choices=VideoResolution.choices, default=VideoResolution.RES_4K, verbose_name="Макс. разрешение видео"
+    )
+    optical_zoom = models.DecimalField(
+        max_digits=3, decimal_places=1, blank=True, null=True, verbose_name="Оптический зум (x)", help_text="Например: 3.0, 5.0, 10.0 (пусто, если нет)"
+    )
+
+    # ==========================================
+    # БЛОК 5: АККУМУЛЯТОР И ЗАРЯДКА
+    # ==========================================
+    battery_capacity = models.PositiveIntegerField(
+        verbose_name="Емкость аккумулятора (мАч)", help_text="Например: 5000"
+    )
+    charging_power = models.PositiveIntegerField(
+        blank=True, null=True, verbose_name="Мощность проводной зарядки (Вт)", help_text="Например: 67"
+    )
+    has_wireless_charging = models.BooleanField(
+        default=False, verbose_name="Беспроводная зарядка"
+    )
+    has_reverse_charging = models.BooleanField(
+        default=False, verbose_name="Реверсивная зарядка", help_text="Зарядка других устройств (наушников/часов) от телефона"
+    )
+
+    # ==========================================
+    # БЛОК 6: СВЯЗЬ И ИНТЕРФЕЙСЫ
+    # ==========================================
+    communication_standards = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Стандарты связи", help_text="2G, 3G, 4G, 5G"
+    )
+    sim_count = models.PositiveSmallIntegerField(
+        default=2, verbose_name="Кол-во активных SIM"
+    )
+    has_esim = models.BooleanField(
+        default=False, verbose_name="Поддержка eSIM"
+    )
+    usb_type = models.CharField(
+        max_length=20, choices=UsbType.choices, default=UsbType.TYPE_C, verbose_name="Разъем зарядки"
+    )
+    nfc_support = models.BooleanField(
+        default=False, verbose_name="Поддержка NFC"
+    )
+    has_jack_3_5 = models.BooleanField(
+        default=False, verbose_name="Разъем 3.5 мм"
+    )
+    wi_fi_standards = models.CharField(
+        max_length=50, blank=True, null=True, verbose_name="Wi-Fi", help_text="Wi-Fi 6E, Wi-Fi 7"
+    )
+    bluetooth_version = models.CharField(
+        max_length=20, blank=True, null=True, verbose_name="Bluetooth", help_text="5.3, 5.4"
+    )
+
+    # ==========================================
+    # БЛОК 7: КОРПУС И ОС
+    # ==========================================
+    operating_system = models.CharField(
+        max_length=20, choices=OSChoices.choices, default=OSChoices.ANDROID, verbose_name="ОС"
+    )
+    os_version = models.CharField(
+        max_length=30, blank=True, null=True, verbose_name="Версия ОС", help_text="Android 14, iOS 17"
+    )
+    protection_class = models.CharField(
+        max_length=30, blank=True, null=True, verbose_name="Класс защиты", help_text="IP68, IP54"
+    )
+    material = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Материалы корпуса", help_text="Стекло / металл"
+    )
 
     class Meta:
         verbose_name = 'Смартфон'
         verbose_name_plural = 'Смартфоны'
 
-# 2. Наушники (наследует Product + свои поля)
+# ==========================================
+# 2. НАУШНИКИ
+# ==========================================
 class Headphone(Product):
-    type = models.CharField(max_length=50, blank=True, null=True, verbose_name="Тип наушников (вкладыши/накладные/полноразмерные)")
-    connection_type = models.CharField(max_length=50, blank=True, null=True, verbose_name="Тип подключения (проводные/беспроводные)")
-    noise_cancellation = models.BooleanField(default=False, verbose_name="Активное шумоподавление (ANC)")
-    battery_autonomy = models.CharField(max_length=50, blank=True, null=True, verbose_name="Время автономной работы")
-    battery_full_case_autonomy = models.CharField(max_length=50, blank=True, null=True, verbose_name="Время автономной работы с кейсом (для беспроводных)")
-    bluetooth_version = models.CharField(max_length=50, blank=True, null=True, verbose_name="Версия Bluetooth (для беспроводных)")
-    microphone = models.BooleanField(default=False, verbose_name="Наличие микрофона")
+    class HeadphoneType(models.TextChoices):
+        TWS = 'tws', 'TWS (полностью беспроводные)'
+        IN_EAR = 'in_ear', 'Вкладыши'
+        VACUUM = 'vacuum', 'Внутриканальные (вакуумные)'
+        ON_EAR = 'on_ear', 'Накладные'
+        OVER_EAR = 'over_ear', 'Полноразмерные'
+
+    class ConnectionType(models.TextChoices):
+        WIRELESS = 'wireless', 'Беспроводные'
+        WIRED = 'wired', 'Проводные'
+        COMBINED = 'combined', 'Комбинированные (Bluetooth + кабель)'
+
+    headphone_type = models.CharField(
+        max_length=20, choices=HeadphoneType.choices, default=HeadphoneType.TWS, verbose_name="Тип наушников"
+    )
+    connection_type = models.CharField(
+        max_length=20, choices=ConnectionType.choices, default=ConnectionType.WIRELESS, verbose_name="Подключение"
+    )
+
+    # Звук и шумоподавление
+    has_anc = models.BooleanField(default=False, verbose_name="Активное шумоподавление (ANC)")
+    has_transparency_mode = models.BooleanField(default=False, verbose_name="Режим прозрачности")
+    audio_codecs = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name="Поддерживаемые кодеки", help_text="SBC, AAC, aptX, LDAC"
+    )
+
+    # Автономность и аккумулятор
+    battery_life_hours = models.PositiveSmallIntegerField(
+        blank=True, null=True, verbose_name="Время работы без кейса (ч)", help_text="Например: 6"
+    )
+    total_battery_life_hours = models.PositiveSmallIntegerField(
+        blank=True, null=True, verbose_name="Время работы с кейсом (ч)", help_text="Например: 30"
+    )
+    has_wireless_charging_case = models.BooleanField(
+        default=False, verbose_name="Беспроводная зарядка кейса"
+    )
+
+    # Физические параметры и функционал
+    bluetooth_version = models.CharField(
+        max_length=20, blank=True, null=True, verbose_name="Версия Bluetooth", help_text="5.3, 5.4"
+    )
+    has_microphone = models.BooleanField(default=True, verbose_name="Наличие микрофона")
+    protection_class = models.CharField(
+        max_length=20, blank=True, null=True, verbose_name="Класс влагозащиты", help_text="IPX4, IPX7"
+    )
 
     class Meta:
         verbose_name = 'Наушники'
         verbose_name_plural = 'Наушники'
 
-# 3. Зарядные устройства (наследует Product + свои поля)
+    @property
+    def battery_display(self):
+        if self.total_battery_life_hours:
+            return f"до {self.battery_life_hours} ч (до {self.total_battery_life_hours} ч с кейсом)"
+        elif self.battery_life_hours:
+            return f"до {self.battery_life_hours} ч"
+        return "Не указано"
+
+# ==========================================
+# 3. ЗАРЯДНЫЕ УСТРОЙСТВА
+# ==========================================
 class Charger(Product):
-    power = models.CharField(max_length=50, blank=True, null=True, verbose_name="Мощность (Вт)")
-    ports_count = models.PositiveIntegerField(default=1, verbose_name="Количество портов")
-    fast_charging = models.BooleanField(default=False, verbose_name="Поддержка быстрой зарядки")
+    class ChargerType(models.TextChoices):
+        WALL = 'wall', 'Сетевое (в розетку)'
+        CAR = 'car', 'Автомобильное'
+        WIRELESS_PAD = 'wireless', 'Беспроводная станция/док-станция'
+
+    charger_type = models.CharField(
+        max_length=20, choices=ChargerType.choices, default=ChargerType.WALL, verbose_name="Тип зарядного"
+    )
+    max_power_w = models.PositiveIntegerField(
+        verbose_name="Максимальная мощность (Вт)", help_text="Например: 20, 33, 65, 120"
+    )
+
+    # Разъемы
+    usb_c_ports = models.PositiveSmallIntegerField(default=1, verbose_name="Портов USB Type-C")
+    usb_a_ports = models.PositiveSmallIntegerField(default=0, verbose_name="Портов USB-A")
+
+    # Технологии
+    is_gan = models.BooleanField(
+        default=False, verbose_name="GaN-технология", help_text="Компактный размер и меньший нагрев"
+    )
+    fast_charging_protocols = models.CharField(
+        max_length=150, blank=True, null=True, verbose_name="Протоколы быстрой зарядки", help_text="Power Delivery 3.0, Quick Charge 4.0, PPS"
+    )
+    has_cable_included = models.BooleanField(default=False, verbose_name="Кабель в комплекте")
 
     class Meta:
         verbose_name = 'Зарядное устройство'
         verbose_name_plural = 'Зарядные устройства'
 
-# 4. Кабели питания (наследует Product + свои поля)
+    @property
+    def ports_total(self):
+        return self.usb_c_ports + self.usb_a_ports
+
+    @property
+    def ports_display(self):
+        parts = []
+        if self.usb_c_ports:
+            parts.append(f"{self.usb_c_ports}x Type-C")
+        if self.usb_a_ports:
+            parts.append(f"{self.usb_a_ports}x USB-A")
+        return ", ".join(parts) if parts else "Без портов"
+
+# ==========================================
+# 4. КАБЕЛИ ПИТАНИЯ И ДАННЫХ
+# ==========================================
 class Cable(Product):
-    length = models.CharField(max_length=50, blank=True, null=True, verbose_name="Длина кабеля")
-    connector_from = models.CharField(max_length=50, blank=True, null=True, verbose_name="Разъем 1 (например, USB-A)")
-    connector_to = models.CharField(max_length=50, blank=True, null=True, verbose_name="Разъем 2 (например, Type-C)")
+    class ConnectorType(models.TextChoices):
+        USB_A = 'usb_a', 'USB-A'
+        USB_C = 'usb_c', 'USB Type-C'
+        LIGHTNING = 'lightning', 'Lightning'
+        MICRO_USB = 'micro_usb', 'Micro-USB'
+
+    connector_from = models.CharField(
+        max_length=20, choices=ConnectorType.choices, default=ConnectorType.USB_C, verbose_name="Разъем 1 (откуда)"
+    )
+    connector_to = models.CharField(
+        max_length=20, choices=ConnectorType.choices, default=ConnectorType.USB_C, verbose_name="Разъем 2 (куда)"
+    )
+
+    # Технические параметры
+    length_m = models.DecimalField(
+        max_digits=3, decimal_places=2, verbose_name="Длина кабеля (м)", help_text="Например: 0.25, 1.00, 2.00"
+    )
+    max_power_w = models.PositiveIntegerField(
+        default=60, verbose_name="Макс. пропускаемая мощность (Вт)", help_text="60, 100, 240"
+    )
+    max_current_a = models.DecimalField(
+        max_digits=3, decimal_places=1, blank=True, null=True, verbose_name="Макс. ток (А)", help_text="3.0, 5.0"
+    )
+
+    # Физические свойства
+    data_transfer_speed = models.CharField(
+        max_length=50, blank=True, null=True, verbose_name="Скорость передачи данных", help_text="480 Мбит/с, 10 Гбит/с"
+    )
+    braiding_material = models.CharField(
+        max_length=50, blank=True, null=True, verbose_name="Материал оплетки", help_text="Нейлоновая оплетка, Силикон, ТЭП"
+    )
 
     class Meta:
         verbose_name = 'Кабель питания'
         verbose_name_plural = 'Кабели питания'
 
-# 4. Повербанки (наследует Product + свои поля)
+    @property
+    def connection_display(self):
+        return f"{self.get_connector_from_display()} → {self.get_connector_to_display()}"
+
+# ==========================================
+# 5. ПОВЕРБАНКИ (POWERBANKS)
+# ==========================================
 class PowerBank(Product):
-    capacity = models.CharField(max_length=50, blank=True, null=True, verbose_name="Емкость (мАч)")
-    ports_count = models.PositiveIntegerField(default=1, verbose_name="Количество портов")
-    fast_charging = models.BooleanField(default=False, verbose_name="Поддержка быстрой зарядки")
-    power_output = models.CharField(max_length=50, blank=True, null=True, verbose_name="Выходная мощность (Вт)")
+    class DisplayType(models.TextChoices):
+        DIGITAL = 'digital', 'Цифровой дисплей (%)'
+        LED = 'led', 'Светодиодные индикаторы'
+        NONE = 'none', 'Отсутствует'
+
+    capacity_mah = models.PositiveIntegerField(
+        verbose_name="Емкость (мА·ч)", help_text="Например: 10000, 20000, 30000"
+    )
+    max_power_w = models.PositiveIntegerField(
+        default=22, verbose_name="Макс. выходная мощность (Вт)", help_text="Например: 22, 45, 65, 100"
+    )
+
+    # Разъемы Выхода (Output)
+    usb_c_ports = models.PositiveSmallIntegerField(default=1, verbose_name="Выходов USB Type-C")
+    usb_a_ports = models.PositiveSmallIntegerField(default=1, verbose_name="Выходов USB-A")
+
+    # Дополнительные функции
+    has_wireless_charging = models.BooleanField(default=False, verbose_name="Беспроводная зарядка")
+    has_magsafe = models.BooleanField(default=False, verbose_name="Поддержка MagSafe / магнитное крепление")
+    has_built_in_cable = models.BooleanField(default=False, verbose_name="Встроенный кабель")
+    is_pass_through_supported = models.BooleanField(
+        default=False, verbose_name="Сквозная зарядка", help_text="Зарядка повербанка и подключенных устройств одновременно"
+    )
+    display_type = models.CharField(
+        max_length=20, choices=DisplayType.choices, default=DisplayType.LED, verbose_name="Индикация заряда"
+    )
 
     class Meta:
         verbose_name = 'Повербанк'
         verbose_name_plural = 'Повербанки'
+
+    @property
+    def capacity_display(self):
+        return f"{self.capacity_mah:,}".replace(',', ' ') + " мА·ч"
 
 # 6. Баннеры (наследует Product + свои поля)
 class Banner(models.Model):
