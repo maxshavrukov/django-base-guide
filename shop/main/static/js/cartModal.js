@@ -81,9 +81,12 @@ document.addEventListener("DOMContentLoaded", () => {
  function updateMiniCartUI(data) {
     const headerCart = document.querySelector(".header-cart");
     if (headerCart) headerCart.classList.toggle("has-items", data.basket_len > 0);
-
+    // Берем количество из ответа сервера (data.basket_len)
+    const totalQty = data.basket_len || 0;
     const countElement = document.getElementById("cart-count");
-    if (countElement) countElement.textContent = data.basket_len > 0 ? data.basket_len : "";
+    if (countElement) {
+      countElement.textContent = totalQty > 0 ? totalQty : "";
+    }
 
     const totalElement = document.getElementById("cart-total-price");
     if (totalElement) totalElement.textContent = Number(data.total_price) > 0 ? `${data.total_price} грн` : "";

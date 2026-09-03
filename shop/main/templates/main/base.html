@@ -155,21 +155,13 @@
                   <circle cx="10" cy="19" r="1" fill="currentColor" />
                   <circle cx="17" cy="19" r="1" fill="currentColor" />
                 </svg>
-                <span class="cart-count" id="cart-count">
-                  {% with total_qty=basket|length %}
-                    {% if total_qty > 0 %}{{ total_qty }}{% endif %}
-                  {% endwith %}
-                </span>
+                <span class="cart-count" id="cart-count">{% with total_qty=basket|length %}{% if total_qty > 0 %}{{ total_qty }}{% endif %}{% endwith %}</span>
               </span>
               <span class="cart-btn__label">Корзина</span>
             </button>
             <div class="mini-cart-dropdown" id="miniCart" hidden>
               <div class="mini-cart__header">
-                <strong>Ваша корзина</strong><span>
-                  {% with total_qty=basket|length %}
-                    {{ total_qty }}
-                  {% endwith %}шт.
-                </span>
+                <strong>Ваша корзина</strong><span>{% with total_qty=basket|length %}{{ total_qty }}{% endwith %}шт.</span>
               </div>
               <div class="mini-cart-items-list" id="mini-cart-items">
                 {% if basket %}
@@ -181,8 +173,14 @@
                         <img src="{% static 'img/no-image.png' %}" alt="" class="mini-cart-img" />
                       {% endif %}
                       <div class="mini-cart-info">
-                        <div class="mini-cart-title">{{ item.product.name }}</div>
-                        <div class="mini-cart-details">{{ item.quantity }} шт. × {{ item.price }} грн</div>
+                        <div class="mini-cart-title" title="{{ item.product.name }}">{{ item.product.name }}</div>
+                        <div class="mini-cart-details">
+                          <span>{{ item.quantity }} шт. × {{ item.price }} грн</span>
+                          {% if item.product_discount_percent %}
+                            −{{ item.product_discount_percent }}% · было
+                            {{ item.original_price|default:item.product.price }} грн
+                          {% endif %}
+                        </div>
                       </div>
                       <button type="button" class="mini-cart-remove-btn" data-product_id="{{ item.product.id }}" title="Удалить товар" aria-label="Удалить {{ item.product.name }}">
                         <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
@@ -201,14 +199,42 @@
                   </div>
                 {% endif %}
               </div>
+
               {% with basket_details=basket.get_basket_details %}
-                <div class="mini-cart-footer" id="mini-cart-footer">
-                  <div class="mini-cart-total">
-                    <span>Итого</span>
-                    <strong>
-                      <span id="mini-cart-sum">{{ basket.get_total_price|default:0 }}</span>
-                      грн
-                    </strong>
+                <div class="mini-cart-footer"
+                  id="mini-cart-footer"
+                  style="display: {% if basket %}
+                    block
+                  {% else %}
+                    none
+                  {% endif %};">
+                  <div class="mini-cart-summary">
+                    <div>
+                      <span>Подытог</span>
+                      <strong><span id="mini-cart-subtotal">{{ basket_details.subtotal|default:basket.get_total_price }}</span> грн</strong>
+                    </div>
+                    <div id="mini-cart-product-discount-row"
+                      style="display: {% if basket_details.product_discount_amount %}
+                        flex
+                      {% else %}
+                        none
+                      {% endif %};">
+                      <span>Скидка на товары</span>
+                      <strong>−<span id="mini-cart-product-discount">{{ basket_details.product_discount_amount|default:0 }}</span> грн</strong>
+                    </div>
+                    <div id="mini-cart-promo-row"
+                      style="display: {% if basket_details.promo_discount_amount %}
+                        flex
+                      {% else %}
+                        none
+                      {% endif %};">
+                      <span>Промокод</span>
+                      <strong>−<span id="mini-cart-promo-discount">{{ basket_details.promo_discount_amount|default:0 }}</span> грн</strong>
+                    </div>
+                    <div class="mini-cart-total">
+                      <span>Итого</span>
+                      <strong><span id="mini-cart-sum">{{ basket.get_total_price|default:0 }}</span> грн</strong>
+                    </div>
                   </div>
                   <a href="{% url 'basket:basket_detail' %}" class="btn btn--primary btn--full">Перейти в корзину</a>
                 </div>
@@ -218,7 +244,6 @@
         </div>
       </div>
     </header>
-
     <main id="main-content" class="site-main">
       <div class="container">
         {% if messages %}

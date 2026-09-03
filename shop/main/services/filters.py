@@ -65,6 +65,12 @@ CATEGORY_FILTER_FIELDS = {
             'type': 'checkbox',
         },
         {
+            'param': 'extra_storage',
+            'field': 'extra_storage',
+            'label': 'Дополнительная память',
+            'type': 'checkbox',
+        },
+        {
             'param': 'nfc_support',
             'field': 'nfc_support',
             'label': 'Поддержка NFC',
