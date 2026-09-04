@@ -9,7 +9,12 @@ class OrderModelTest(TestCase):
             name='Планшет',
             slug='tablet',
             price=Decimal('5000.00'),
-            available=True
+            available=True,
+            display_size="6.1",
+            ram=8,
+            storage=256,
+            main_camera_mp=50,
+            battery_capacity=5000,
         )
         self.order = Order.objects.create(
             first_name='Ольга',

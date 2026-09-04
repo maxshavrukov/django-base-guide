@@ -1,6 +1,8 @@
 from decimal import Decimal, ROUND_HALF_UP
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.db.models import Q
+from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils.text import slugify
 from django_ckeditor_5.fields import CKEditor5Field
@@ -26,9 +28,104 @@ class Brand(models.Model):
     def get_absolute_url(self):
         return reverse("main:product_list_by_brand", args=[self.slug])
 
+class Category(models.Model):
+    class ProductType(models.TextChoices):
+        SMARTPHONE = 'smartphone', 'Смартфоны'
+        HEADPHONE = 'headphone', 'Наушники'
+        CHARGER = 'charger', 'Зарядные устройства'
+        CABLE = 'cable', 'Кабели'
+        POWERBANK = 'powerbank', 'Повербанки'
+
+    name = models.CharField(max_length=120, unique=True, verbose_name='Название категории')
+    slug = models.SlugField(max_length=120, unique=True, verbose_name='Slug (URL)')
+    parent = models.ForeignKey(
+        'self',
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name='children',
+        verbose_name='Родительская категория',
+    )
+    product_type = models.CharField(
+        max_length=20,
+        choices=ProductType.choices,
+        blank=True,
+        verbose_name='Тип товара',
+        help_text='Для верхнего уровня обязателен. У подкатегорий можно оставить пустым — тип будет унаследован.',
+    )
+    sort_order = models.PositiveIntegerField(default=0, verbose_name='Порядок')
+    is_active = models.BooleanField(default=True, verbose_name='Активна')
+
+    class Meta:
+        ordering = ('sort_order', 'name')
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+        constraints = [
+            models.UniqueConstraint(
+                fields=('product_type',),
+                condition=Q(parent__isnull=True),
+                name='unique_root_category_product_type',
+            ),
+        ]
+
+    def __str__(self):
+        return self.name
+
+    def clean(self):
+        if self.parent_id is None and not self.product_type:
+            raise ValidationError({'product_type': 'Для верхней категории необходимо указать тип товара.'})
+
+        if self.parent_id and self.product_type:
+            inherited_type = self.parent.get_effective_product_type()
+            if inherited_type and self.product_type != inherited_type:
+                raise ValidationError({'product_type': 'Тип товара подкатегории должен совпадать с типом родительской категории.'})
+
+        if self.parent_id and self.parent_id == self.pk:
+            raise ValidationError({'parent': 'Категория не может быть родителем самой себя.'})
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.name) or 'category'
+            candidate = base_slug
+            counter = 2
+            while Category.objects.filter(slug=candidate).exclude(pk=self.pk).exists():
+                candidate = f'{base_slug}-{counter}'
+                counter += 1
+            self.slug = candidate
+        super().save(*args, **kwargs)
+
+    def get_root(self):
+        category = self
+        seen = set()
+        while category.parent_id and category.id not in seen:
+            seen.add(category.id)
+            category = category.parent
+        return category
+
+    def get_effective_product_type(self):
+        category = self
+        seen = set()
+        while category and category.id not in seen:
+            seen.add(category.id)
+            if category.product_type:
+                return category.product_type
+            category = category.parent
+        return None
+
+    def get_absolute_url(self):
+        return reverse('main:product_list_by_category', args=[self.slug])
+
+
 class ProductGroup(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название серии / линейки")
     slug = models.SlugField(max_length=255, unique=True, null=True, blank=True, verbose_name="Slug (URL)")
+    categories = models.ManyToManyField(
+        Category,
+        blank=True,
+        related_name='product_groups',
+        verbose_name='Подкатегории',
+        help_text='Выберите одну или несколько подкатегорий. Верхние категории определяются типом товара.',
+    )
 
     class Meta:
         verbose_name = "Группа товаров"

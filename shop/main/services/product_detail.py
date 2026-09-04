@@ -1,5 +1,3 @@
-from main.constants import CATEGORY_BY_SLUG
-
 
 def update_recently_viewed(request, product_id: int) -> None:
     """Обновляет список просмотренных товаров в сессии пользователя."""
@@ -33,19 +31,17 @@ def _get_storage_val(instance):
     return getattr(instance, 'storage', None)
 
 
-def get_product_variants(product, category_slug: str) -> tuple[list, list]:
-    """Формирует списки доступных вариантов объёма памяти и цвета."""
+def _get_concrete_model(product):
+    from main.services.categories import get_product_model
+    return get_product_model(product)
+
+
+def get_product_variants(product) -> tuple[list, list]:
+    """Формирует варианты только внутри группы и concrete-типа текущего товара."""
     if not product.group_id:
         return [], []
 
-    concrete_model = None
-    current_storage = None
-
-    if category_slug and category_slug in CATEGORY_BY_SLUG:
-        concrete_model = CATEGORY_BY_SLUG[category_slug][1]
-        relation_name = concrete_model._meta.model_name
-        concrete_instance = getattr(product, relation_name, product)
-        current_storage = _get_storage_val(concrete_instance)
+    concrete_model = _get_concrete_model(product)
 
     if concrete_model:
         group_products = list(
@@ -60,9 +56,13 @@ def get_product_variants(product, category_slug: str) -> tuple[list, list]:
             .select_related('brand', 'group')
         )
 
-    current_color = getattr(product, 'color', None)
+    # Достаем concrete-экземпляр текущего товара из списка group_products по PK
+    current_concrete = next((i for i in group_products if i.pk == product.pk), product)
 
-    # 1. Варианты встроенной памяти
+    # Считываем память с concrete-объекта (у него есть storage_gb / storage_display)
+    current_storage = _get_storage_val(current_concrete)
+    current_color = getattr(current_concrete, 'color', None)
+
     storages_seen = []
     for item in group_products:
         st = _get_storage_val(item)
@@ -73,50 +73,48 @@ def get_product_variants(product, category_slug: str) -> tuple[list, list]:
     for st in storages_seen:
         target = next(
             (i for i in group_products if getattr(i, 'color', None) == current_color and _get_storage_val(i) == st),
-            None
+            None,
         ) or next(
             (i for i in group_products if _get_storage_val(i) == st),
-            None
+            None,
         )
         if target:
             storage_variants.append({
                 'value': st,
                 'product': target,
-                'is_active': (st == current_storage),
+                'is_active': st == current_storage,
             })
 
-    # 2. Варианты цвета
     colors_seen = []
     for item in group_products:
-        c = getattr(item, 'color', None)
-        if c and c not in colors_seen:
-            colors_seen.append(c)
+        color = getattr(item, 'color', None)
+        if color and color not in colors_seen:
+            colors_seen.append(color)
 
     color_variants = []
-    for c in colors_seen:
+    for color in colors_seen:
         target = next(
-            (i for i in group_products if _get_storage_val(i) == current_storage and getattr(i, 'color', None) == c),
-            None
+            (i for i in group_products if _get_storage_val(i) == current_storage and getattr(i, 'color', None) == color),
+            None,
         ) or next(
-            (i for i in group_products if getattr(i, 'color', None) == c),
-            None
+            (i for i in group_products if getattr(i, 'color', None) == color),
+            None,
         )
         if target:
             color_variants.append({
-                'value': c,
+                'value': color,
                 'product': target,
-                'is_active': (c == current_color),
+                'is_active': color == current_color,
             })
 
     return storage_variants, color_variants
 
-
-def get_related_products(product, category_slug: str) -> list:
-    """Возвращает список похожих товаров из той же категории."""
-    if not category_slug or category_slug not in CATEGORY_BY_SLUG:
+def get_related_products(product) -> list:
+    """Возвращает последние активные товары того же concrete-типа."""
+    concrete_model = _get_concrete_model(product)
+    if not concrete_model:
         return []
 
-    concrete_model = CATEGORY_BY_SLUG[category_slug][1]
     return list(
         concrete_model.objects
         .filter(available=True)

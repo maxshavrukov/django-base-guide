@@ -86,7 +86,7 @@ def product_detail(request, id, slug):
 
     category_slug, category_name = product_category_slug(product)
     update_recently_viewed(request, product.id)
-    storage_variants, color_variants = get_product_variants(product, category_slug)
+    storage_variants, color_variants = get_product_variants(product)
 
     return render(
         request,
@@ -96,7 +96,7 @@ def product_detail(request, id, slug):
             'gallery': get_product_gallery(product),
             'storage_variants': storage_variants,
             'color_variants': color_variants,
-            'related_products': get_related_products(product, category_slug),
+            'related_products': get_related_products(product),
             'categories': category_menu(),
             'category_slug': category_slug,
             'category_name': category_name,

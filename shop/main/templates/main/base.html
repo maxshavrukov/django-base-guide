@@ -107,6 +107,15 @@
                         <a href="{% url 'main:product_list_by_category' category.slug %}" class="catalog-submenu__title">{{ category.name }}</a>
                       </div>
                     </div>
+                    {% if category.children %}
+                      <div class="catalog-submenu__grid">
+                        {% for child in category.children %}
+                          <div class="catalog-submenu__brand">
+                            <a href="{% url 'main:product_list_by_category' child.slug %}">{{ child.name }}</a>
+                          </div>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
                     {% if category.brands %}
                       <div class="catalog-submenu__grid">
                         {% for brand in category.brands %}

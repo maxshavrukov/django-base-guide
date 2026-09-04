@@ -13,7 +13,12 @@ class WishlistItemModelTest(TestCase):
             name='Python книга',
             slug='python-book',
             price=Decimal('1200.00'),
-            available=True
+            available=True,
+            display_size="6.1",
+            ram=8,
+            storage=256,
+            main_camera_mp=50,
+            battery_capacity=5000,
         )
 
     def test_wishlist_item_creation(self):

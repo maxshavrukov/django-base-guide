@@ -1,10 +1,17 @@
 from decimal import Decimal, InvalidOperation
 from itertools import chain
+
 from django.http import QueryDict
 from django.shortcuts import get_object_or_404
 
-from main.constants import CATEGORY_BY_SLUG, PRODUCT_CATEGORIES
+from main.constants import PRODUCT_CATEGORIES
 from main.models import Brand, Product, ProductGroup
+from main.services.categories import (
+    get_category_filter_key,
+    get_category_group_queryset,
+    get_category_product_queryset,
+    get_product_model,
+)
 from main.services.filters import apply_category_filters, get_category_filter_options
 
 
@@ -100,16 +107,13 @@ def get_recently_viewed_products(request) -> list:
 
 
 def resolve_catalog_data(category_slug=None, group_slug=None, brand_slug=None, request_get=None) -> dict:
-    """
-    Основной резолвер данных каталога: определяет список товаров, 
-    фильтры категории, текущую группу и бренд.
-    """
-    # Если параметры не переданы, используем пустой QueryDict
+    """Resolve catalog data for root/secondary categories, groups and brands."""
     request_get = request_get if request_get is not None else QueryDict()
     category_groups = []
     category_filters = []
     current_group = None
     current_brand = None
+    current_category = None
 
     if brand_slug:
         current_brand = get_object_or_404(Brand, slug=brand_slug)
@@ -120,49 +124,44 @@ def resolve_catalog_data(category_slug=None, group_slug=None, brand_slug=None, r
         current_group = get_object_or_404(ProductGroup, slug=group_slug)
         category_name = current_group.name
 
-        cat_slug = None
-        if hasattr(current_group, 'category') and current_group.category:
-            cat_slug = current_group.category.slug
-        else:
-            for slug_key, (_, model_cls) in CATEGORY_BY_SLUG.items():
-                if model_cls.objects.filter(group=current_group).exists():
-                    cat_slug = slug_key
-                    break
-
-        category_slug = cat_slug
-        selected = CATEGORY_BY_SLUG.get(cat_slug) if cat_slug else None
-
-        if selected:
-            _, model = selected
-            queryset = model.objects.filter(group=current_group, available=True).select_related('brand', 'group')
-            all_cat_queryset = model.objects.filter(available=True).select_related('brand', 'group')
-
-            category_filters = get_category_filter_options(cat_slug, queryset, request_get)
-            queryset = apply_category_filters(queryset, cat_slug, request_get)
-
-            products = list(queryset)
-            category_groups = get_category_groups(list(all_cat_queryset))
-        else:
-            products = list(
-                Product.objects
-                .filter(group=current_group, available=True)
-                .select_related('brand', 'group')
-            )
+        # ProductGroup describes one concrete model, so derive its type from its products.
+        group_products = list(
+            Product.objects
+            .filter(group=current_group, available=True)
+            .select_related('brand', 'group')
+        )
+        products = group_products
+        if group_products:
+            category_slug, category_name_for_group = _find_product_category(group_products[0])
+            if category_slug:
+                current_category = _get_category_or_none(category_slug)
+                category_name = current_group.name
+                filter_key = _get_filter_key_for_product(group_products[0])
+                model_products = _get_group_concrete_queryset(current_group, group_products[0])
+                category_filters = get_category_filter_options(filter_key, model_products, request_get) if filter_key else []
+                filtered = apply_category_filters(model_products, filter_key, request_get) if filter_key else model_products
+                products = list(filtered)
+                category_groups = list(
+                    get_category_group_queryset(current_category)
+                    if current_category else ProductGroup.objects.none()
+                )
 
     elif category_slug:
-        selected = CATEGORY_BY_SLUG.get(category_slug)
-        if selected:
-            category_name, model = selected
-            queryset = model.objects.filter(available=True).select_related('brand', 'group')
-
-            category_filters = get_category_filter_options(category_slug, queryset, request_get)
-            queryset = apply_category_filters(queryset, category_slug, request_get)
-
-            products = list(queryset)
-            category_groups = get_category_groups(products)
-        else:
+        current_category = get_object_or_404(
+            __import__('main.models', fromlist=['Category']).Category,
+            slug=category_slug,
+            is_active=True,
+        )
+        category_name = current_category.name
+        filter_key = get_category_filter_key(current_category)
+        queryset = get_category_product_queryset(current_category)
+        if queryset is None:
             products = []
-            category_name = 'Каталог'
+        else:
+            category_filters = get_category_filter_options(filter_key, queryset, request_get) if filter_key else []
+            queryset = apply_category_filters(queryset, filter_key, request_get) if filter_key else queryset
+            products = list(queryset)
+            category_groups = list(get_category_group_queryset(current_category))
 
     else:
         products = get_all_available_products()
@@ -176,4 +175,32 @@ def resolve_catalog_data(category_slug=None, group_slug=None, brand_slug=None, r
         'category_groups': category_groups,
         'current_group': current_group,
         'current_brand': current_brand,
+        'current_category': current_category,
     }
+
+
+def _get_category_or_none(slug):
+    from main.models import Category
+    return Category.objects.filter(slug=slug, is_active=True).first()
+
+
+def _find_product_category(product):
+    from main.services.catalog import product_category_slug
+    return product_category_slug(product)
+
+
+def _get_filter_key_for_product(product):
+    concrete_model = get_product_model(product)
+    if concrete_model is None:
+        return None
+    for slug, _name, model in PRODUCT_CATEGORIES:
+        if model is concrete_model:
+            return slug
+    return None
+
+
+def _get_group_concrete_queryset(group, product):
+    concrete_model = get_product_model(product)
+    if concrete_model is not None:
+        return concrete_model.objects.filter(group=group, available=True).select_related('brand', 'group')
+    return Product.objects.filter(group=group, available=True).select_related('brand', 'group')

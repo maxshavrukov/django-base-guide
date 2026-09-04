@@ -3,7 +3,7 @@ from django.contrib import admin, messages
 from django.db.models import Count
 from django.shortcuts import render
 
-from .models import Banner, Brand, Cable, Charger, Headphone, PowerBank, Product, ProductGroup, ProductImage, Smartphone
+from .models import Banner, Brand, Cable, Category, Charger, Headphone, PowerBank, Product, ProductGroup, ProductImage, Smartphone
 
 
 class CustomDiscountForm(forms.Form):
@@ -101,6 +101,16 @@ class BrandAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     prepopulated_fields = {'slug': ('name',)}
 
+
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'parent', 'product_type', 'sort_order', 'is_active')
+    list_filter = ('product_type', 'is_active', 'parent')
+    search_fields = ('name', 'slug')
+    prepopulated_fields = {'slug': ('name',)}
+    list_editable = ('sort_order', 'is_active')
 
 @admin.register(Smartphone)
 class SmartphoneAdmin(CommonProductAdminMixin, admin.ModelAdmin):
@@ -203,9 +213,16 @@ class ProductInline(admin.TabularInline):
 @admin.register(ProductGroup)
 class ProductGroupAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', 'products_count')
+    filter_horizontal = ('categories',)
+    list_filter = ('categories',)
     search_fields = ('name', 'slug')
     prepopulated_fields = {'slug': ('name',)}
     inlines = [ProductInline]
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == 'categories':
+            kwargs['queryset'] = Category.objects.filter(parent__isnull=False, is_active=True).select_related('parent')
+        return super().formfield_for_manytomany(db_field, request, **kwargs)
 
     def get_queryset(self, request):
         return super().get_queryset(request).annotate(_products_count=Count('products', distinct=True))

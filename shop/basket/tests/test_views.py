@@ -14,6 +14,11 @@ class BasketViewsTest(TestCase):
             slug='smartphone',
             price=Decimal('25000.00'),
             available=True,
+            display_size="6.1",
+            ram=8,
+            storage=256,
+            main_camera_mp=50,
+            battery_capacity=5000,
             stock=10,
         )
 

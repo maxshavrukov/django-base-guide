@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.test import TestCase, Client
 from django.urls import reverse
 
-from main.models import Brand, ProductGroup, Smartphone
+from main.models import Brand, Category, Headphone, ProductGroup, Smartphone
 
 
 class MainViewsTest(TestCase):
@@ -19,6 +19,11 @@ class MainViewsTest(TestCase):
             slug='test-smartphone',
             price=Decimal('500.00'),
             available=True,
+            display_size="6.1",
+            ram=8,
+            storage=256,
+            main_camera_mp=50,
+            battery_capacity=5000,
             stock=3,
         )
 
@@ -75,6 +80,11 @@ class MainViewsTest(TestCase):
             slug='other-smartphone',
             price=Decimal('600.00'),
             available=True,
+            display_size="6.1",
+            ram=8,
+            storage=256,
+            main_camera_mp=50,
+            battery_capacity=5000,
             stock=3,
         )
         response = self.client.get(
@@ -111,3 +121,62 @@ class MainViewsTest(TestCase):
         self.assertEqual(response.context['product'].id, self.product.id)
         self.assertIn('storage_variants', response.context)
         self.assertIn('color_variants', response.context)
+
+    def test_secondary_category_can_include_product_group(self):
+        root = Category.objects.get(slug='headphones')
+        custom = Category.objects.create(
+            name='Беспроводные тест',
+            slug='wireless-test',
+            parent=root,
+        )
+        headphone_group = ProductGroup.objects.create(name='Test Headphone Series', slug='test-headphone-series')
+        headphone = Headphone.objects.create(
+            brand=self.brand,
+            group=headphone_group,
+            name='Тестовые беспроводные наушники',
+            slug='test-wireless-headphones',
+            price=Decimal('120.00'),
+            available=True,
+            stock=5,
+            headphone_type='over_ear',
+            connection_type='wireless',
+        )
+        headphone_group.categories.add(custom)
+
+        response = self.client.get(reverse('main:product_list_by_category', args=[custom.slug]))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, headphone.name)
+
+    def test_product_group_can_belong_to_multiple_secondary_categories(self):
+        root = Category.objects.get(slug='headphones')
+        wireless = Category.objects.create(name='Беспроводные multi', slug='wireless-multi', parent=root)
+        gaming = Category.objects.create(name='Игровые multi', slug='gaming-multi', parent=root)
+        multi_group = ProductGroup.objects.create(name='Multi Headphone Series', slug='multi-headphone-series')
+        headphone = Headphone.objects.create(
+            brand=self.brand,
+            group=multi_group,
+            name='Мультикатегорийные наушники',
+            slug='multi-category-headphones',
+            price=Decimal('130.00'),
+            available=True,
+            stock=2,
+            headphone_type='over_ear',
+            connection_type='wireless',
+        )
+        multi_group.categories.add(wireless, gaming)
+
+        wireless_response = self.client.get(reverse('main:product_list_by_category', args=[wireless.slug]))
+        gaming_response = self.client.get(reverse('main:product_list_by_category', args=[gaming.slug]))
+        self.assertContains(wireless_response, headphone.name)
+        self.assertContains(gaming_response, headphone.name)
+
+    def test_secondary_category_is_available_in_catalog_menu(self):
+        root = Category.objects.get(slug='smartphones')
+        child = Category.objects.create(name='Флагманские тест', slug='flagship-test', parent=root)
+        response = self.client.get(reverse('main:product_list'))
+        self.assertContains(response, child.name)
+
+    def test_root_category_is_automatic_for_product_type(self):
+        response = self.client.get(reverse('main:product_list_by_category', args=['smartphones']))
+        self.assertContains(response, self.product.name)
+

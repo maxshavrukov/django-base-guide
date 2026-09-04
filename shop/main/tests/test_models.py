@@ -20,6 +20,11 @@ class ProductModelTest(TestCase):
             discount=10,
             stock=5,
             available=True,
+            display_size="6.1",
+            ram=8,
+            storage=256,
+            main_camera_mp=50,
+            battery_capacity=5000,
         )
 
     def test_product_creation_and_discount(self):

@@ -20,6 +20,11 @@ class WishlistClassTest(TestCase):
             slug='phone',
             price=Decimal('10000.00'),
             available=True,
+            display_size="6.1",
+            ram=8,
+            storage=256,
+            main_camera_mp=50,
+            battery_capacity=5000,
         )
 
     def test_guest_wishlist_methods(self):

@@ -1,9 +1,9 @@
 from .models import Cable, Charger, Headphone, PowerBank, Smartphone
 
 
-# Единственный источник истины для типов товаров в каталоге.
+# Реестр concrete-типов товаров. Это НЕ список всех пользовательских категорий.
 # Формат: (slug, отображаемое имя, concrete-модель Django).
-PRODUCT_CATEGORIES = (
+PRODUCT_TYPES = (
     ("smartphones", "Смартфоны", Smartphone),
     ("headphones", "Наушники", Headphone),
     ("chargers", "Зарядные устройства", Charger),
@@ -11,8 +11,9 @@ PRODUCT_CATEGORIES = (
     ("powerbanks", "Повербанки", PowerBank),
 )
 
-CATEGORY_BY_SLUG = {slug: (name, model) for slug, name, model in PRODUCT_CATEGORIES}
+PRODUCT_CATEGORIES = PRODUCT_TYPES
+PRODUCT_TYPE_BY_SLUG = {slug: (name, model) for slug, name, model in PRODUCT_TYPES}
 CATEGORY_BY_MODEL_NAME = {
     model._meta.model_name: (slug, name, model)
-    for slug, name, model in PRODUCT_CATEGORIES
+    for slug, name, model in PRODUCT_TYPES
 }

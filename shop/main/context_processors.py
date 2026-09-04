@@ -1,6 +1,6 @@
-from .constants import PRODUCT_CATEGORIES
 from .models import Brand
 from .services.catalog import get_catalog_tree
+from .services.categories import get_active_root_categories
 
 
 def categories(request):
@@ -10,8 +10,8 @@ def categories(request):
 
     return {
         'categories': [
-            {'name': name, 'slug': slug}
-            for slug, name, _ in PRODUCT_CATEGORIES
+            {'name': category.name, 'slug': category.slug}
+            for category in get_active_root_categories()
         ],
         'brands': Brand.objects.all(),
     }
