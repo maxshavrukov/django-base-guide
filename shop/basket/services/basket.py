@@ -2,7 +2,7 @@ from decimal import Decimal
 from django.conf import settings
 
 from basket.models import BasketItem
-from main.models import Product
+from main.models import CartPromotion, Product
 
 
 class Basket:
@@ -134,7 +134,7 @@ class Basket:
                     'quantity': item.quantity,
                     'price': price,
                     'original_price': product.price,
-                    'product_discount_percent': product.discount_percent,
+                    'product_discount_percent': product.effective_discount_percent,
                     'product_discount_amount': product.get_discount_amount(),
                     'total_price': price * item.quantity,
                 }
@@ -166,7 +166,7 @@ class Basket:
                 'quantity': quantity,
                 'price': price,
                 'original_price': product.price,
-                'product_discount_percent': product.discount_percent,
+                'product_discount_percent': product.effective_discount_percent,
                 'product_discount_amount': product.get_discount_amount(),
                 'total_price': price * quantity,
             }
@@ -194,20 +194,18 @@ class Basket:
         return total.quantize(Decimal('0.01'))
 
     def _get_discount_data(self):
-        total_quantity = len(self)
-        discount_percent = 0
-        applied_discounts = []
+        items = list(self)
+        discount_amount, promotion = CartPromotion.get_best_for_basket(items, user=self.user)
+        if not promotion or discount_amount <= 0:
+            return 0, [], Decimal('0.00')
 
-        if total_quantity >= 3:
-            discount_percent += 10
-            applied_discounts.append('10% от 3 товаров')
-
-        if self.user:
-            discount_percent += 5
-            applied_discounts.append('5% за регистрацию')
-
-        discount_percent = min(discount_percent, 25)
-        return discount_percent, applied_discounts
+        if promotion.rule_type == CartPromotion.RuleType.CART:
+            subtotal = sum((item['price'] * item['quantity'] for item in items), Decimal('0.00'))
+            percent = promotion.discount_percent
+        else:
+            subtotal = sum((item['price'] * item['quantity'] for item in items), Decimal('0.00'))
+            percent = promotion.discount_percent
+        return percent, [promotion.name], discount_amount
 
     def get_discount_percentage(self):
         return self._get_discount_data()[0]
@@ -217,10 +215,7 @@ class Basket:
         product_discount_amount = self.get_product_discount_amount()
         after_product_discount = subtotal - product_discount_amount
 
-        promo_percent, applied_discounts = self._get_discount_data()
-        promo_discount_amount = (
-            after_product_discount * Decimal(promo_percent) / Decimal('100')
-        ).quantize(Decimal('0.01'))
+        promo_percent, applied_discounts, promo_discount_amount = self._get_discount_data()
 
         total_discount_amount = (
             product_discount_amount + promo_discount_amount

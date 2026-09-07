@@ -116,6 +116,20 @@ class Category(models.Model):
         return reverse('main:product_list_by_category', args=[self.slug])
 
 
+class MainCategory(Category):
+    class Meta:
+        proxy = True
+        verbose_name = 'Основная категория'
+        verbose_name_plural = 'Основные категории'
+
+
+class SubCategory(Category):
+    class Meta:
+        proxy = True
+        verbose_name = 'Подкатегория'
+        verbose_name_plural = 'Подкатегории'
+
+
 class ProductGroup(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название серии / линейки")
     slug = models.SlugField(max_length=255, unique=True, null=True, blank=True, verbose_name="Slug (URL)")
@@ -190,10 +204,17 @@ class Product(models.Model):
     def discount_percent(self):
         return max(0, min(int(self.discount or 0), 100))
 
+    def get_promotion_discount_percent(self):
+        return ProductPromotion.get_best_discount_for_product(self)
+
+    @property
+    def effective_discount_percent(self):
+        return max(self.discount_percent, self.get_promotion_discount_percent())
+
     def get_discounted_price(self):
         if not self.price:
             return Decimal("0.00")
-        percent = Decimal(self.discount_percent)
+        percent = Decimal(self.effective_discount_percent)
         value = self.price * (Decimal("100") - percent) / Decimal("100")
         return value.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
 
@@ -600,7 +621,187 @@ class PowerBank(Product):
     def capacity_display(self):
         return f"{self.capacity_mah:,}".replace(',', ' ') + " мА·ч"
 
-# 6. Баннеры (наследует Product + свои поля)
+class ProductPromotion(models.Model):
+    class TargetType(models.TextChoices):
+        BRAND = 'brand', 'Бренд'
+        CATEGORY = 'category', 'Категория'
+        GROUP = 'group', 'Группа товаров'
+        PRODUCT = 'product', 'Конкретный товар'
+
+    name = models.CharField(max_length=200, verbose_name='Название акции')
+    target_type = models.CharField(max_length=20, choices=TargetType.choices, verbose_name='Тип цели')
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, blank=True, null=True, related_name='product_promotions', verbose_name='Бренд')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True, related_name='product_promotions', verbose_name='Категория')
+    group = models.ForeignKey(ProductGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='product_promotions', verbose_name='Группа товаров')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True, related_name='product_promotions', verbose_name='Товар')
+    discount_percent = models.PositiveSmallIntegerField(default=0, verbose_name='Скидка (%)')
+    starts_at = models.DateTimeField(blank=True, null=True, verbose_name='Начало действия')
+    ends_at = models.DateTimeField(blank=True, null=True, verbose_name='Окончание действия')
+    is_active = models.BooleanField(default=True, verbose_name='Активна')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Акция на товары'
+        verbose_name_plural = 'Акции на товары'
+        ordering = ('-created_at',)
+
+    def __str__(self):
+        return self.name
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        targets = {
+            self.TargetType.BRAND: self.brand_id,
+            self.TargetType.CATEGORY: self.category_id,
+            self.TargetType.GROUP: self.group_id,
+            self.TargetType.PRODUCT: self.product_id,
+        }
+        if not targets.get(self.target_type):
+            raise ValidationError({'target_type': 'Выберите соответствующую цель акции.'})
+        if sum(bool(value) for value in targets.values()) != 1:
+            raise ValidationError('Должна быть выбрана ровно одна цель акции.')
+        if not 0 <= int(self.discount_percent) <= 100:
+            raise ValidationError({'discount_percent': 'Скидка должна быть от 0 до 100%. '})
+        if self.starts_at and self.ends_at and self.starts_at > self.ends_at:
+            raise ValidationError({'ends_at': 'Дата окончания не может быть раньше даты начала.'})
+
+    def is_currently_active(self, now=None):
+        from django.utils import timezone
+        now = now or timezone.now()
+        if not self.is_active or self.discount_percent <= 0:
+            return False
+        if self.starts_at and now < self.starts_at:
+            return False
+        if self.ends_at and now > self.ends_at:
+            return False
+        return True
+
+    def applies_to(self, product):
+        if self.target_type == self.TargetType.PRODUCT:
+            return self.product_id == product.id
+        if self.target_type == self.TargetType.GROUP:
+            return self.group_id and product.group_id == self.group_id
+        if self.target_type == self.TargetType.BRAND:
+            return self.brand_id and product.brand_id == self.brand_id
+        if self.target_type == self.TargetType.CATEGORY:
+            if not product.group_id or not self.category_id:
+                return False
+            from main.services.categories import get_category_descendant_ids, get_product_root_category
+            if not self.category.is_active:
+                return False
+            if self.category.parent_id is None:
+                root = get_product_root_category(product)
+                return bool(root and root.id == self.category_id)
+            return self.category_id in getattr(product.group, '_promotion_category_ids', []) or product.group.categories.filter(id__in=get_category_descendant_ids(self.category)).exists()
+        return False
+
+    @classmethod
+    def get_best_discount_for_product(cls, product):
+        from django.utils import timezone
+        now = timezone.now()
+        qs = cls.objects.filter(is_active=True, discount_percent__gt=0)
+        best = 0
+        for promotion in qs.select_related('brand', 'category', 'group', 'product'):
+            if promotion.starts_at and now < promotion.starts_at:
+                continue
+            if promotion.ends_at and now > promotion.ends_at:
+                continue
+            if promotion.applies_to(product):
+                best = max(best, promotion.discount_percent)
+        return best
+
+
+class CartPromotion(models.Model):
+    class RuleType(models.TextChoices):
+        CART = 'cart', 'На всю корзину'
+        CHEAPEST = 'cheapest', 'На самый дешёвый товар'
+        MOST_EXPENSIVE = 'most_expensive', 'На самый дорогой товар'
+        NTH = 'nth', 'На N-й товар'
+
+    name = models.CharField(max_length=200, verbose_name='Название акции')
+    rule_type = models.CharField(max_length=20, choices=RuleType.choices, default=RuleType.CART, verbose_name='Правило')
+    discount_percent = models.PositiveSmallIntegerField(default=0, verbose_name='Скидка (%)')
+    min_quantity = models.PositiveIntegerField(default=1, verbose_name='Минимальное количество товаров')
+    nth_position = models.PositiveIntegerField(blank=True, null=True, verbose_name='Позиция N-го товара')
+    registered_only = models.BooleanField(default=False, verbose_name='Только для авторизованных')
+    starts_at = models.DateTimeField(blank=True, null=True, verbose_name='Начало действия')
+    ends_at = models.DateTimeField(blank=True, null=True, verbose_name='Окончание действия')
+    is_active = models.BooleanField(default=True, verbose_name='Активна')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Акция корзины'
+        verbose_name_plural = 'Акции корзины'
+        ordering = ('-created_at',)
+
+    def __str__(self):
+        return self.name
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        if not 0 <= int(self.discount_percent) <= 100:
+            raise ValidationError({'discount_percent': 'Скидка должна быть от 0 до 100%.'})
+        if self.min_quantity < 1:
+            raise ValidationError({'min_quantity': 'Минимальное количество должно быть не меньше 1.'})
+        if self.rule_type == self.RuleType.NTH and (not self.nth_position or self.nth_position < 1):
+            raise ValidationError({'nth_position': 'Для правила N-го товара укажите позицию.'})
+        if self.rule_type != self.RuleType.NTH:
+            self.nth_position = None
+        if self.starts_at and self.ends_at and self.starts_at > self.ends_at:
+            raise ValidationError({'ends_at': 'Дата окончания не может быть раньше даты начала.'})
+
+    def is_currently_active(self, user=None, now=None):
+        from django.utils import timezone
+        now = now or timezone.now()
+        if not self.is_active or self.discount_percent <= 0:
+            return False
+        if self.registered_only and not (user and user.is_authenticated):
+            return False
+        if self.starts_at and now < self.starts_at:
+            return False
+        if self.ends_at and now > self.ends_at:
+            return False
+        return True
+
+    def calculate_discount(self, items, user=None):
+        if not self.is_currently_active(user=user):
+            return Decimal('0.00')
+        total_quantity = sum(item['quantity'] for item in items)
+        if total_quantity < self.min_quantity:
+            return Decimal('0.00')
+        subtotal = sum((item['price'] * item['quantity'] for item in items), Decimal('0.00'))
+        if subtotal <= 0:
+            return Decimal('0.00')
+        if self.rule_type == self.RuleType.CART:
+            base = subtotal
+        else:
+            units = sorted(
+                [item['price'] for item in items for _ in range(item['quantity'])],
+                reverse=self.rule_type == self.RuleType.MOST_EXPENSIVE,
+            )
+            if not units:
+                return Decimal('0.00')
+            if self.rule_type == self.RuleType.CHEAPEST:
+                base = units[0]
+            elif self.rule_type == self.RuleType.MOST_EXPENSIVE:
+                base = units[0]
+            else:
+                if not self.nth_position or len(units) < self.nth_position:
+                    return Decimal('0.00')
+                base = sorted(units)[self.nth_position - 1]
+        return (base * Decimal(self.discount_percent) / Decimal('100')).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+
+    @classmethod
+    def get_best_for_basket(cls, items, user=None):
+        best = (Decimal('0.00'), None)
+        for promotion in cls.objects.filter(is_active=True, discount_percent__gt=0):
+            discount = promotion.calculate_discount(items, user=user)
+            if discount > best[0]:
+                best = (discount, promotion)
+        return best
+
+
+# 6. Баннеры — только визуальный контент; на скидки не влияют.
 class Banner(models.Model):
     title = models.CharField(max_length=200, verbose_name="Заголовок баннера")
     subtitle = models.TextField(verbose_name="Описание / Подзаголовок", blank=True)

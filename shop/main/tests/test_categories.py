@@ -102,3 +102,20 @@ class CategoryQuerysetTest(TestCase):
     def test_product_model_detection_for_concrete_instance(self):
         product = self.group.products.first()
         self.assertIs(get_product_model(product), Headphone)
+
+
+class CategoryAdminTest(TestCase):
+    def test_root_and_subcategory_proxies_exist(self):
+        from main.admin import MainCategory, SubCategory
+        self.assertTrue(MainCategory._meta.proxy)
+        self.assertTrue(SubCategory._meta.proxy)
+
+    def test_root_queryset_excludes_children(self):
+        from main.admin import MainCategoryAdmin, SubCategoryAdmin
+        root = Category.objects.get(slug='headphones')
+        Category.objects.create(name='Wireless admin', slug='wireless-admin', parent=root)
+        root_admin = MainCategoryAdmin(Category, None)
+        sub_admin = SubCategoryAdmin(Category, None)
+        self.assertTrue(root_admin.get_queryset(None).filter(pk=root.pk).exists())
+        self.assertFalse(root_admin.get_queryset(None).filter(name='Wireless admin').exists())
+        self.assertTrue(sub_admin.get_queryset(None).filter(name='Wireless admin').exists())

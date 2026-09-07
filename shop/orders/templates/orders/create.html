@@ -91,8 +91,12 @@
 
       <div class="order_subtotal"><span>Товары</span><span>{{ basket_details.subtotal }} грн.</span></div>
 
-      {% if basket_details.discount_percent > 0 %}
-        <div class="order_discount"><span>Скидка · {{ basket_details.discount_percent }}%</span><span class="order_discount_amount">−{{ basket_details.discount_amount }} грн.</span></div>
+      {% if basket_details.product_discount_amount > 0 %}
+        <div class="order_discount"><span>Скидка на товары</span><span class="order_discount_amount">−{{ basket_details.product_discount_amount }} грн.</span></div>
+      {% endif %}
+
+      {% if basket_details.promo_discount_amount > 0 %}
+        <div class="order_discount"><span>Скидка корзины · {{ basket_details.promo_discount_percent }}%</span><span class="order_discount_amount">−{{ basket_details.promo_discount_amount }} грн.</span></div>
         {% if basket_details.applied_discounts %}
           <div class="order_discount_details"><small>{{ basket_details.applied_discounts|join:", " }}</small></div>
         {% endif %}
