@@ -1,42 +1,80 @@
 {% extends 'users/account_base.html' %}
 {% block cabinet_content %}
 <div class="cabinet-section-header">
-  <div><span class="eyebrow">Профиль</span><h2>Контактная информация</h2><p>Основные данные вашей учётной записи и бонусный счёт.</p></div>
+  <div>
+    <span class="eyebrow">Профиль</span>
+    <h2>Контактная информация</h2>
+    <p>Основные данные вашей учётной записи и бонусный счёт.</p>
+  </div>
 </div>
 
-<div class="profile-summary">
-  <div class="profile-avatar">{{ user.username|first|upper }}</div>
-  <div><strong>{{ profile.display_name }}</strong><span>{{ user.email|default:'Email не указан' }}</span></div>
+<!-- Верхний дашборд с именем и балансом -->
+<div class="bonus-dashboard-card">
+  <div>
+    <span class="bonus-label">Пользователь</span>
+    <strong class="bonus-balance-inline">{{ profile.display_name|default:user.username }}</strong>
+    <span class="bonus-unit">{{ user.email|default:'Email не указан' }}</span>
+  </div>
+  <div class="bonus-info">
+    <span class="bonus-label">Бонусный счёт</span>
+    <strong class="bonus-balance">{{ bonus_balance }}</strong>
+    <a href="{% url 'users:bonus_history' %}">История операций →</a>
+  </div>
 </div>
 
-<div class="profile-info-grid">
-  <div class="profile-info-item"><span>Имя пользователя</span><strong>{{ user.username }}</strong></div>
-  <div class="profile-info-item"><span>Email</span><strong>{{ user.email|default:'Не указан' }}</strong></div>
-  <div class="profile-info-item"><span>Дата регистрации</span><strong>{{ user.date_joined|date:'d.m.Y' }}</strong></div>
-  <div class="profile-info-item"><span>Бонусный счёт</span><strong>{{ bonus_balance }} бонусов</strong></div>
+<!-- Сетка с информацией о пользователе -->
+<div class="account-grid">
+  <div class="account-card">
+    <h2>Данные учётной записи</h2>
+    <dl>
+      <div>
+        <dt>Имя пользователя</dt>
+        <dd><strong>{{ user.username }}</strong></dd>
+      </div>
+      <div>
+        <dt>Email</dt>
+        <dd><strong>{{ user.email|default:'Не указан' }}</strong></dd>
+      </div>
+      <div>
+        <dt>Дата регистрации</dt>
+        <dd><strong>{{ user.date_joined|date:'d.m.Y' }}</strong></dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="account-card">
+    <h2>Бонусный баланс</h2>
+    <dl>
+      <div>
+        <dt>Доступно сейчас</dt>
+        <dd><strong>{{ bonus_balance }} бонусов</strong></dd>
+      </div>
+      <div>
+        <dt>Детализация</dt>
+        <dd><a href="{% url 'users:bonus_history' %}">История операций →</a></dd>
+      </div>
+    </dl>
+  </div>
 </div>
 
-<div class="bonus-panel">
-  <div><span class="bonus-panel__label">Доступно сейчас</span><strong>{{ bonus_balance }}</strong><span>бонусов</span></div>
-  <a href="{% url 'users:bonus_history' %}">История операций →</a>
-</div>
-
-<div class="bonus-dashboard-grid">
-  <article class="bonus-card">
-    <span class="bonus-card__eyebrow">Подарок</span>
+<!-- Карточки правил начисления бонусов -->
+<div class="bonus-rules-grid">
+  <div>
+    <span class="eyebrow">Подарок</span>
     <h3>Ко дню рождения</h3>
     <strong>+{{ birthday_bonus }} бонусов</strong>
-    <p>Активируется в начале окна: 7 дней до дня рождения и 7 дней после него.</p>
-    {% if not profile.birth_date %}<a href="{% url 'users:personal_data' %}">Указать дату рождения →</a>{% endif %}
-  </article>
+    <span>Активируется в начале окна: 7 дней до дня рождения и 7 дней после него.</span>
+    {% if not profile.birth_date %}
+      <a href="{% url 'users:personal_data' %}">Указать дату рождения →</a>
+    {% endif %}
+  </div>
 
-  <article class="bonus-card">
-    <span class="bonus-card__eyebrow">Начисление</span>
+  <div>
+    <span class="eyebrow">Начисление</span>
     <h3>За покупки</h3>
     <strong>1%</strong>
-    <p>Начисляется только на товары, купленные по полной цене без скидки/акции.</p>
+    <span>Начисляется только на товары, купленные по полной цене без скидки/акции.</span>
     <a href="{% url 'users:bonus_history' %}">Посмотреть историю →</a>
-  </article>
+  </div>
 </div>
-
 {% endblock %}
