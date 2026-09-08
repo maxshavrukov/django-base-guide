@@ -1,0 +1,15 @@
+{% extends 'users/account_base.html' %}
+{% block cabinet_content %}
+<div class="cabinet-section-header">
+  <div><span class="eyebrow">Профиль</span><h2>Персональные данные</h2><p>Дата рождения нужна для автоматического подарка ко дню рождения.</p></div>
+</div>
+<form method="post" class="profile-form">
+  {% csrf_token %}
+  {% for field in form %}
+    <div class="{% if field.name == 'address' or field.name == 'postal_code' %}field-full{% endif %}">
+      {{ field.label_tag }}{{ field }}{{ field.errors }}
+    </div>
+  {% endfor %}
+  <div class="field-full"><button type="submit" class="btn btn--primary">Сохранить данные</button></div>
+</form>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'users/account_base.html' %}
+{% block cabinet_content %}
+<div class="cabinet-section-header">
+  <div><span class="eyebrow">Лояльность</span><h2>Бонусы</h2><p>1 бонус = 1 грн. История операций сохраняется.</p></div>
+  <strong class="bonus-balance-header">{{ bonus_balance }} бонусов</strong>
+</div>
+<div class="bonus-rules-grid">
+  <div><strong>1%</strong><span>за eligible-покупки</span></div>
+  <div><strong>12 мес.</strong><span>срок обычных бонусов</span></div>
+  <div><strong>1000</strong><span>бонусов ко дню рождения</span></div>
+  <div><strong>50%</strong><span>максимум оплаты каждого товара бонусами</span></div>
+</div>
+<div class="bonus-history">
+  {% for item in transactions %}
+    <div class="bonus-history__row">
+      <div><strong>{{ item.get_transaction_type_display }}</strong><span>{{ item.description }}</span>{% if item.expires_at %}<small>Действует до {{ item.expires_at|date:'d.m.Y' }}</small>{% endif %}</div>
+      <strong class="{% if item.amount < 0 %}is-negative{% endif %}">{{ item.amount }} бонусов</strong>
+    </div>
+  {% empty %}
+    <div class="wishlist-empty"><h2>Операций пока нет</h2><p>После первой подходящей покупки здесь появится история начислений.</p></div>
+  {% endfor %}
+</div>
+{% endblock %}

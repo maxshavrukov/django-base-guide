@@ -1,6 +1,7 @@
 {% extends 'main/base.html' %}
 {% load static %}
-{% block extra_css %}<link rel="stylesheet" href="{% static 'orders/css/orders.css' %}">{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'orders/css/orders.css' %}">
+<link rel="stylesheet" href="{% static 'orders/css/bonus.css' %}">{% endblock %}
 {% block title %}Оформление заказа{% endblock %}
 
 {% block content %}
@@ -35,6 +36,24 @@
             </div>
           </div>
         </div>
+
+        {% if request.user.is_authenticated and basket_details.bonus_available_balance > 0 %}
+        <div class="order_form_section">
+          <div class="order_form_section__title"><h2>Оплата бонусами</h2></div>
+          <div class="bonus-order-box">
+            <div class="bonus-order-box__balance">Доступно: <strong>{{ basket_details.bonus_available_balance }}</strong> бонусов.</div>
+            {% if basket_details.bonus_max_redemption > 0 %}
+              <label class="order_field">
+                <span>Использовать бонусов</span>
+                <input type="number" name="bonus_spend" class="order_input" min="0" max="{{ basket_details.bonus_max_redemption }}" value="{{ basket_details.bonus_spend_requested }}">
+              </label>
+              <div class="bonus-order-box__hint">Максимум для этой корзины: {{ basket_details.bonus_max_redemption }} бонусов. Лимит — не более 50% стоимости каждой единицы товара.</div>
+            {% else %}
+              <div class="bonus-order-box__hint">В этой корзине нет товаров по полной цене, доступных для оплаты бонусами.</div>
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
 
         <div class="order_form_section">
           <div class="order_form_section__title"><h2>Доставка</h2></div>
@@ -100,6 +119,9 @@
         {% if basket_details.applied_discounts %}
           <div class="order_discount_details"><small>{{ basket_details.applied_discounts|join:", " }}</small></div>
         {% endif %}
+      {% endif %}
+      {% if basket_details.bonus_discount_amount > 0 %}
+        <div class="order_discount"><span>Оплата бонусами</span><span class="order_discount_amount">−{{ basket_details.bonus_discount_amount }} грн.</span></div>
       {% endif %}
 
       <div class="order_total"><span>К оплате</span><strong>{{ basket.get_total_price }} грн.</strong></div>

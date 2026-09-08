@@ -3,6 +3,7 @@ from django.conf import settings
 
 from basket.models import BasketItem
 from main.models import CartPromotion, Product
+from users.services.bonuses import BonusService
 
 
 class Basket:
@@ -193,6 +194,44 @@ class Basket:
             total += item['product_discount_amount'] * item['quantity']
         return total.quantize(Decimal('0.01'))
 
+    def get_bonus_requested_amount(self):
+        """Requested bonus amount from the current checkout POST.
+
+        No bonus amount is stored in the session: it is recalculated from the
+        current basket at checkout time, which avoids stale redemption state.
+        """
+        if not self.user:
+            return 0
+        raw = self.request.POST.get("bonus_spend", "") if getattr(self.request, "method", "GET") == "POST" else ""
+        try:
+            return max(0, int(raw or 0))
+        except (TypeError, ValueError):
+            return 0
+
+    def get_max_bonus_redemption(self):
+        if not self.user:
+            return 0
+        items = list(self)
+        promo_amount = self._get_discount_data()[2]
+        # Full-price means no product discount and no cart promotion.
+        if promo_amount > 0:
+            return 0
+        return BonusService.calculate_max_spend(items)
+
+    def get_bonus_available_balance(self):
+        if not self.user:
+            return 0
+        account = BonusService.get_or_create_account(self.user)
+        BonusService.ensure_birthday_bonus(self.user)
+        return BonusService.get_available_balance(account)
+
+    def get_bonus_discount_amount(self):
+        requested = self.get_bonus_requested_amount()
+        if requested <= 0:
+            return Decimal("0.00")
+        allowed = min(requested, self.get_max_bonus_redemption(), self.get_bonus_available_balance())
+        return Decimal(allowed).quantize(Decimal("0.01"))
+
     def _get_discount_data(self):
         items = list(self)
         discount_amount, promotion = CartPromotion.get_best_for_basket(items, user=self.user)
@@ -213,12 +252,11 @@ class Basket:
     def get_basket_details(self):
         subtotal = self.get_subtotal_price()
         product_discount_amount = self.get_product_discount_amount()
-        after_product_discount = subtotal - product_discount_amount
-
         promo_percent, applied_discounts, promo_discount_amount = self._get_discount_data()
+        bonus_discount_amount = self.get_bonus_discount_amount()
 
         total_discount_amount = (
-            product_discount_amount + promo_discount_amount
+            product_discount_amount + promo_discount_amount + bonus_discount_amount
         ).quantize(Decimal('0.01'))
         total_price = (subtotal - total_discount_amount).quantize(Decimal('0.01'))
 
@@ -227,6 +265,10 @@ class Basket:
             'product_discount_amount': product_discount_amount,
             'promo_discount_percent': promo_percent,
             'promo_discount_amount': promo_discount_amount,
+            'bonus_discount_amount': bonus_discount_amount,
+            'bonus_spend_requested': self.get_bonus_requested_amount(),
+            'bonus_available_balance': self.get_bonus_available_balance(),
+            'bonus_max_redemption': self.get_max_bonus_redemption(),
             'discount_percent': promo_percent,
             'discount_amount': total_discount_amount,
             'total_price': total_price,
@@ -268,6 +310,9 @@ def get_basket_ajax_payload(basket: Basket) -> dict:
         'product_discount_amount': str(details['product_discount_amount']),
         'promo_discount_percent': details['promo_discount_percent'],
         'promo_discount_amount': str(details['promo_discount_amount']),
+        'bonus_discount_amount': str(details['bonus_discount_amount']),
+        'bonus_available_balance': details['bonus_available_balance'],
+        'bonus_max_redemption': details['bonus_max_redemption'],
         'discount_amount': str(details['discount_amount']),
         'basket_len': len(basket),
         'items': items_data,

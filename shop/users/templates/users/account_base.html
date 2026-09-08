@@ -1,6 +1,7 @@
 {% extends 'main/base.html' %}
 {% load static %}
-{% block extra_css %}<link rel="stylesheet" href="{% static 'users/css/users.css' %}">{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'users/css/users.css' %}">
+<link rel="stylesheet" href="{% static 'users/css/bonuses.css' %}">{% endblock %}
 {% block title %}Личный кабинет{% endblock %}
 
 {% block content %}
@@ -25,6 +26,18 @@
       <a href="{% url 'wishlist:wishlist_detail' %}" class="cabinet-menu-link {% if request.resolver_match.namespace == 'wishlist' %}active{% endif %}">
         <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 20.2 4.9 13.4A5.2 5.2 0 0 1 12 5.9a5.2 5.2 0 0 1 7.1 7.5L12 20.2Z" stroke="currentColor" stroke-width="1.7"/></svg>
         Избранное
+      </a>
+      <a href="{% url 'users:personal_data' %}" class="cabinet-menu-link {% if request.resolver_match.url_name == 'personal_data' %}active{% endif %}">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M5 20a7 7 0 0 1 14 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        Персональные данные
+      </a>
+      <a href="{% url 'users:bonus_history' %}" class="cabinet-menu-link {% if request.resolver_match.url_name == 'bonus_history' %}active{% endif %}">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M5 8h10a3 3 0 1 0 0-6H9a3 3 0 1 0 0 6h6a3 3 0 1 1 0 6H8a3 3 0 1 1 0-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Бонусы
+      </a>
+      <a href="{% url 'users:recently_viewed' %}" class="cabinet-menu-link {% if request.resolver_match.url_name == 'recently_viewed' %}active{% endif %}">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M3.5 12s3.2-6 8.5-6 8.5 6 8.5 6-3.2 6-8.5 6-8.5-6-8.5-6Z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.4" stroke="currentColor" stroke-width="1.6"/></svg>
+        Просмотренные товары
       </a>
       <a href="{% url 'users:profile' %}" class="cabinet-menu-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
         <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M5 20a7 7 0 0 1 14 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>

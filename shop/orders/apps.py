@@ -4,4 +4,7 @@ from django.apps import AppConfig
 class OrdersConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'orders'
-    verbose_name = 'Заказы'  # Название приложения в панели админки
+    verbose_name = 'Заказы'
+
+    def ready(self):
+        from orders import signals  # noqa: F401

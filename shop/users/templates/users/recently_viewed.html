@@ -1,0 +1,19 @@
+{% extends 'users/account_base.html' %}
+{% block cabinet_content %}
+<div class="cabinet-section-header">
+  <div><span class="eyebrow">История</span><h2>Просмотренные товары</h2><p>Последние товары, просмотренные из авторизованного аккаунта.</p></div>
+</div>
+<div class="recent-products-grid">
+  {% for item in recent_products %}
+    <article class="recent-product-card">
+      <a href="{{ item.product.get_absolute_url }}">
+        {% if item.product.image %}<img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" loading="lazy">{% endif %}
+        <strong>{{ item.product.name }}</strong>
+      </a>
+      <span>{{ item.product.get_discounted_price }} грн.</span>
+    </article>
+  {% empty %}
+    <div class="wishlist-empty"><h2>История пока пуста</h2><p>После просмотра товаров из авторизованного аккаунта они появятся здесь.</p></div>
+  {% endfor %}
+</div>
+{% endblock %}
