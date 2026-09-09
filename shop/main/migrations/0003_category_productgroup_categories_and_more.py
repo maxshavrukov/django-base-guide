@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=120, unique=True, verbose_name='Название категории')),
                 ('slug', models.SlugField(max_length=120, unique=True, verbose_name='Slug (URL)')),
-                ('product_type', models.CharField(blank=True, choices=[('smartphone', 'Смартфоны'), ('headphone', 'Наушники'), ('charger', 'Зарядные устройства'), ('cable', 'Кабели'), ('powerbank', 'Повербанки')], help_text='Для верхнего уровня обязателен. У подкатегорий можно оставить пустым — тип будет унаследован.', max_length=20, verbose_name='Тип товара')),
+                ('product_type', models.CharField(blank=True,null=True, choices=[('smartphone', 'Смартфоны'), ('headphone', 'Наушники'), ('charger', 'Зарядные устройства'), ('cable', 'Кабели'), ('powerbank', 'Повербанки')], help_text='Для верхнего уровня обязателен. У подкатегорий можно оставить пустым — тип будет унаследован.', max_length=20, verbose_name='Тип товара')),
                 ('sort_order', models.PositiveIntegerField(default=0, verbose_name='Порядок')),
                 ('is_active', models.BooleanField(default=True, verbose_name='Активна')),
                 ('parent', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='children', to='main.category', verbose_name='Родительская категория')),
