@@ -11,18 +11,7 @@ ROOT_CATEGORIES = (
 
 
 def create_root_categories(apps, schema_editor):
-    Category = apps.get_model('main', 'Category')
-    for slug, name, product_type, sort_order in ROOT_CATEGORIES:
-        Category.objects.update_or_create(
-            slug=slug,
-            defaults={
-                'name': name,
-                'product_type': product_type,
-                'parent_id': None,
-                'sort_order': sort_order,
-                'is_active': True,
-            },
-        )
+    pass
 
 
 def remove_root_categories(apps, schema_editor):
