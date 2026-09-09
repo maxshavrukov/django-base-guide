@@ -230,7 +230,7 @@ class Basket:
         if requested <= 0:
             return Decimal("0.00")
         allowed = min(requested, self.get_max_bonus_redemption(), self.get_bonus_available_balance())
-        return Decimal(allowed).quantize(Decimal("0.01"))
+        return (Decimal(allowed) * BonusService.BONUS_VALUE_UAH).quantize(Decimal("0.01"))
 
     def _get_discount_data(self):
         items = list(self)
@@ -269,6 +269,7 @@ class Basket:
             'bonus_spend_requested': self.get_bonus_requested_amount(),
             'bonus_available_balance': self.get_bonus_available_balance(),
             'bonus_max_redemption': self.get_max_bonus_redemption(),
+            'bonus_rules': BonusService.get_rules(),
             'discount_percent': promo_percent,
             'discount_amount': total_discount_amount,
             'total_price': total_price,

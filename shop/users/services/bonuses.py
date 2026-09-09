@@ -10,9 +10,25 @@ from users.models import BonusAccount, BonusConsumption, BonusTransaction
 
 
 class BonusService:
-    PURCHASE_RATE = Decimal('0.01')
+    # Единый источник истины для всех правил бонусной программы.
+    PURCHASE_BONUS_PERCENT = Decimal('1')
+    PURCHASE_BONUS_VALIDITY_MONTHS = 12
     BIRTHDAY_BONUS = 1000
-    MAX_PRODUCT_REDEMPTION_PERCENT = Decimal('0.50')
+    BIRTHDAY_WINDOW_DAYS = 7
+    MAX_PRODUCT_REDEMPTION_PERCENT = Decimal('50')
+    BONUS_VALUE_UAH = Decimal('1')
+
+    @classmethod
+    def get_rules(cls):
+        """Возвращает публичные правила бонусной программы для UI."""
+        return {
+            'purchase_percent': cls.PURCHASE_BONUS_PERCENT,
+            'purchase_validity_months': cls.PURCHASE_BONUS_VALIDITY_MONTHS,
+            'birthday_bonus': cls.BIRTHDAY_BONUS,
+            'birthday_window_days': cls.BIRTHDAY_WINDOW_DAYS,
+            'max_product_payment_percent': cls.MAX_PRODUCT_REDEMPTION_PERCENT,
+            'bonus_value_uah': cls.BONUS_VALUE_UAH,
+        }
 
     @classmethod
     def _today(cls):
@@ -28,11 +44,11 @@ class BonusService:
     @classmethod
     def purchase_expiry(cls, created_at):
         local = timezone.localtime(created_at) if timezone.is_aware(created_at) else created_at
-        target_date = cls._add_months(local.date(), 12)
+        target_date = cls._add_months(local.date(), cls.PURCHASE_BONUS_VALIDITY_MONTHS)
         return local.replace(year=target_date.year, month=target_date.month, day=target_date.day)
 
-    @staticmethod
-    def birthday_window(birth_date, year):
+    @classmethod
+    def birthday_window(cls, birth_date, year):
         """Return [start_date, end_date] inclusive for the birthday year."""
         try:
             birthday = birth_date.replace(year=year)
@@ -40,7 +56,7 @@ class BonusService:
             # For 29 February we keep the benefit usable every year by
             # treating the birthday as 28 February in non-leap years.
             birthday = birth_date.replace(year=year, day=28)
-        return birthday - timedelta(days=7), birthday + timedelta(days=7)
+        return birthday - timedelta(days=cls.BIRTHDAY_WINDOW_DAYS), birthday + timedelta(days=cls.BIRTHDAY_WINDOW_DAYS)
 
     @classmethod
     def birthday_expiry(cls, birth_date, year):
@@ -68,7 +84,8 @@ class BonusService:
         value = Decimal(eligible_purchase_value or 0)
         if value <= 0:
             return 0
-        return int((value * cls.PURCHASE_RATE).quantize(Decimal('1'), rounding=ROUND_HALF_UP))
+        percent = cls.PURCHASE_BONUS_PERCENT / Decimal('100')
+        return int((value * percent).quantize(Decimal('1'), rounding=ROUND_HALF_UP))
 
     @classmethod
     def get_or_create_account(cls, user):
@@ -140,7 +157,7 @@ class BonusService:
                 amount=amount,
                 transaction_type=BonusTransaction.TransactionType.PURCHASE,
                 order=order,
-                description=f'1% бонусов за заказ №{order.pk}',
+                description=f'{cls.PURCHASE_BONUS_PERCENT}% бонусов за заказ №{order.pk}',
                 created_at=created_at,
                 expires_at=cls.purchase_expiry(created_at),
             )
@@ -164,7 +181,7 @@ class BonusService:
         birthday_year = cls.get_active_birthday_year(profile.birth_date, on_date)
         if birthday_year is None:
             return None
-        start, end = cls.birthday_window(profile.birth_date, birthday_year)
+        _, end = cls.birthday_window(profile.birth_date, birthday_year)
 
         account = cls.get_or_create_account(user)
         exists = BonusTransaction.objects.filter(
@@ -175,9 +192,7 @@ class BonusService:
         if exists:
             return None
 
-        expiry = timezone.make_aware(
-            datetime.combine(end + timedelta(days=1), time.min)
-        )
+        expiry = cls.birthday_expiry(profile.birth_date, birthday_year)
         return BonusTransaction.objects.create(
             account=account,
             amount=cls.BIRTHDAY_BONUS,
@@ -194,13 +209,19 @@ class BonusService:
 
     @classmethod
     def max_redemption_for_line(cls, price, quantity=1):
-        value = Decimal(price or 0) * Decimal(quantity or 0)
-        return int(
-            (value * cls.MAX_PRODUCT_REDEMPTION_PERCENT).quantize(
+        # Лимит применяется отдельно к каждой единице товара.
+        unit_price = Decimal(price or 0)
+        units = int(quantity or 0)
+        if unit_price <= 0 or units <= 0:
+            return 0
+
+        unit_limit = int(
+            (unit_price * (cls.MAX_PRODUCT_REDEMPTION_PERCENT / Decimal('100'))).quantize(
                 Decimal('1'),
                 rounding=ROUND_DOWN,
             )
         )
+        return unit_limit * units
 
     @classmethod
     def calculate_max_spend(cls, items):

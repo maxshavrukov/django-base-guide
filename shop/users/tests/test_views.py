@@ -46,6 +46,22 @@ class UserViewsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'users/profile.html')
 
+    def test_profile_exposes_bonus_rules_from_service(self):
+        self.client.login(username='testuser', password='password123')
+        response = self.client.get(reverse('users:profile'))
+        self.assertEqual(response.context['bonus_rules']['purchase_percent'], 1)
+        self.assertEqual(response.context['bonus_rules']['purchase_validity_months'], 12)
+        self.assertEqual(response.context['bonus_rules']['birthday_bonus'], 1000)
+        self.assertEqual(response.context['bonus_rules']['birthday_window_days'], 7)
+        self.assertEqual(response.context['bonus_rules']['max_product_payment_percent'], 50)
+
+    def test_bonus_history_exposes_bonus_rules_from_service(self):
+        self.client.login(username='testuser', password='password123')
+        response = self.client.get(reverse('users:bonus_history'))
+        self.assertEqual(response.context['bonus_rules']['purchase_validity_months'], 12)
+        self.assertContains(response, '12 мес.')
+        self.assertContains(response, '50%')
+
     def test_order_list_view(self):
         """Проверяем, что в личным кабинете отображаются заказы именно текущего пользователя"""
         # Создаем заказ для нашего тестового юзера

@@ -2,6 +2,8 @@ from decimal import Decimal
 
 from django.test import TestCase, Client
 from django.urls import reverse
+from django.contrib.auth.models import User
+from users.models import RecentlyViewedProduct
 
 from main.models import Brand, Category, Headphone, ProductGroup, Smartphone
 
@@ -112,6 +114,22 @@ class MainViewsTest(TestCase):
         self.assertContains(response, 'id="cartBtn"')
         self.assertContains(response, 'id="miniCart"')
         self.assertNotContains(response, 'header-cart.has-items:hover .mini-cart-dropdown')
+
+    def test_authenticated_product_view_is_saved_to_account_history(self):
+        user = User.objects.create_user(username='history-user', password='password123')
+        self.client.login(username='history-user', password='password123')
+
+        url = reverse('main:product_detail', args=[self.product.id, self.product.slug])
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(
+            RecentlyViewedProduct.objects.filter(user=user, product=self.product).exists()
+        )
+
+        cabinet_response = self.client.get(reverse('users:recently_viewed'))
+        self.assertEqual(cabinet_response.status_code, 200)
+        self.assertContains(cabinet_response, self.product.name)
 
     def test_product_detail_page(self):
         url = reverse('main:product_detail', args=[self.product.id, self.product.slug])

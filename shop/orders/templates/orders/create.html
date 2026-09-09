@@ -47,7 +47,7 @@
                 <span>Использовать бонусов</span>
                 <input type="number" name="bonus_spend" class="order_input" min="0" max="{{ basket_details.bonus_max_redemption }}" value="{{ basket_details.bonus_spend_requested }}">
               </label>
-              <div class="bonus-order-box__hint">Максимум для этой корзины: {{ basket_details.bonus_max_redemption }} бонусов. Лимит — не более 50% стоимости каждой единицы товара.</div>
+              <div class="bonus-order-box__hint">Максимум для этой корзины: {{ basket_details.bonus_max_redemption }} бонусов. Лимит — не более {{ basket_details.bonus_rules.max_product_payment_percent }}% стоимости каждой единицы товара.</div>
             {% else %}
               <div class="bonus-order-box__hint">В этой корзине нет товаров по полной цене, доступных для оплаты бонусами.</div>
             {% endif %}

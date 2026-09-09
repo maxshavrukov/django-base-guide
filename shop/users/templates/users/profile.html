@@ -62,8 +62,8 @@
   <div>
     <span class="eyebrow">Подарок</span>
     <h3>Ко дню рождения</h3>
-    <strong>+{{ birthday_bonus }} бонусов</strong>
-    <span>Активируется в начале окна: 7 дней до дня рождения и 7 дней после него.</span>
+    <strong>+{{ bonus_rules.birthday_bonus }} бонусов</strong>
+    <span>Активируется в начале окна: {{ bonus_rules.birthday_window_days }} дней до дня рождения и {{ bonus_rules.birthday_window_days }} дней после него.</span>
     {% if not profile.birth_date %}
       <a href="{% url 'users:personal_data' %}">Указать дату рождения →</a>
     {% endif %}
@@ -72,7 +72,7 @@
   <div>
     <span class="eyebrow">Начисление</span>
     <h3>За покупки</h3>
-    <strong>1%</strong>
+    <strong>{{ bonus_rules.purchase_percent }}%</strong>
     <span>Начисляется только на товары, купленные по полной цене без скидки/акции.</span>
     <a href="{% url 'users:bonus_history' %}">Посмотреть историю →</a>
   </div>

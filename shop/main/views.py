@@ -6,7 +6,7 @@ from .services.product_detail import (
     get_product_gallery,
     get_product_variants,
     get_related_products,
-    update_recently_viewed,
+    record_product_view,
 )
 from .services.product_list import (
     build_sort_urls,
@@ -85,7 +85,7 @@ def product_detail(request, id, slug):
     )
 
     category_slug, category_name = product_category_slug(product)
-    update_recently_viewed(request, product.id)
+    record_product_view(request, product)
     storage_variants, color_variants = get_product_variants(product)
 
     return render(

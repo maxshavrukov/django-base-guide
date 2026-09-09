@@ -58,7 +58,7 @@ def profile_view(request):
         'profile': profile,
         'bonus_balance': BonusService.get_available_balance(account),
         'recent_transactions': account.transactions.order_by('-created_at', '-id')[:5],
-        'birthday_bonus': BonusService.BIRTHDAY_BONUS,
+        'bonus_rules': BonusService.get_rules(),
     })
 
 
@@ -83,6 +83,7 @@ def bonus_history_view(request):
     return render(request, 'users/bonus_history.html', {
         'transactions': transactions,
         'bonus_balance': BonusService.get_available_balance(account),
+        'bonus_rules': BonusService.get_rules(),
     })
 
 

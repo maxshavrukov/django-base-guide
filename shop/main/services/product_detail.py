@@ -7,6 +7,15 @@ def update_recently_viewed(request, product_id: int) -> None:
     request.session['recently_viewed'] = recently_viewed[:4]
     request.session.modified = True
 
+def record_product_view(request, product) -> None:
+    """Сохраняет просмотр в сессии и, для авторизованных, в истории аккаунта."""
+    update_recently_viewed(request, product.id)
+
+    if request.user.is_authenticated:
+        # Ленивый импорт не создаёт зависимости при загрузке main.services.
+        from users.services.profile import record_recently_viewed
+        record_recently_viewed(request.user, product)
+
 def get_product_gallery(product) -> list[dict]:
     """Собирает список изображений товара для слайдера."""
     gallery = []
