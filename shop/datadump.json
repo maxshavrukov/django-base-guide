@@ -73,7 +73,7 @@
     "model": "main.category",
     "pk": 1,
     "fields": {
-        "name": "Смартфоны",
+        "name": "РЎРјР°СЂС‚С„РѕРЅС‹",
         "slug": "smartphones",
         "parent": null,
         "product_type": "smartphone",
@@ -85,7 +85,7 @@
     "model": "main.category",
     "pk": 3,
     "fields": {
-        "name": "Зарядные устройства",
+        "name": "Р—Р°СЂСЏРґРЅС‹Рµ СѓСЃС‚СЂРѕР№СЃС‚РІР°",
         "slug": "chargers",
         "parent": null,
         "product_type": "charger",
@@ -97,7 +97,7 @@
     "model": "main.category",
     "pk": 4,
     "fields": {
-        "name": "Кабели",
+        "name": "РљР°Р±РµР»Рё",
         "slug": "cables",
         "parent": null,
         "product_type": "cable",
@@ -109,7 +109,7 @@
     "model": "main.category",
     "pk": 5,
     "fields": {
-        "name": "Повербанки",
+        "name": "РџРѕРІРµСЂР±Р°РЅРєРё",
         "slug": "powerbanks",
         "parent": null,
         "product_type": "powerbank",
@@ -121,7 +121,7 @@
     "model": "main.category",
     "pk": 7,
     "fields": {
-        "name": "Наушники",
+        "name": "РќР°СѓС€РЅРёРєРё",
         "slug": "naushniki",
         "parent": null,
         "product_type": "headphone",
@@ -133,7 +133,7 @@
     "model": "main.category",
     "pk": 9,
     "fields": {
-        "name": "Беспроводные",
+        "name": "Р‘РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ",
         "slug": "besprovodnye",
         "parent": 7,
         "product_type": "",
@@ -145,7 +145,7 @@
     "model": "main.category",
     "pk": 10,
     "fields": {
-        "name": "Флагманы",
+        "name": "Р¤Р»Р°РіРјР°РЅС‹",
         "slug": "flagmany",
         "parent": 1,
         "product_type": "",
@@ -157,7 +157,7 @@
     "model": "main.category",
     "pk": 12,
     "fields": {
-        "name": "Субфлагманы",
+        "name": "РЎСѓР±С„Р»Р°РіРјР°РЅС‹",
         "slug": "subflagmany",
         "parent": 1,
         "product_type": "smartphone",
@@ -236,7 +236,7 @@
     "pk": 1,
     "fields": {
         "brand": 5,
-        "name": "Наушники полноразмерные беспроводные Sony WH-CH720N Black",
+        "name": "РќР°СѓС€РЅРёРєРё РїРѕР»РЅРѕСЂР°Р·РјРµСЂРЅС‹Рµ Р±РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ Sony WH-CH720N Black",
         "slug": "naushniki-polnorazmernye-besprovodnye-sony-wh-ch720n-black",
         "image": "products/2026/09/03/wh-ch720_black01_m.jpg",
         "description": "",
@@ -254,7 +254,7 @@
     "pk": 2,
     "fields": {
         "brand": 5,
-        "name": "Наушники полноразмерные беспроводные Sony WH-CH720N Pink",
+        "name": "РќР°СѓС€РЅРёРєРё РїРѕР»РЅРѕСЂР°Р·РјРµСЂРЅС‹Рµ Р±РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ Sony WH-CH720N Pink",
         "slug": "naushniki-polnorazmernye-besprovodnye-sony-wh-ch720n-pink",
         "image": "products/2026/09/03/wh-ch720n_product_intro_pink_01_d.jpg",
         "description": "",
@@ -272,7 +272,7 @@
     "pk": 3,
     "fields": {
         "brand": 1,
-        "name": "Смартфон Samsung Galaxy S26 12/512Gb Black",
+        "name": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/512Gb Black",
         "slug": "smartfon-samsung-galaxy-s26-12512gb-black",
         "image": "products/2026/09/03/sm-s942_galaxys26_front_black_251128_1_.jpg",
         "description": "",
@@ -290,7 +290,7 @@
     "pk": 4,
     "fields": {
         "brand": 1,
-        "name": "Смартфон Samsung Galaxy S26 12/256Gb Black",
+        "name": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/256Gb Black",
         "slug": "smartfon-samsung-galaxy-s26-12256gb-black",
         "image": "products/2026/09/03/sm-s942_galaxys26_front_black_251128_1_.jpg",
         "description": "",
@@ -308,7 +308,7 @@
     "pk": 5,
     "fields": {
         "brand": 5,
-        "name": "Наушники полноразмерные беспроводные Sony WH-CH720N White",
+        "name": "РќР°СѓС€РЅРёРєРё РїРѕР»РЅРѕСЂР°Р·РјРµСЂРЅС‹Рµ Р±РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ Sony WH-CH720N White",
         "slug": "naushniki-polnorazmernye-besprovodnye-sony-wh-ch720n-white",
         "image": "products/2026/09/03/wh-ch720_white01_m.jpg",
         "description": "",
@@ -326,7 +326,7 @@
     "pk": 6,
     "fields": {
         "brand": 5,
-        "name": "Наушники полноразмерные беспроводные Sony WH-CH720N Blue",
+        "name": "РќР°СѓС€РЅРёРєРё РїРѕР»РЅРѕСЂР°Р·РјРµСЂРЅС‹Рµ Р±РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ Sony WH-CH720N Blue",
         "slug": "naushniki-polnorazmernye-besprovodnye-sony-wh-ch720n-blue",
         "image": "products/2026/09/03/wh-ch720_blue01_m.jpg",
         "description": "",
@@ -344,7 +344,7 @@
     "pk": 7,
     "fields": {
         "brand": 1,
-        "name": "Смартфон Samsung Galaxy S26 12/256Gb White",
+        "name": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/256Gb White",
         "slug": "smartfon-samsung-galaxy-s26-12256gb-white",
         "image": "products/2026/09/03/sm-s942_galaxys26_front_white_251128_1_.jpg",
         "description": "",
@@ -362,7 +362,7 @@
     "pk": 8,
     "fields": {
         "brand": 1,
-        "name": "Смартфон Samsung Galaxy S26 12/512Gb White",
+        "name": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/512Gb White",
         "slug": "smartfon-samsung-galaxy-s26-12512gb-white",
         "image": "products/2026/09/03/sm-s942_galaxys26_front_white_251128_1__oDoyXPg.jpg",
         "description": "",
@@ -380,7 +380,7 @@
     "pk": 9,
     "fields": {
         "brand": 1,
-        "name": "Смартфон Samsung Galaxy S26 12/256Gb Cobalt Violet",
+        "name": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/256Gb Cobalt Violet",
         "slug": "smartfon-samsung-galaxy-s26-12256gb-cobalt-violet",
         "image": "products/2026/09/03/sm-s942_galaxys26_front_cobaltviolet_251128_1_.jpg",
         "description": "",
@@ -398,7 +398,7 @@
     "pk": 10,
     "fields": {
         "brand": 1,
-        "name": "Смартфон Samsung Galaxy S26 12/512Gb Cobalt Violet",
+        "name": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/512Gb Cobalt Violet",
         "slug": "smartfon-samsung-galaxy-s26-12512gb-cobalt-violet",
         "image": "products/2026/09/03/sm-s942_galaxys26_front_cobaltviolet_251128_1_.jpg",
         "description": "",
@@ -416,7 +416,7 @@
     "pk": 11,
     "fields": {
         "brand": 4,
-        "name": "Смартфон OnePlus Nord 5 5G 8/256Gb Marble Sands",
+        "name": "РЎРјР°СЂС‚С„РѕРЅ OnePlus Nord 5 5G 8/256Gb Marble Sands",
         "slug": "smartfon-oneplus-nord-5-5g-8256gb-marble-sands",
         "image": "products/2026/09/03/oneplus-nord-5-5g-8-256gb-white-1_4f7fc.jpg",
         "description": "",
@@ -434,7 +434,7 @@
     "pk": 12,
     "fields": {
         "brand": 3,
-        "name": "Смартфон Xiaomi Redmi Note 17 5G 6/128Gb Black",
+        "name": "РЎРјР°СЂС‚С„РѕРЅ Xiaomi Redmi Note 17 5G 6/128Gb Black",
         "slug": "smartfon-xiaomi-redmi-note-17-5g-6128gb-black",
         "image": "products/2026/09/03/sm-s942_galaxys26_front_black_251128_1__22W4nt3.jpg",
         "description": "",
@@ -452,7 +452,7 @@
     "pk": 13,
     "fields": {
         "brand": 3,
-        "name": "Смартфон Xiaomi Redmi Note 17 5G 6/256Gb Black",
+        "name": "РЎРјР°СЂС‚С„РѕРЅ Xiaomi Redmi Note 17 5G 6/256Gb Black",
         "slug": "smartfon-xiaomi-redmi-note-17-5g-6256gb-black",
         "image": "products/2026/09/03/sm-s942_galaxys26_front_black_251128_1__22W4nt3.jpg",
         "description": "",
@@ -470,7 +470,7 @@
     "pk": 14,
     "fields": {
         "brand": 2,
-        "name": "Наушники вкладыши беспроводные TWS Apple AirPods Pro 3",
+        "name": "РќР°СѓС€РЅРёРєРё РІРєР»Р°РґС‹С€Рё Р±РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ TWS Apple AirPods Pro 3",
         "slug": "naushniki-vkladyshi-besprovodnye-tws-apple-airpods-pro-3",
         "image": "products/2026/09/03/airpods-pro-3-hero-select-202509.jpg",
         "description": "",
@@ -488,7 +488,7 @@
     "pk": 20,
     "fields": {
         "brand": 1,
-        "name": "Смартфон Samsung Galaxy S26+ 12/512Gb Black",
+        "name": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26+ 12/512Gb Black",
         "slug": "smartfon-samsung-galaxy-s26-plus-12512gb-black",
         "image": "products/2026/09/03/sm-s942_galaxys26_front_black_251128_1_.jpg",
         "description": "",
@@ -506,7 +506,7 @@
     "pk": 21,
     "fields": {
         "brand": 1,
-        "name": "Смартфон Samsung Galaxy S26+ 12/256Gb Black",
+        "name": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26+ 12/256Gb Black",
         "slug": "smartfon-samsung-galaxy-s26-plus-12256gb-black",
         "image": "products/2026/09/03/sm-s942_galaxys26_front_black_251128_1_.jpg",
         "description": "",
@@ -1465,7 +1465,7 @@
         "slot_config": "sim_only",
         "max_sd_capacity": null,
         "main_camera_mp": 50,
-        "main_camera_desc": "50 Мп +10 Мп +12 Мп",
+        "main_camera_desc": "50 РњРї +10 РњРї +12 РњРї",
         "front_camera_mp": 12,
         "max_video_resolution": "8k",
         "optical_zoom": "3.0",
@@ -1484,7 +1484,7 @@
         "operating_system": "android",
         "os_version": "16",
         "protection_class": "IP68",
-        "material": "Стекло/алюминий"
+        "material": "РЎС‚РµРєР»Рѕ/Р°Р»СЋРјРёРЅРёР№"
     }
 },
 {
@@ -1505,7 +1505,7 @@
         "slot_config": "sim_only",
         "max_sd_capacity": null,
         "main_camera_mp": 50,
-        "main_camera_desc": "50 Мп +10 Мп +12 Мп",
+        "main_camera_desc": "50 РњРї +10 РњРї +12 РњРї",
         "front_camera_mp": 12,
         "max_video_resolution": "8k",
         "optical_zoom": "3.0",
@@ -1524,7 +1524,7 @@
         "operating_system": "android",
         "os_version": "16",
         "protection_class": "IP68",
-        "material": "Стекло/алюминий"
+        "material": "РЎС‚РµРєР»Рѕ/Р°Р»СЋРјРёРЅРёР№"
     }
 },
 {
@@ -1545,7 +1545,7 @@
         "slot_config": "sim_only",
         "max_sd_capacity": null,
         "main_camera_mp": 50,
-        "main_camera_desc": "50 Мп +10 Мп +12 Мп",
+        "main_camera_desc": "50 РњРї +10 РњРї +12 РњРї",
         "front_camera_mp": 12,
         "max_video_resolution": "8k",
         "optical_zoom": "3.0",
@@ -1564,7 +1564,7 @@
         "operating_system": "android",
         "os_version": "16",
         "protection_class": "IP68",
-        "material": "Стекло/алюминий"
+        "material": "РЎС‚РµРєР»Рѕ/Р°Р»СЋРјРёРЅРёР№"
     }
 },
 {
@@ -1585,7 +1585,7 @@
         "slot_config": "sim_only",
         "max_sd_capacity": null,
         "main_camera_mp": 50,
-        "main_camera_desc": "50 Мп +10 Мп +12 Мп",
+        "main_camera_desc": "50 РњРї +10 РњРї +12 РњРї",
         "front_camera_mp": 12,
         "max_video_resolution": "8k",
         "optical_zoom": "3.0",
@@ -1604,7 +1604,7 @@
         "operating_system": "android",
         "os_version": "16",
         "protection_class": "IP68",
-        "material": "Стекло/алюминий"
+        "material": "РЎС‚РµРєР»Рѕ/Р°Р»СЋРјРёРЅРёР№"
     }
 },
 {
@@ -1625,7 +1625,7 @@
         "slot_config": "sim_only",
         "max_sd_capacity": null,
         "main_camera_mp": 50,
-        "main_camera_desc": "50 Мп +10 Мп +12 Мп",
+        "main_camera_desc": "50 РњРї +10 РњРї +12 РњРї",
         "front_camera_mp": 12,
         "max_video_resolution": "8k",
         "optical_zoom": "3.0",
@@ -1644,7 +1644,7 @@
         "operating_system": "android",
         "os_version": "16",
         "protection_class": "IP68",
-        "material": "Стекло/алюминий"
+        "material": "РЎС‚РµРєР»Рѕ/Р°Р»СЋРјРёРЅРёР№"
     }
 },
 {
@@ -1665,7 +1665,7 @@
         "slot_config": "sim_only",
         "max_sd_capacity": null,
         "main_camera_mp": 50,
-        "main_camera_desc": "50 Мп +10 Мп +12 Мп",
+        "main_camera_desc": "50 РњРї +10 РњРї +12 РњРї",
         "front_camera_mp": 12,
         "max_video_resolution": "8k",
         "optical_zoom": "3.0",
@@ -1684,7 +1684,7 @@
         "operating_system": "android",
         "os_version": "16",
         "protection_class": "IP68",
-        "material": "Стекло/алюминий"
+        "material": "РЎС‚РµРєР»Рѕ/Р°Р»СЋРјРёРЅРёР№"
     }
 },
 {
@@ -1694,18 +1694,18 @@
         "product_ptr": 11,
         "display_type": "amoled",
         "display_size": "6.8",
-        "display_resolution": "2800х1272",
+        "display_resolution": "2800С…1272",
         "display_refresh_rate": 144,
         "processor": "Qualcomm Snapdragon 8s Gen 3",
         "gpu": "Qualcomm Adreno 735",
         "core_count": 8,
-        "core_speed": "1 х 3 ГГц + 4 х 2.8 ГГц + 3 х 2.0 ГГц",
+        "core_speed": "1 С… 3 Р“Р“С† + 4 С… 2.8 Р“Р“С† + 3 С… 2.0 Р“Р“С†",
         "ram": 8,
         "storage": 256,
         "slot_config": "sim_only",
         "max_sd_capacity": null,
         "main_camera_mp": 50,
-        "main_camera_desc": "50+8 Мп",
+        "main_camera_desc": "50+8 РњРї",
         "front_camera_mp": null,
         "max_video_resolution": "4k",
         "optical_zoom": null,
@@ -1734,12 +1734,12 @@
         "product_ptr": 12,
         "display_type": "amoled",
         "display_size": "6.9",
-        "display_resolution": "2396х1080",
+        "display_resolution": "2396С…1080",
         "display_refresh_rate": 120,
         "processor": "Qualcomm Snapdragon 4 Gen 4",
         "gpu": "Adreno 613",
         "core_count": 8,
-        "core_speed": "2х2.3 ГГц + 6х2 ГГц",
+        "core_speed": "2С…2.3 Р“Р“С† + 6С…2 Р“Р“С†",
         "ram": 6,
         "storage": 128,
         "slot_config": "hybrid",
@@ -1764,7 +1764,7 @@
         "operating_system": "android",
         "os_version": "14",
         "protection_class": "IP65",
-        "material": "Металл / пластик"
+        "material": "РњРµС‚Р°Р»Р» / РїР»Р°СЃС‚РёРє"
     }
 },
 {
@@ -1774,12 +1774,12 @@
         "product_ptr": 13,
         "display_type": "amoled",
         "display_size": "6.9",
-        "display_resolution": "2396х1080",
+        "display_resolution": "2396С…1080",
         "display_refresh_rate": 120,
         "processor": "Qualcomm Snapdragon 4 Gen 4",
         "gpu": "Adreno 613",
         "core_count": 8,
-        "core_speed": "2х2.3 ГГц + 6х2 ГГц",
+        "core_speed": "2С…2.3 Р“Р“С† + 6С…2 Р“Р“С†",
         "ram": 6,
         "storage": 256,
         "slot_config": "hybrid",
@@ -1804,7 +1804,7 @@
         "operating_system": "android",
         "os_version": "14",
         "protection_class": "IP65",
-        "material": "Металл / пластик"
+        "material": "РњРµС‚Р°Р»Р» / РїР»Р°СЃС‚РёРє"
     }
 },
 {
@@ -1825,7 +1825,7 @@
         "slot_config": "sim_only",
         "max_sd_capacity": null,
         "main_camera_mp": 50,
-        "main_camera_desc": "50 Мп +10 Мп +12 Мп",
+        "main_camera_desc": "50 РњРї +10 РњРї +12 РњРї",
         "front_camera_mp": 12,
         "max_video_resolution": "8k",
         "optical_zoom": "3.0",
@@ -1844,7 +1844,7 @@
         "operating_system": "android",
         "os_version": "16",
         "protection_class": "IP68",
-        "material": "Стекло/алюминий"
+        "material": "РЎС‚РµРєР»Рѕ/Р°Р»СЋРјРёРЅРёР№"
     }
 },
 {
@@ -1865,7 +1865,7 @@
         "slot_config": "sim_only",
         "max_sd_capacity": null,
         "main_camera_mp": 50,
-        "main_camera_desc": "50 Мп +10 Мп +12 Мп",
+        "main_camera_desc": "50 РњРї +10 РњРї +12 РњРї",
         "front_camera_mp": 12,
         "max_video_resolution": "8k",
         "optical_zoom": "3.0",
@@ -1884,7 +1884,7 @@
         "operating_system": "android",
         "os_version": "16",
         "protection_class": "IP68",
-        "material": "Стекло/алюминий"
+        "material": "РЎС‚РµРєР»Рѕ/Р°Р»СЋРјРёРЅРёР№"
     }
 },
 {
@@ -1981,7 +1981,7 @@
     "model": "main.cartpromotion",
     "pk": 1,
     "fields": {
-        "name": "Третий товар МИНУС 30%",
+        "name": "РўСЂРµС‚РёР№ С‚РѕРІР°СЂ РњРРќРЈРЎ 30%",
         "rule_type": "cheapest",
         "discount_percent": 30,
         "min_quantity": 3,
@@ -2003,7 +2003,7 @@
         "first_name": "max shavrukov",
         "email": "max.shavrukov@gmail.com",
         "phone": "0990172668",
-        "address": "НП: Відділення №1: вул. Фортечна, 2в (Набережна магістраль)",
+        "address": "РќРџ: Р’С–РґРґС–Р»РµРЅРЅСЏ в„–1: РІСѓР». Р¤РѕСЂС‚РµС‡РЅР°, 2РІ (РќР°Р±РµСЂРµР¶РЅР° РјР°РіС–СЃС‚СЂР°Р»СЊ)",
         "comment": "",
         "created": "2026-09-09T05:09:48.205Z",
         "updated": "2026-09-09T05:09:48.205Z",
@@ -2036,8 +2036,8 @@
         "last_name": "Shavrukov",
         "phone": "+380990172668",
         "birth_date": "1996-12-18",
-        "city": "Запорожье",
-        "address": "Историческая, 29",
+        "city": "Р—Р°РїРѕСЂРѕР¶СЊРµ",
+        "address": "РСЃС‚РѕСЂРёС‡РµСЃРєР°СЏ, 29",
         "postal_code": "69106",
         "created_at": "2026-09-08T12:42:07.178Z",
         "updated_at": "2026-09-08T13:35:51.590Z"
@@ -2266,7 +2266,7 @@
             "headphone"
         ],
         "object_id": "1",
-        "object_repr": "Наушники полноразмерные беспроводные Sony WH-CH720N Black",
+        "object_repr": "РќР°СѓС€РЅРёРєРё РїРѕР»РЅРѕСЂР°Р·РјРµСЂРЅС‹Рµ Р±РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ Sony WH-CH720N Black",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N Black\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N Black\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N Black\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N Black\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N Black\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N Black\"}}]"
     }
@@ -2284,7 +2284,7 @@
             "headphone"
         ],
         "object_id": "2",
-        "object_repr": "Наушники полноразмерные беспроводные Sony WH-CH720N Pink",
+        "object_repr": "РќР°СѓС€РЅРёРєРё РїРѕР»РЅРѕСЂР°Р·РјРµСЂРЅС‹Рµ Р±РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ Sony WH-CH720N Pink",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -2302,7 +2302,7 @@
             "headphone"
         ],
         "object_id": "2",
-        "object_repr": "Наушники полноразмерные беспроводные Sony WH-CH720N Pink",
+        "object_repr": "РќР°СѓС€РЅРёРєРё РїРѕР»РЅРѕСЂР°Р·РјРµСЂРЅС‹Рµ Р±РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ Sony WH-CH720N Pink",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0418\\u0437\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u0438\\u0435\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N Pink\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N Pink\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N Pink\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N Pink\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N Pink\"}}]"
     }
@@ -2320,7 +2320,7 @@
             "smartphone"
         ],
         "object_id": "3",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/512Gb Black",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/512Gb Black",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/512Gb Black\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/512Gb Black\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/512Gb Black\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/512Gb Black\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/512Gb Black\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/512Gb Black\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/512Gb Black\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/512Gb Black\"}}]"
     }
@@ -2338,7 +2338,7 @@
             "smartphone"
         ],
         "object_id": "4",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/256Gb Black",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/256Gb Black",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435 \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"Slug\", \"\\u0426\\u0435\\u043d\\u0430\", \"\\u041a\\u043e\\u043b\\u0438\\u0447\\u0435\\u0441\\u0442\\u0432\\u043e \\u043d\\u0430 \\u0441\\u043a\\u043b\\u0430\\u0434\\u0435\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\", \"\\u0412\\u0441\\u0442\\u0440\\u043e\\u0435\\u043d\\u043d\\u0430\\u044f \\u043f\\u0430\\u043c\\u044f\\u0442\\u044c (\\u0413\\u0411)\"]}}]"
     }
@@ -2356,7 +2356,7 @@
             "productgroup"
         ],
         "object_id": "4",
-        "object_repr": "Беспроводные",
+        "object_repr": "Р‘РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -2374,7 +2374,7 @@
             "headphone"
         ],
         "object_id": "2",
-        "object_repr": "Наушники полноразмерные беспроводные Sony WH-CH720N Pink",
+        "object_repr": "РќР°СѓС€РЅРёРєРё РїРѕР»РЅРѕСЂР°Р·РјРµСЂРЅС‹Рµ Р±РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ Sony WH-CH720N Pink",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0413\\u0440\\u0443\\u043f\\u043f\\u0430 \\u0442\\u043e\\u0432\\u0430\\u0440\\u043e\\u0432\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}]"
     }
@@ -2392,7 +2392,7 @@
             "headphone"
         ],
         "object_id": "1",
-        "object_repr": "Наушники полноразмерные беспроводные Sony WH-CH720N Black",
+        "object_repr": "РќР°СѓС€РЅРёРєРё РїРѕР»РЅРѕСЂР°Р·РјРµСЂРЅС‹Рµ Р±РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ Sony WH-CH720N Black",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0413\\u0440\\u0443\\u043f\\u043f\\u0430 \\u0442\\u043e\\u0432\\u0430\\u0440\\u043e\\u0432\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}]"
     }
@@ -2410,7 +2410,7 @@
             "headphone"
         ],
         "object_id": "5",
-        "object_repr": "Наушники полноразмерные беспроводные Sony WH-CH720N White",
+        "object_repr": "РќР°СѓС€РЅРёРєРё РїРѕР»РЅРѕСЂР°Р·РјРµСЂРЅС‹Рµ Р±РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ Sony WH-CH720N White",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -2428,7 +2428,7 @@
             "headphone"
         ],
         "object_id": "5",
-        "object_repr": "Наушники полноразмерные беспроводные Sony WH-CH720N White",
+        "object_repr": "РќР°СѓС€РЅРёРєРё РїРѕР»РЅРѕСЂР°Р·РјРµСЂРЅС‹Рµ Р±РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ Sony WH-CH720N White",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0418\\u0437\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u0438\\u0435\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N White\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N White\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N White\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N White\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N White\"}}]"
     }
@@ -2446,7 +2446,7 @@
             "headphone"
         ],
         "object_id": "6",
-        "object_repr": "Наушники полноразмерные беспроводные Sony WH-CH720N Blue",
+        "object_repr": "РќР°СѓС€РЅРёРєРё РїРѕР»РЅРѕСЂР°Р·РјРµСЂРЅС‹Рµ Р±РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ Sony WH-CH720N Blue",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -2464,7 +2464,7 @@
             "headphone"
         ],
         "object_id": "6",
-        "object_repr": "Наушники полноразмерные беспроводные Sony WH-CH720N Blue",
+        "object_repr": "РќР°СѓС€РЅРёРєРё РїРѕР»РЅРѕСЂР°Р·РјРµСЂРЅС‹Рµ Р±РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ Sony WH-CH720N Blue",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0418\\u0437\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u0438\\u0435\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N Blue\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N Blue\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N Blue\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N Blue\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u043f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u044b\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 Sony WH-CH720N Blue\"}}]"
     }
@@ -2482,7 +2482,7 @@
             "smartphone"
         ],
         "object_id": "7",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/256Gb White",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/256Gb White",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -2500,7 +2500,7 @@
             "smartphone"
         ],
         "object_id": "7",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/256Gb White",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/256Gb White",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0418\\u0437\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u0438\\u0435\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/256Gb White\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/256Gb White\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/256Gb White\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/256Gb White\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/256Gb White\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/256Gb White\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/256Gb White\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/256Gb White\"}}]"
     }
@@ -2518,7 +2518,7 @@
             "smartphone"
         ],
         "object_id": "4",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/256Gb Black",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/256Gb Black",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"Slug\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}]"
     }
@@ -2536,7 +2536,7 @@
             "smartphone"
         ],
         "object_id": "8",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/512Gb White",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/512Gb White",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -2554,7 +2554,7 @@
             "smartphone"
         ],
         "object_id": "8",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/512Gb White",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/512Gb White",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0418\\u0437\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u0438\\u0435\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/512Gb White\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/512Gb White\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/512Gb White\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/512Gb White\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/512Gb White\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/512Gb White\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/512Gb White\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/512Gb White\"}}]"
     }
@@ -2572,7 +2572,7 @@
             "smartphone"
         ],
         "object_id": "9",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/256Gb Cobalt Violet",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/256Gb Cobalt Violet",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/256Gb Cobalt Violet\"}}]"
     }
@@ -2590,7 +2590,7 @@
             "smartphone"
         ],
         "object_id": "9",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/256Gb Cobalt Violet",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/256Gb Cobalt Violet",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/256Gb Cobalt Violet\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/256Gb Cobalt Violet\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/256Gb Cobalt Violet\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/256Gb Cobalt Violet\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/256Gb Cobalt Violet\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/256Gb Cobalt Violet\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/256Gb Cobalt Violet\"}}, {\"changed\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Samsung Galaxy S26 12/256Gb Cobalt Violet\", \"fields\": [\"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f\"]}}]"
     }
@@ -2608,7 +2608,7 @@
             "smartphone"
         ],
         "object_id": "10",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/256Gb Cobalt Violet (Копия)",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/256Gb Cobalt Violet (РљРѕРїРёСЏ)",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0426\\u0435\\u043d\\u0430\"]}}]"
     }
@@ -2626,7 +2626,7 @@
             "smartphone"
         ],
         "object_id": "10",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/512Gb Cobalt Violet (Копия)",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/512Gb Cobalt Violet (РљРѕРїРёСЏ)",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435 \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"Slug\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\", \"\\u0412\\u0441\\u0442\\u0440\\u043e\\u0435\\u043d\\u043d\\u0430\\u044f \\u043f\\u0430\\u043c\\u044f\\u0442\\u044c (\\u0413\\u0411)\"]}}]"
     }
@@ -2644,7 +2644,7 @@
             "smartphone"
         ],
         "object_id": "10",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/512Gb Cobalt Violet",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/512Gb Cobalt Violet",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435 \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"Slug\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}]"
     }
@@ -2662,7 +2662,7 @@
             "smartphone"
         ],
         "object_id": "11",
-        "object_repr": "Смартфон OnePlus Nord 5 5G 8/256Gb Marble Sands",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ OnePlus Nord 5 5G 8/256Gb Marble Sands",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d OnePlus Nord 5 5G 8/256Gb Marble Sands\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d OnePlus Nord 5 5G 8/256Gb Marble Sands\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d OnePlus Nord 5 5G 8/256Gb Marble Sands\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d OnePlus Nord 5 5G 8/256Gb Marble Sands\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d OnePlus Nord 5 5G 8/256Gb Marble Sands\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d OnePlus Nord 5 5G 8/256Gb Marble Sands\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d OnePlus Nord 5 5G 8/256Gb Marble Sands\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d OnePlus Nord 5 5G 8/256Gb Marble Sands\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d OnePlus Nord 5 5G 8/256Gb Marble Sands\"}}]"
     }
@@ -2680,7 +2680,7 @@
             "smartphone"
         ],
         "object_id": "12",
-        "object_repr": "Смартфон Xiaomi Redmi Note 17 5G 6/256Gb Black",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Xiaomi Redmi Note 17 5G 6/256Gb Black",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Xiaomi Redmi Note 17 5G 6/256Gb Black\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Xiaomi Redmi Note 17 5G 6/256Gb Black\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Xiaomi Redmi Note 17 5G 6/256Gb Black\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Xiaomi Redmi Note 17 5G 6/256Gb Black\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Xiaomi Redmi Note 17 5G 6/256Gb Black\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Xiaomi Redmi Note 17 5G 6/256Gb Black\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Xiaomi Redmi Note 17 5G 6/256Gb Black\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u0421\\u043c\\u0430\\u0440\\u0442\\u0444\\u043e\\u043d Xiaomi Redmi Note 17 5G 6/256Gb Black\"}}]"
     }
@@ -2698,7 +2698,7 @@
             "smartphone"
         ],
         "object_id": "12",
-        "object_repr": "Смартфон Xiaomi Redmi Note 17 5G 6/128Gb Black",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Xiaomi Redmi Note 17 5G 6/128Gb Black",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435 \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"Slug\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\", \"\\u0412\\u0441\\u0442\\u0440\\u043e\\u0435\\u043d\\u043d\\u0430\\u044f \\u043f\\u0430\\u043c\\u044f\\u0442\\u044c (\\u0413\\u0411)\"]}}]"
     }
@@ -2716,7 +2716,7 @@
             "smartphone"
         ],
         "object_id": "13",
-        "object_repr": "Смартфон Xiaomi Redmi Note 17 5G 6/256Gb Black",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Xiaomi Redmi Note 17 5G 6/256Gb Black",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435 \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"Slug\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}]"
     }
@@ -2734,7 +2734,7 @@
             "smartphone"
         ],
         "object_id": "12",
-        "object_repr": "Смартфон Xiaomi Redmi Note 17 5G 6/128Gb Black",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Xiaomi Redmi Note 17 5G 6/128Gb Black",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0426\\u0435\\u043d\\u0430\"]}}]"
     }
@@ -2752,7 +2752,7 @@
             "headphone"
         ],
         "object_id": "14",
-        "object_repr": "Наушники вкладыши беспроводные TWS Apple AirPods Pro 3",
+        "object_repr": "РќР°СѓС€РЅРёРєРё РІРєР»Р°РґС‹С€Рё Р±РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ TWS Apple AirPods Pro 3",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u0432\\u043a\\u043b\\u0430\\u0434\\u044b\\u0448\\u0438 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 TWS Apple AirPods Pro 3\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u0432\\u043a\\u043b\\u0430\\u0434\\u044b\\u0448\\u0438 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 TWS Apple AirPods Pro 3\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u0432\\u043a\\u043b\\u0430\\u0434\\u044b\\u0448\\u0438 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 TWS Apple AirPods Pro 3\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u0432\\u043a\\u043b\\u0430\\u0434\\u044b\\u0448\\u0438 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 TWS Apple AirPods Pro 3\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u0432\\u043a\\u043b\\u0430\\u0434\\u044b\\u0448\\u0438 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 TWS Apple AirPods Pro 3\"}}, {\"added\": {\"name\": \"\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"object\": \"\\u0424\\u043e\\u0442\\u043e \\u0434\\u043b\\u044f \\u041d\\u0430\\u0443\\u0448\\u043d\\u0438\\u043a\\u0438 \\u0432\\u043a\\u043b\\u0430\\u0434\\u044b\\u0448\\u0438 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0435 TWS Apple AirPods Pro 3\"}}]"
     }
@@ -2770,7 +2770,7 @@
             "productgroup"
         ],
         "object_id": "4",
-        "object_repr": "Беспроводные",
+        "object_repr": "Р‘РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ",
         "action_flag": 3,
         "change_message": ""
     }
@@ -2806,7 +2806,7 @@
             "headphone"
         ],
         "object_id": "6",
-        "object_repr": "Наушники полноразмерные беспроводные Sony WH-CH720N Blue",
+        "object_repr": "РќР°СѓС€РЅРёРєРё РїРѕР»РЅРѕСЂР°Р·РјРµСЂРЅС‹Рµ Р±РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ Sony WH-CH720N Blue",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0413\\u0440\\u0443\\u043f\\u043f\\u0430 \\u0442\\u043e\\u0432\\u0430\\u0440\\u043e\\u0432\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}]"
     }
@@ -2824,7 +2824,7 @@
             "headphone"
         ],
         "object_id": "5",
-        "object_repr": "Наушники полноразмерные беспроводные Sony WH-CH720N White",
+        "object_repr": "РќР°СѓС€РЅРёРєРё РїРѕР»РЅРѕСЂР°Р·РјРµСЂРЅС‹Рµ Р±РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ Sony WH-CH720N White",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0413\\u0440\\u0443\\u043f\\u043f\\u0430 \\u0442\\u043e\\u0432\\u0430\\u0440\\u043e\\u0432\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}]"
     }
@@ -2842,7 +2842,7 @@
             "headphone"
         ],
         "object_id": "2",
-        "object_repr": "Наушники полноразмерные беспроводные Sony WH-CH720N Pink",
+        "object_repr": "РќР°СѓС€РЅРёРєРё РїРѕР»РЅРѕСЂР°Р·РјРµСЂРЅС‹Рµ Р±РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ Sony WH-CH720N Pink",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0413\\u0440\\u0443\\u043f\\u043f\\u0430 \\u0442\\u043e\\u0432\\u0430\\u0440\\u043e\\u0432\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}]"
     }
@@ -2860,7 +2860,7 @@
             "headphone"
         ],
         "object_id": "1",
-        "object_repr": "Наушники полноразмерные беспроводные Sony WH-CH720N Black",
+        "object_repr": "РќР°СѓС€РЅРёРєРё РїРѕР»РЅРѕСЂР°Р·РјРµСЂРЅС‹Рµ Р±РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ Sony WH-CH720N Black",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0413\\u0440\\u0443\\u043f\\u043f\\u0430 \\u0442\\u043e\\u0432\\u0430\\u0440\\u043e\\u0432\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}]"
     }
@@ -2896,7 +2896,7 @@
             "headphone"
         ],
         "object_id": "14",
-        "object_repr": "Наушники вкладыши беспроводные TWS Apple AirPods Pro 3",
+        "object_repr": "РќР°СѓС€РЅРёРєРё РІРєР»Р°РґС‹С€Рё Р±РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ TWS Apple AirPods Pro 3",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0413\\u0440\\u0443\\u043f\\u043f\\u0430 \\u0442\\u043e\\u0432\\u0430\\u0440\\u043e\\u0432\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}]"
     }
@@ -2914,7 +2914,7 @@
             "smartphone"
         ],
         "object_id": "13",
-        "object_repr": "Смартфон Xiaomi Redmi Note 17 5G 6/256Gb Black",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Xiaomi Redmi Note 17 5G 6/256Gb Black",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u043a\\u0438\\u0434\\u043a\\u0430 (%)\", \"\\u041a\\u043e\\u043b\\u0438\\u0447\\u0435\\u0441\\u0442\\u0432\\u043e \\u043d\\u0430 \\u0441\\u043a\\u043b\\u0430\\u0434\\u0435\"]}}]"
     }
@@ -2932,7 +2932,7 @@
             "smartphone"
         ],
         "object_id": "12",
-        "object_repr": "Смартфон Xiaomi Redmi Note 17 5G 6/128Gb Black",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Xiaomi Redmi Note 17 5G 6/128Gb Black",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u043a\\u0438\\u0434\\u043a\\u0430 (%)\", \"\\u041a\\u043e\\u043b\\u0438\\u0447\\u0435\\u0441\\u0442\\u0432\\u043e \\u043d\\u0430 \\u0441\\u043a\\u043b\\u0430\\u0434\\u0435\"]}}]"
     }
@@ -2968,7 +2968,7 @@
             "smartphone"
         ],
         "object_id": "20",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/512Gb Black (Копия)",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/512Gb Black (РљРѕРїРёСЏ)",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0426\\u0435\\u043d\\u0430\"]}}]"
     }
@@ -2986,7 +2986,7 @@
             "smartphone"
         ],
         "object_id": "19",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/256Gb Black (Копия)",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/256Gb Black (РљРѕРїРёСЏ)",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0426\\u0435\\u043d\\u0430\"]}}]"
     }
@@ -3004,7 +3004,7 @@
             "smartphone"
         ],
         "object_id": "18",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/256Gb White (Копия)",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/256Gb White (РљРѕРїРёСЏ)",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0426\\u0435\\u043d\\u0430\"]}}]"
     }
@@ -3022,7 +3022,7 @@
             "smartphone"
         ],
         "object_id": "17",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/512Gb White (Копия)",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/512Gb White (РљРѕРїРёСЏ)",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0426\\u0435\\u043d\\u0430\"]}}]"
     }
@@ -3040,7 +3040,7 @@
             "smartphone"
         ],
         "object_id": "16",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/256Gb Cobalt Violet (Копия)",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/256Gb Cobalt Violet (РљРѕРїРёСЏ)",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0426\\u0435\\u043d\\u0430\"]}}]"
     }
@@ -3058,7 +3058,7 @@
             "smartphone"
         ],
         "object_id": "15",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/512Gb Cobalt Violet (Копия)",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/512Gb Cobalt Violet (РљРѕРїРёСЏ)",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0426\\u0435\\u043d\\u0430\"]}}]"
     }
@@ -3076,7 +3076,7 @@
             "smartphone"
         ],
         "object_id": "20",
-        "object_repr": "Смартфон Samsung Galaxy S26+ 12/512Gb Black (Копия)",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26+ 12/512Gb Black (РљРѕРїРёСЏ)",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435 \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"Slug\", \"\\u0413\\u0440\\u0443\\u043f\\u043f\\u0430 \\u0442\\u043e\\u0432\\u0430\\u0440\\u043e\\u0432\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\", \"\\u0414\\u0438\\u0430\\u0433\\u043e\\u043d\\u0430\\u043b\\u044c (\\\")\", \"\\u0420\\u0430\\u0437\\u0440\\u0435\\u0448\\u0435\\u043d\\u0438\\u0435\", \"\\u0415\\u043c\\u043a\\u043e\\u0441\\u0442\\u044c \\u0430\\u043a\\u043a\\u0443\\u043c\\u0443\\u043b\\u044f\\u0442\\u043e\\u0440\\u0430 (\\u043c\\u0410\\u0447)\"]}}]"
     }
@@ -3094,7 +3094,7 @@
             "smartphone"
         ],
         "object_id": "20",
-        "object_repr": "Смартфон Samsung Galaxy S26+ 12/512Gb Black",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26+ 12/512Gb Black",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435 \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"Slug\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}]"
     }
@@ -3112,7 +3112,7 @@
             "smartphone"
         ],
         "object_id": "19",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/256Gb Black (Копия)",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/256Gb Black (РљРѕРїРёСЏ)",
         "action_flag": 3,
         "change_message": ""
     }
@@ -3130,7 +3130,7 @@
             "smartphone"
         ],
         "object_id": "18",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/256Gb White (Копия)",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/256Gb White (РљРѕРїРёСЏ)",
         "action_flag": 3,
         "change_message": ""
     }
@@ -3148,7 +3148,7 @@
             "smartphone"
         ],
         "object_id": "17",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/512Gb White (Копия)",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/512Gb White (РљРѕРїРёСЏ)",
         "action_flag": 3,
         "change_message": ""
     }
@@ -3166,7 +3166,7 @@
             "smartphone"
         ],
         "object_id": "16",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/256Gb Cobalt Violet (Копия)",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/256Gb Cobalt Violet (РљРѕРїРёСЏ)",
         "action_flag": 3,
         "change_message": ""
     }
@@ -3184,7 +3184,7 @@
             "smartphone"
         ],
         "object_id": "15",
-        "object_repr": "Смартфон Samsung Galaxy S26 12/512Gb Cobalt Violet (Копия)",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26 12/512Gb Cobalt Violet (РљРѕРїРёСЏ)",
         "action_flag": 3,
         "change_message": ""
     }
@@ -3202,7 +3202,7 @@
             "smartphone"
         ],
         "object_id": "21",
-        "object_repr": "Смартфон Samsung Galaxy S26+ 12/256Gb Black",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Samsung Galaxy S26+ 12/256Gb Black",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435 \\u0442\\u043e\\u0432\\u0430\\u0440\\u0430\", \"Slug\", \"\\u0426\\u0435\\u043d\\u0430\", \"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\", \"\\u0412\\u0441\\u0442\\u0440\\u043e\\u0435\\u043d\\u043d\\u0430\\u044f \\u043f\\u0430\\u043c\\u044f\\u0442\\u044c (\\u0413\\u0411)\"]}}]"
     }
@@ -3220,7 +3220,7 @@
             "category"
         ],
         "object_id": "6",
-        "object_repr": "Беспроводные наушники",
+        "object_repr": "Р‘РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ РЅР°СѓС€РЅРёРєРё",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -3238,7 +3238,7 @@
             "category"
         ],
         "object_id": "2",
-        "object_repr": "Наушники",
+        "object_repr": "РќР°СѓС€РЅРёРєРё",
         "action_flag": 3,
         "change_message": ""
     }
@@ -3256,7 +3256,7 @@
             "category"
         ],
         "object_id": "7",
-        "object_repr": "Наушники",
+        "object_repr": "РќР°СѓС€РЅРёРєРё",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -3274,7 +3274,7 @@
             "category"
         ],
         "object_id": "7",
-        "object_repr": "Наушники",
+        "object_repr": "РќР°СѓС€РЅРёРєРё",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u041f\\u043e\\u0440\\u044f\\u0434\\u043e\\u043a\"]}}]"
     }
@@ -3292,7 +3292,7 @@
             "category"
         ],
         "object_id": "8",
-        "object_repr": "Беспроводные наушники",
+        "object_repr": "Р‘РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ РЅР°СѓС€РЅРёРєРё",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -3328,7 +3328,7 @@
             "category"
         ],
         "object_id": "8",
-        "object_repr": "Беспроводные наушники",
+        "object_repr": "Р‘РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ РЅР°СѓС€РЅРёРєРё",
         "action_flag": 3,
         "change_message": ""
     }
@@ -3346,7 +3346,7 @@
             "category"
         ],
         "object_id": "9",
-        "object_repr": "Беспроводные",
+        "object_repr": "Р‘РµСЃРїСЂРѕРІРѕРґРЅС‹Рµ",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -3400,7 +3400,7 @@
             "subcategory"
         ],
         "object_id": "10",
-        "object_repr": "Флагманы",
+        "object_repr": "Р¤Р»Р°РіРјР°РЅС‹",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -3454,7 +3454,7 @@
             "cartpromotion"
         ],
         "object_id": "1",
-        "object_repr": "Третий товар МИНУС 30%",
+        "object_repr": "РўСЂРµС‚РёР№ С‚РѕРІР°СЂ РњРРќРЈРЎ 30%",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -3472,7 +3472,7 @@
             "cartpromotion"
         ],
         "object_id": "1",
-        "object_repr": "Третий товар МИНУС 30%",
+        "object_repr": "РўСЂРµС‚РёР№ С‚РѕРІР°СЂ РњРРќРЈРЎ 30%",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0410\\u043a\\u0442\\u0438\\u0432\\u043d\\u0430\"]}}]"
     }
@@ -3490,7 +3490,7 @@
             "subcategory"
         ],
         "object_id": "11",
-        "object_repr": "Для бичей",
+        "object_repr": "Р”Р»СЏ Р±РёС‡РµР№",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -3526,7 +3526,7 @@
             "smartphone"
         ],
         "object_id": "13",
-        "object_repr": "Смартфон Xiaomi Redmi Note 17 5G 6/256Gb Black",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Xiaomi Redmi Note 17 5G 6/256Gb Black",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u043a\\u0438\\u0434\\u043a\\u0430 (%)\"]}}]"
     }
@@ -3544,7 +3544,7 @@
             "smartphone"
         ],
         "object_id": "12",
-        "object_repr": "Смартфон Xiaomi Redmi Note 17 5G 6/128Gb Black",
+        "object_repr": "РЎРјР°СЂС‚С„РѕРЅ Xiaomi Redmi Note 17 5G 6/128Gb Black",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u043a\\u0438\\u0434\\u043a\\u0430 (%)\"]}}]"
     }
@@ -3562,7 +3562,7 @@
             "cartpromotion"
         ],
         "object_id": "1",
-        "object_repr": "Третий товар МИНУС 30%",
+        "object_repr": "РўСЂРµС‚РёР№ С‚РѕРІР°СЂ РњРРќРЈРЎ 30%",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0410\\u043a\\u0442\\u0438\\u0432\\u043d\\u0430\"]}}]"
     }
@@ -3580,7 +3580,7 @@
             "cartpromotion"
         ],
         "object_id": "1",
-        "object_repr": "Третий товар МИНУС 30%",
+        "object_repr": "РўСЂРµС‚РёР№ С‚РѕРІР°СЂ РњРРќРЈРЎ 30%",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0410\\u043a\\u0442\\u0438\\u0432\\u043d\\u0430\"]}}]"
     }
@@ -3598,7 +3598,7 @@
             "userprofile"
         ],
         "object_id": "1",
-        "object_repr": "Профиль: max",
+        "object_repr": "РџСЂРѕС„РёР»СЊ: max",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u0418\\u043c\\u044f\", \"\\u0424\\u0430\\u043c\\u0438\\u043b\\u0438\\u044f\", \"\\u0422\\u0435\\u043b\\u0435\\u0444\\u043e\\u043d\", \"\\u0414\\u0430\\u0442\\u0430 \\u0440\\u043e\\u0436\\u0434\\u0435\\u043d\\u0438\\u044f\", \"\\u0413\\u043e\\u0440\\u043e\\u0434\", \"\\u0410\\u0434\\u0440\\u0435\\u0441\", \"\\u041f\\u043e\\u0447\\u0442\\u043e\\u0432\\u044b\\u0439 \\u0438\\u043d\\u0434\\u0435\\u043a\\u0441\"]}}]"
     }
@@ -3616,7 +3616,7 @@
             "subcategory"
         ],
         "object_id": "11",
-        "object_repr": "Субфлагманы",
+        "object_repr": "РЎСѓР±С„Р»Р°РіРјР°РЅС‹",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435 \\u043a\\u0430\\u0442\\u0435\\u0433\\u043e\\u0440\\u0438\\u0438\", \"Slug (URL)\"]}}]"
     }
@@ -3652,7 +3652,7 @@
             "subcategory"
         ],
         "object_id": "11",
-        "object_repr": "Субфлагманы",
+        "object_repr": "РЎСѓР±С„Р»Р°РіРјР°РЅС‹",
         "action_flag": 3,
         "change_message": ""
     }
@@ -3688,7 +3688,7 @@
             "subcategory"
         ],
         "object_id": "12",
-        "object_repr": "Субфлагманы",
+        "object_repr": "РЎСѓР±С„Р»Р°РіРјР°РЅС‹",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
