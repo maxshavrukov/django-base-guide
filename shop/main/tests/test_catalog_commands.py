@@ -25,6 +25,7 @@ class CatalogCommandTests(TestCase):
             'headphones',
         )
         self.assertFalse(Category.objects.filter(slug='naushniki').exists())
+        self.assertEqual(Category.objects.filter(slug='headphones').count(), 1)
 
     def test_load_catalog_if_empty_skips_existing_catalog(self):
         call_command('load_catalog', if_empty=True, verbosity=0)

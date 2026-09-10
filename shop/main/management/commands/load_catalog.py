@@ -15,6 +15,14 @@ ROOT_SLUGS = {
     'powerbanks',
 }
 
+PRODUCT_TYPE_TO_ROOT_SLUG = {
+    'smartphone': 'smartphones',
+    'headphone': 'headphones',
+    'charger': 'chargers',
+    'cable': 'cables',
+    'powerbank': 'powerbanks',
+}
+
 
 class Command(BaseCommand):
     help = 'Load the current catalog snapshot without duplicating root categories created by migrations.'
@@ -99,8 +107,16 @@ class Command(BaseCommand):
         category_pk_aliases = {}
         for item in categories_by_pk.values():
             fields = item['fields']
-            if fields.get('parent') is None and fields.get('product_type') in roots:
-                category_pk_aliases[item['pk']] = roots[fields['product_type']]
+            if fields.get('parent') is not None:
+                continue
+            root_slug = fields.get('slug')
+            if root_slug in roots:
+                category_pk_aliases[item['pk']] = roots[root_slug]
+                continue
+            product_type = fields.get('product_type')
+            canonical_slug = PRODUCT_TYPE_TO_ROOT_SLUG.get(product_type)
+            if canonical_slug in roots:
+                category_pk_aliases[item['pk']] = roots[canonical_slug]
 
         payload[:] = [
             item
