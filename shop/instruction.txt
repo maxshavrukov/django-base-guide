@@ -1,0 +1,12 @@
+# 1. Внёс изменения через /admin/
+
+# 2. Обновил snapshot каталога
+python manage.py dump_catalog
+
+# 3. Проверил тесты
+python manage.py test
+
+# 4. Сохранил snapshot в Git
+git add main/fixtures/catalog_dump.json
+git commit -m "Update catalog"
+git push

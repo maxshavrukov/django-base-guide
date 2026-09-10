@@ -5,6 +5,7 @@ __pycache__/
 .idea
 .env
 
+instructions.txt
 db.sqlite3
 staticfiles/
 *.zip
