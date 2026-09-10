@@ -18,6 +18,14 @@ class CatalogCommandTests(TestCase):
         )
         self.assertEqual(Category.objects.count(), 8)
 
+    def test_load_catalog_maps_legacy_top_level_category_alias(self):
+        call_command('load_catalog', if_empty=True, verbosity=0)
+        self.assertEqual(
+            Category.objects.get(slug='besprovodnye').parent.slug,
+            'headphones',
+        )
+        self.assertFalse(Category.objects.filter(slug='naushniki').exists())
+
     def test_load_catalog_if_empty_skips_existing_catalog(self):
         call_command('load_catalog', if_empty=True, verbosity=0)
         call_command('load_catalog', if_empty=True, verbosity=0)

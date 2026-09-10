@@ -90,16 +90,33 @@ class Command(BaseCommand):
             for item in payload
             if item.get('model') == 'main.category'
         }
+
+        # The live DB gets canonical root categories from migration 0004.
+        # The local snapshot can contain an older top-level category with a
+        # different slug but the same unique product_type (for example,
+        # `naushniki` -> `headphone`). Treat it as an alias of the canonical
+        # migration root rather than inserting a duplicate.
+        category_pk_aliases = {}
+        for item in categories_by_pk.values():
+            fields = item['fields']
+            if fields.get('parent') is None and fields.get('product_type') in roots:
+                category_pk_aliases[item['pk']] = roots[fields['product_type']]
+
         payload[:] = [
-            item for item in payload
+            item
+            for item in payload
             if not (
                 item.get('model') == 'main.category'
-                and item['fields'].get('parent') is None
-                and item['fields'].get('slug') in ROOT_SLUGS
+                and item['pk'] in category_pk_aliases
             )
         ]
-        for item in categories_by_pk.values():
-            parent_pk = item['fields'].get('parent')
+
+        for item in payload:
+            fields = item.get('fields', {})
+            parent_pk = fields.get('parent')
+            if parent_pk in category_pk_aliases:
+                fields['parent'] = category_pk_aliases[parent_pk]
+                continue
             if not parent_pk:
                 continue
             parent = categories_by_pk.get(parent_pk)
@@ -107,4 +124,4 @@ class Command(BaseCommand):
                 raise CommandError(f'Catalog fixture references unknown category {parent_pk}.')
             parent_slug = parent['fields']['slug']
             if parent_slug in roots:
-                item['fields']['parent'] = roots[parent_slug]
+                fields['parent'] = roots[parent_slug]

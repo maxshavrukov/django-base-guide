@@ -498,6 +498,7 @@
     "model": "main.headphone",
     "pk": 1,
     "fields": {
+      "product_ptr": 1,
       "headphone_type": "over_ear",
       "connection_type": "combined",
       "has_anc": true,
@@ -515,6 +516,7 @@
     "model": "main.headphone",
     "pk": 2,
     "fields": {
+      "product_ptr": 2,
       "headphone_type": "over_ear",
       "connection_type": "combined",
       "has_anc": true,
@@ -532,6 +534,7 @@
     "model": "main.smartphone",
     "pk": 3,
     "fields": {
+      "product_ptr": 3,
       "display_type": "amoled",
       "display_size": "6.3",
       "display_resolution": "2340x1080",
@@ -571,6 +574,7 @@
     "model": "main.smartphone",
     "pk": 4,
     "fields": {
+      "product_ptr": 4,
       "display_type": "amoled",
       "display_size": "6.3",
       "display_resolution": "2340x1080",
@@ -610,6 +614,7 @@
     "model": "main.headphone",
     "pk": 5,
     "fields": {
+      "product_ptr": 5,
       "headphone_type": "over_ear",
       "connection_type": "combined",
       "has_anc": true,
@@ -627,6 +632,7 @@
     "model": "main.headphone",
     "pk": 6,
     "fields": {
+      "product_ptr": 6,
       "headphone_type": "over_ear",
       "connection_type": "combined",
       "has_anc": true,
@@ -644,6 +650,7 @@
     "model": "main.smartphone",
     "pk": 7,
     "fields": {
+      "product_ptr": 7,
       "display_type": "amoled",
       "display_size": "6.3",
       "display_resolution": "2340x1080",
@@ -683,6 +690,7 @@
     "model": "main.smartphone",
     "pk": 8,
     "fields": {
+      "product_ptr": 8,
       "display_type": "amoled",
       "display_size": "6.3",
       "display_resolution": "2340x1080",
@@ -722,6 +730,7 @@
     "model": "main.smartphone",
     "pk": 9,
     "fields": {
+      "product_ptr": 9,
       "display_type": "amoled",
       "display_size": "6.3",
       "display_resolution": "2340x1080",
@@ -761,6 +770,7 @@
     "model": "main.smartphone",
     "pk": 10,
     "fields": {
+      "product_ptr": 10,
       "display_type": "amoled",
       "display_size": "6.3",
       "display_resolution": "2340x1080",
@@ -800,6 +810,7 @@
     "model": "main.smartphone",
     "pk": 11,
     "fields": {
+      "product_ptr": 11,
       "display_type": "amoled",
       "display_size": "6.8",
       "display_resolution": "2800х1272",
@@ -839,6 +850,7 @@
     "model": "main.smartphone",
     "pk": 12,
     "fields": {
+      "product_ptr": 12,
       "display_type": "amoled",
       "display_size": "6.9",
       "display_resolution": "2396х1080",
@@ -878,6 +890,7 @@
     "model": "main.smartphone",
     "pk": 13,
     "fields": {
+      "product_ptr": 13,
       "display_type": "amoled",
       "display_size": "6.9",
       "display_resolution": "2396х1080",
@@ -917,6 +930,7 @@
     "model": "main.headphone",
     "pk": 14,
     "fields": {
+      "product_ptr": 14,
       "headphone_type": "tws",
       "connection_type": "wireless",
       "has_anc": true,
@@ -934,6 +948,7 @@
     "model": "main.smartphone",
     "pk": 20,
     "fields": {
+      "product_ptr": 20,
       "display_type": "amoled",
       "display_size": "6.7",
       "display_resolution": "3120x1440",
@@ -973,6 +988,7 @@
     "model": "main.smartphone",
     "pk": 21,
     "fields": {
+      "product_ptr": 21,
       "display_type": "amoled",
       "display_size": "6.7",
       "display_resolution": "3120x1440",
