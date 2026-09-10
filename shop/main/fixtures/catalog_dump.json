@@ -1,0 +1,1955 @@
+[
+  {
+    "model": "main.brand",
+    "pk": 1,
+    "fields": {
+      "name": "Samsung",
+      "slug": "samsung",
+      "logo": "brands/samsung-svgrepo-com2_YWRafSP.svg"
+    }
+  },
+  {
+    "model": "main.brand",
+    "pk": 2,
+    "fields": {
+      "name": "Apple",
+      "slug": "apple",
+      "logo": "brands/apple-logo-svgrepo-com_2pOUBY0.svg"
+    }
+  },
+  {
+    "model": "main.brand",
+    "pk": 3,
+    "fields": {
+      "name": "Xiaomi",
+      "slug": "xiaomi",
+      "logo": "brands/xiaomi-svgrepo-com2_vm8n36f.svg"
+    }
+  },
+  {
+    "model": "main.brand",
+    "pk": 4,
+    "fields": {
+      "name": "OnePlus",
+      "slug": "oneplus",
+      "logo": "brands/oneplus-svgrepo-com_V0prQwn.svg"
+    }
+  },
+  {
+    "model": "main.brand",
+    "pk": 5,
+    "fields": {
+      "name": "Sony",
+      "slug": "sony",
+      "logo": "brands/sony-2-logo-svgrepo-com2_EMOSjqF.svg"
+    }
+  },
+  {
+    "model": "main.category",
+    "pk": 1,
+    "fields": {
+      "name": "Смартфоны",
+      "slug": "smartphones",
+      "parent": null,
+      "product_type": "smartphone",
+      "sort_order": 10,
+      "is_active": true
+    }
+  },
+  {
+    "model": "main.category",
+    "pk": 3,
+    "fields": {
+      "name": "Зарядные устройства",
+      "slug": "chargers",
+      "parent": null,
+      "product_type": "charger",
+      "sort_order": 30,
+      "is_active": true
+    }
+  },
+  {
+    "model": "main.category",
+    "pk": 4,
+    "fields": {
+      "name": "Кабели",
+      "slug": "cables",
+      "parent": null,
+      "product_type": "cable",
+      "sort_order": 40,
+      "is_active": true
+    }
+  },
+  {
+    "model": "main.category",
+    "pk": 5,
+    "fields": {
+      "name": "Повербанки",
+      "slug": "powerbanks",
+      "parent": null,
+      "product_type": "powerbank",
+      "sort_order": 50,
+      "is_active": true
+    }
+  },
+  {
+    "model": "main.category",
+    "pk": 7,
+    "fields": {
+      "name": "Наушники",
+      "slug": "naushniki",
+      "parent": null,
+      "product_type": "headphone",
+      "sort_order": 20,
+      "is_active": true
+    }
+  },
+  {
+    "model": "main.category",
+    "pk": 9,
+    "fields": {
+      "name": "Беспроводные",
+      "slug": "besprovodnye",
+      "parent": 7,
+      "product_type": "",
+      "sort_order": 21,
+      "is_active": true
+    }
+  },
+  {
+    "model": "main.category",
+    "pk": 10,
+    "fields": {
+      "name": "Флагманы",
+      "slug": "flagmany",
+      "parent": 1,
+      "product_type": "",
+      "sort_order": 11,
+      "is_active": true
+    }
+  },
+  {
+    "model": "main.category",
+    "pk": 12,
+    "fields": {
+      "name": "Субфлагманы",
+      "slug": "subflagmany",
+      "parent": 1,
+      "product_type": "smartphone",
+      "sort_order": 12,
+      "is_active": true
+    }
+  },
+  {
+    "model": "main.productgroup",
+    "pk": 1,
+    "fields": {
+      "name": "Samsung Galaxy S26",
+      "slug": "samsung-galaxy-s26",
+      "categories": [
+        10
+      ]
+    }
+  },
+  {
+    "model": "main.productgroup",
+    "pk": 2,
+    "fields": {
+      "name": "OnePlus Nord",
+      "slug": "oneplus-nord",
+      "categories": [
+        12
+      ]
+    }
+  },
+  {
+    "model": "main.productgroup",
+    "pk": 3,
+    "fields": {
+      "name": "Redmi Note",
+      "slug": "redmi-note",
+      "categories": [
+        12
+      ]
+    }
+  },
+  {
+    "model": "main.productgroup",
+    "pk": 5,
+    "fields": {
+      "name": "WH-CH720N",
+      "slug": "wh-ch720n",
+      "categories": [
+        9
+      ]
+    }
+  },
+  {
+    "model": "main.productgroup",
+    "pk": 6,
+    "fields": {
+      "name": "AirPods Pro 3",
+      "slug": "airpods-pro-3",
+      "categories": [
+        9
+      ]
+    }
+  },
+  {
+    "model": "main.productgroup",
+    "pk": 7,
+    "fields": {
+      "name": "Samsung Galaxy S26+",
+      "slug": "samsung-galaxy-s26-plus",
+      "categories": [
+        10
+      ]
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 1,
+    "fields": {
+      "brand": 5,
+      "name": "Наушники полноразмерные беспроводные Sony WH-CH720N Black",
+      "slug": "naushniki-polnorazmernye-besprovodnye-sony-wh-ch720n-black",
+      "image": "products/2026/09/03/wh-ch720_black01_m.jpg",
+      "description": "",
+      "color": "Black",
+      "price": "4299.00",
+      "discount": 0,
+      "stock": 2,
+      "available": true,
+      "group": 5,
+      "color_code": "#000000"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 2,
+    "fields": {
+      "brand": 5,
+      "name": "Наушники полноразмерные беспроводные Sony WH-CH720N Pink",
+      "slug": "naushniki-polnorazmernye-besprovodnye-sony-wh-ch720n-pink",
+      "image": "products/2026/09/03/wh-ch720n_product_intro_pink_01_d.jpg",
+      "description": "",
+      "color": "Pink",
+      "price": "4299.00",
+      "discount": 0,
+      "stock": 2,
+      "available": true,
+      "group": 5,
+      "color_code": "#FFC5D3"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 3,
+    "fields": {
+      "brand": 1,
+      "name": "Смартфон Samsung Galaxy S26 12/512Gb Black",
+      "slug": "smartfon-samsung-galaxy-s26-12512gb-black",
+      "image": "products/2026/09/03/sm-s942_galaxys26_front_black_251128_1_.jpg",
+      "description": "",
+      "color": "Black",
+      "price": "47499.00",
+      "discount": 0,
+      "stock": 3,
+      "available": true,
+      "group": 1,
+      "color_code": "#000000"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 4,
+    "fields": {
+      "brand": 1,
+      "name": "Смартфон Samsung Galaxy S26 12/256Gb Black",
+      "slug": "smartfon-samsung-galaxy-s26-12256gb-black",
+      "image": "products/2026/09/03/sm-s942_galaxys26_front_black_251128_1_.jpg",
+      "description": "",
+      "color": "Black",
+      "price": "43499.00",
+      "discount": 0,
+      "stock": 4,
+      "available": true,
+      "group": 1,
+      "color_code": "#000000"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 5,
+    "fields": {
+      "brand": 5,
+      "name": "Наушники полноразмерные беспроводные Sony WH-CH720N White",
+      "slug": "naushniki-polnorazmernye-besprovodnye-sony-wh-ch720n-white",
+      "image": "products/2026/09/03/wh-ch720_white01_m.jpg",
+      "description": "",
+      "color": "White",
+      "price": "4299.00",
+      "discount": 0,
+      "stock": 2,
+      "available": true,
+      "group": 5,
+      "color_code": "#FFFFFF"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 6,
+    "fields": {
+      "brand": 5,
+      "name": "Наушники полноразмерные беспроводные Sony WH-CH720N Blue",
+      "slug": "naushniki-polnorazmernye-besprovodnye-sony-wh-ch720n-blue",
+      "image": "products/2026/09/03/wh-ch720_blue01_m.jpg",
+      "description": "",
+      "color": "Blue",
+      "price": "4299.00",
+      "discount": 0,
+      "stock": 2,
+      "available": true,
+      "group": 5,
+      "color_code": "#1D2D3D"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 7,
+    "fields": {
+      "brand": 1,
+      "name": "Смартфон Samsung Galaxy S26 12/256Gb White",
+      "slug": "smartfon-samsung-galaxy-s26-12256gb-white",
+      "image": "products/2026/09/03/sm-s942_galaxys26_front_white_251128_1_.jpg",
+      "description": "",
+      "color": "White",
+      "price": "43499.00",
+      "discount": 0,
+      "stock": 4,
+      "available": true,
+      "group": 1,
+      "color_code": "#FFFFFF"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 8,
+    "fields": {
+      "brand": 1,
+      "name": "Смартфон Samsung Galaxy S26 12/512Gb White",
+      "slug": "smartfon-samsung-galaxy-s26-12512gb-white",
+      "image": "products/2026/09/03/sm-s942_galaxys26_front_white_251128_1__oDoyXPg.jpg",
+      "description": "",
+      "color": "White",
+      "price": "47499.00",
+      "discount": 0,
+      "stock": 3,
+      "available": true,
+      "group": 1,
+      "color_code": "#FFFFF"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 9,
+    "fields": {
+      "brand": 1,
+      "name": "Смартфон Samsung Galaxy S26 12/256Gb Cobalt Violet",
+      "slug": "smartfon-samsung-galaxy-s26-12256gb-cobalt-violet",
+      "image": "products/2026/09/03/sm-s942_galaxys26_front_cobaltviolet_251128_1_.jpg",
+      "description": "",
+      "color": "Cobalt Violet",
+      "price": "43499.00",
+      "discount": 0,
+      "stock": 4,
+      "available": true,
+      "group": 1,
+      "color_code": "#C8659E"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 10,
+    "fields": {
+      "brand": 1,
+      "name": "Смартфон Samsung Galaxy S26 12/512Gb Cobalt Violet",
+      "slug": "smartfon-samsung-galaxy-s26-12512gb-cobalt-violet",
+      "image": "products/2026/09/03/sm-s942_galaxys26_front_cobaltviolet_251128_1_.jpg",
+      "description": "",
+      "color": "Cobalt Violet",
+      "price": "47499.00",
+      "discount": 0,
+      "stock": 4,
+      "available": true,
+      "group": 1,
+      "color_code": "#C8659E"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 11,
+    "fields": {
+      "brand": 4,
+      "name": "Смартфон OnePlus Nord 5 5G 8/256Gb Marble Sands",
+      "slug": "smartfon-oneplus-nord-5-5g-8256gb-marble-sands",
+      "image": "products/2026/09/03/oneplus-nord-5-5g-8-256gb-white-1_4f7fc.jpg",
+      "description": "",
+      "color": "Marble Sands",
+      "price": "21999.00",
+      "discount": 0,
+      "stock": 6,
+      "available": true,
+      "group": 2,
+      "color_code": "#D0BD9B"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 12,
+    "fields": {
+      "brand": 3,
+      "name": "Смартфон Xiaomi Redmi Note 17 5G 6/128Gb Black",
+      "slug": "smartfon-xiaomi-redmi-note-17-5g-6128gb-black",
+      "image": "products/2026/09/03/sm-s942_galaxys26_front_black_251128_1__22W4nt3.jpg",
+      "description": "",
+      "color": "Black",
+      "price": "10999.00",
+      "discount": 0,
+      "stock": 4,
+      "available": true,
+      "group": 3,
+      "color_code": "#000000"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 13,
+    "fields": {
+      "brand": 3,
+      "name": "Смартфон Xiaomi Redmi Note 17 5G 6/256Gb Black",
+      "slug": "smartfon-xiaomi-redmi-note-17-5g-6256gb-black",
+      "image": "products/2026/09/03/sm-s942_galaxys26_front_black_251128_1__22W4nt3.jpg",
+      "description": "",
+      "color": "Black",
+      "price": "13999.00",
+      "discount": 0,
+      "stock": 6,
+      "available": true,
+      "group": 3,
+      "color_code": "#000000"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 14,
+    "fields": {
+      "brand": 2,
+      "name": "Наушники вкладыши беспроводные TWS Apple AirPods Pro 3",
+      "slug": "naushniki-vkladyshi-besprovodnye-tws-apple-airpods-pro-3",
+      "image": "products/2026/09/03/airpods-pro-3-hero-select-202509.jpg",
+      "description": "",
+      "color": "White",
+      "price": "14100.00",
+      "discount": 0,
+      "stock": 9,
+      "available": true,
+      "group": 6,
+      "color_code": "#FFFFFF"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 20,
+    "fields": {
+      "brand": 1,
+      "name": "Смартфон Samsung Galaxy S26+ 12/512Gb Black",
+      "slug": "smartfon-samsung-galaxy-s26-plus-12512gb-black",
+      "image": "products/2026/09/03/sm-s942_galaxys26_front_black_251128_1_.jpg",
+      "description": "",
+      "color": "Black",
+      "price": "56099.00",
+      "discount": 0,
+      "stock": 3,
+      "available": true,
+      "group": 7,
+      "color_code": "#000000"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 21,
+    "fields": {
+      "brand": 1,
+      "name": "Смартфон Samsung Galaxy S26+ 12/256Gb Black",
+      "slug": "smartfon-samsung-galaxy-s26-plus-12256gb-black",
+      "image": "products/2026/09/03/sm-s942_galaxys26_front_black_251128_1_.jpg",
+      "description": "",
+      "color": "Black",
+      "price": "50599.00",
+      "discount": 0,
+      "stock": 3,
+      "available": true,
+      "group": 7,
+      "color_code": "#000000"
+    }
+  },
+  {
+    "model": "main.headphone",
+    "pk": 1,
+    "fields": {
+      "headphone_type": "over_ear",
+      "connection_type": "combined",
+      "has_anc": true,
+      "has_transparency_mode": false,
+      "audio_codecs": "SBC, AAC",
+      "battery_life_hours": 35,
+      "total_battery_life_hours": null,
+      "has_wireless_charging_case": false,
+      "bluetooth_version": "5.2",
+      "has_microphone": true,
+      "protection_class": null
+    }
+  },
+  {
+    "model": "main.headphone",
+    "pk": 2,
+    "fields": {
+      "headphone_type": "over_ear",
+      "connection_type": "combined",
+      "has_anc": true,
+      "has_transparency_mode": false,
+      "audio_codecs": "SBC, AAC",
+      "battery_life_hours": 35,
+      "total_battery_life_hours": null,
+      "has_wireless_charging_case": false,
+      "bluetooth_version": "5.2",
+      "has_microphone": true,
+      "protection_class": null
+    }
+  },
+  {
+    "model": "main.smartphone",
+    "pk": 3,
+    "fields": {
+      "display_type": "amoled",
+      "display_size": "6.3",
+      "display_resolution": "2340x1080",
+      "display_refresh_rate": 120,
+      "processor": "Exynos 2600",
+      "gpu": "Xclipse 960",
+      "core_count": 10,
+      "core_speed": null,
+      "ram": 12,
+      "storage": 512,
+      "slot_config": "sim_only",
+      "max_sd_capacity": null,
+      "main_camera_mp": 50,
+      "main_camera_desc": "50 Мп +10 Мп +12 Мп",
+      "front_camera_mp": 12,
+      "max_video_resolution": "8k",
+      "optical_zoom": "3.0",
+      "battery_capacity": 4300,
+      "charging_power": 25,
+      "has_wireless_charging": true,
+      "has_reverse_charging": false,
+      "communication_standards": "3G, 4G, 5G",
+      "sim_count": 2,
+      "has_esim": true,
+      "usb_type": "type_c",
+      "nfc_support": true,
+      "has_jack_3_5": false,
+      "wi_fi_standards": "Wi-Fi 7",
+      "bluetooth_version": "5.4",
+      "operating_system": "android",
+      "os_version": "16",
+      "protection_class": "IP68",
+      "material": "Стекло/алюминий"
+    }
+  },
+  {
+    "model": "main.smartphone",
+    "pk": 4,
+    "fields": {
+      "display_type": "amoled",
+      "display_size": "6.3",
+      "display_resolution": "2340x1080",
+      "display_refresh_rate": 120,
+      "processor": "Exynos 2600",
+      "gpu": "Xclipse 960",
+      "core_count": 10,
+      "core_speed": null,
+      "ram": 12,
+      "storage": 256,
+      "slot_config": "sim_only",
+      "max_sd_capacity": null,
+      "main_camera_mp": 50,
+      "main_camera_desc": "50 Мп +10 Мп +12 Мп",
+      "front_camera_mp": 12,
+      "max_video_resolution": "8k",
+      "optical_zoom": "3.0",
+      "battery_capacity": 4300,
+      "charging_power": 25,
+      "has_wireless_charging": true,
+      "has_reverse_charging": false,
+      "communication_standards": "3G, 4G, 5G",
+      "sim_count": 2,
+      "has_esim": true,
+      "usb_type": "type_c",
+      "nfc_support": true,
+      "has_jack_3_5": false,
+      "wi_fi_standards": "Wi-Fi 7",
+      "bluetooth_version": "5.4",
+      "operating_system": "android",
+      "os_version": "16",
+      "protection_class": "IP68",
+      "material": "Стекло/алюминий"
+    }
+  },
+  {
+    "model": "main.headphone",
+    "pk": 5,
+    "fields": {
+      "headphone_type": "over_ear",
+      "connection_type": "combined",
+      "has_anc": true,
+      "has_transparency_mode": false,
+      "audio_codecs": "SBC, AAC",
+      "battery_life_hours": 35,
+      "total_battery_life_hours": null,
+      "has_wireless_charging_case": false,
+      "bluetooth_version": "5.2",
+      "has_microphone": true,
+      "protection_class": null
+    }
+  },
+  {
+    "model": "main.headphone",
+    "pk": 6,
+    "fields": {
+      "headphone_type": "over_ear",
+      "connection_type": "combined",
+      "has_anc": true,
+      "has_transparency_mode": false,
+      "audio_codecs": "SBC, AAC",
+      "battery_life_hours": 35,
+      "total_battery_life_hours": null,
+      "has_wireless_charging_case": false,
+      "bluetooth_version": "5.2",
+      "has_microphone": true,
+      "protection_class": null
+    }
+  },
+  {
+    "model": "main.smartphone",
+    "pk": 7,
+    "fields": {
+      "display_type": "amoled",
+      "display_size": "6.3",
+      "display_resolution": "2340x1080",
+      "display_refresh_rate": 120,
+      "processor": "Exynos 2600",
+      "gpu": "Xclipse 960",
+      "core_count": 10,
+      "core_speed": null,
+      "ram": 12,
+      "storage": 256,
+      "slot_config": "sim_only",
+      "max_sd_capacity": null,
+      "main_camera_mp": 50,
+      "main_camera_desc": "50 Мп +10 Мп +12 Мп",
+      "front_camera_mp": 12,
+      "max_video_resolution": "8k",
+      "optical_zoom": "3.0",
+      "battery_capacity": 4300,
+      "charging_power": 25,
+      "has_wireless_charging": true,
+      "has_reverse_charging": false,
+      "communication_standards": "3G, 4G, 5G",
+      "sim_count": 2,
+      "has_esim": true,
+      "usb_type": "type_c",
+      "nfc_support": true,
+      "has_jack_3_5": false,
+      "wi_fi_standards": "Wi-Fi 7",
+      "bluetooth_version": "5.4",
+      "operating_system": "android",
+      "os_version": "16",
+      "protection_class": "IP68",
+      "material": "Стекло/алюминий"
+    }
+  },
+  {
+    "model": "main.smartphone",
+    "pk": 8,
+    "fields": {
+      "display_type": "amoled",
+      "display_size": "6.3",
+      "display_resolution": "2340x1080",
+      "display_refresh_rate": 120,
+      "processor": "Exynos 2600",
+      "gpu": "Xclipse 960",
+      "core_count": 10,
+      "core_speed": null,
+      "ram": 12,
+      "storage": 512,
+      "slot_config": "sim_only",
+      "max_sd_capacity": null,
+      "main_camera_mp": 50,
+      "main_camera_desc": "50 Мп +10 Мп +12 Мп",
+      "front_camera_mp": 12,
+      "max_video_resolution": "8k",
+      "optical_zoom": "3.0",
+      "battery_capacity": 4300,
+      "charging_power": 25,
+      "has_wireless_charging": true,
+      "has_reverse_charging": false,
+      "communication_standards": "3G, 4G, 5G",
+      "sim_count": 2,
+      "has_esim": true,
+      "usb_type": "type_c",
+      "nfc_support": true,
+      "has_jack_3_5": false,
+      "wi_fi_standards": "Wi-Fi 7",
+      "bluetooth_version": "5.4",
+      "operating_system": "android",
+      "os_version": "16",
+      "protection_class": "IP68",
+      "material": "Стекло/алюминий"
+    }
+  },
+  {
+    "model": "main.smartphone",
+    "pk": 9,
+    "fields": {
+      "display_type": "amoled",
+      "display_size": "6.3",
+      "display_resolution": "2340x1080",
+      "display_refresh_rate": 120,
+      "processor": "Exynos 2600",
+      "gpu": "Xclipse 960",
+      "core_count": 10,
+      "core_speed": null,
+      "ram": 12,
+      "storage": 256,
+      "slot_config": "sim_only",
+      "max_sd_capacity": null,
+      "main_camera_mp": 50,
+      "main_camera_desc": "50 Мп +10 Мп +12 Мп",
+      "front_camera_mp": 12,
+      "max_video_resolution": "8k",
+      "optical_zoom": "3.0",
+      "battery_capacity": 4300,
+      "charging_power": 25,
+      "has_wireless_charging": true,
+      "has_reverse_charging": false,
+      "communication_standards": "3G, 4G, 5G",
+      "sim_count": 2,
+      "has_esim": true,
+      "usb_type": "type_c",
+      "nfc_support": true,
+      "has_jack_3_5": false,
+      "wi_fi_standards": "Wi-Fi 7",
+      "bluetooth_version": "5.4",
+      "operating_system": "android",
+      "os_version": "16",
+      "protection_class": "IP68",
+      "material": "Стекло/алюминий"
+    }
+  },
+  {
+    "model": "main.smartphone",
+    "pk": 10,
+    "fields": {
+      "display_type": "amoled",
+      "display_size": "6.3",
+      "display_resolution": "2340x1080",
+      "display_refresh_rate": 120,
+      "processor": "Exynos 2600",
+      "gpu": "Xclipse 960",
+      "core_count": 10,
+      "core_speed": null,
+      "ram": 12,
+      "storage": 512,
+      "slot_config": "sim_only",
+      "max_sd_capacity": null,
+      "main_camera_mp": 50,
+      "main_camera_desc": "50 Мп +10 Мп +12 Мп",
+      "front_camera_mp": 12,
+      "max_video_resolution": "8k",
+      "optical_zoom": "3.0",
+      "battery_capacity": 4300,
+      "charging_power": 25,
+      "has_wireless_charging": true,
+      "has_reverse_charging": false,
+      "communication_standards": "3G, 4G, 5G",
+      "sim_count": 2,
+      "has_esim": true,
+      "usb_type": "type_c",
+      "nfc_support": true,
+      "has_jack_3_5": false,
+      "wi_fi_standards": "Wi-Fi 7",
+      "bluetooth_version": "5.4",
+      "operating_system": "android",
+      "os_version": "16",
+      "protection_class": "IP68",
+      "material": "Стекло/алюминий"
+    }
+  },
+  {
+    "model": "main.smartphone",
+    "pk": 11,
+    "fields": {
+      "display_type": "amoled",
+      "display_size": "6.8",
+      "display_resolution": "2800х1272",
+      "display_refresh_rate": 144,
+      "processor": "Qualcomm Snapdragon 8s Gen 3",
+      "gpu": "Qualcomm Adreno 735",
+      "core_count": 8,
+      "core_speed": "1 х 3 ГГц + 4 х 2.8 ГГц + 3 х 2.0 ГГц",
+      "ram": 8,
+      "storage": 256,
+      "slot_config": "sim_only",
+      "max_sd_capacity": null,
+      "main_camera_mp": 50,
+      "main_camera_desc": "50+8 Мп",
+      "front_camera_mp": null,
+      "max_video_resolution": "4k",
+      "optical_zoom": null,
+      "battery_capacity": 5200,
+      "charging_power": 80,
+      "has_wireless_charging": true,
+      "has_reverse_charging": false,
+      "communication_standards": "3G, 4G, 5G",
+      "sim_count": 2,
+      "has_esim": false,
+      "usb_type": "type_c",
+      "nfc_support": true,
+      "has_jack_3_5": false,
+      "wi_fi_standards": "Wi-Fi 6",
+      "bluetooth_version": "5.4",
+      "operating_system": "android",
+      "os_version": "15",
+      "protection_class": null,
+      "material": null
+    }
+  },
+  {
+    "model": "main.smartphone",
+    "pk": 12,
+    "fields": {
+      "display_type": "amoled",
+      "display_size": "6.9",
+      "display_resolution": "2396х1080",
+      "display_refresh_rate": 120,
+      "processor": "Qualcomm Snapdragon 4 Gen 4",
+      "gpu": "Adreno 613",
+      "core_count": 8,
+      "core_speed": "2х2.3 ГГц + 6х2 ГГц",
+      "ram": 6,
+      "storage": 128,
+      "slot_config": "hybrid",
+      "max_sd_capacity": 2048,
+      "main_camera_mp": 50,
+      "main_camera_desc": "50",
+      "front_camera_mp": 16,
+      "max_video_resolution": "1080p",
+      "optical_zoom": null,
+      "battery_capacity": 7700,
+      "charging_power": 45,
+      "has_wireless_charging": false,
+      "has_reverse_charging": false,
+      "communication_standards": "4G, 5G",
+      "sim_count": 2,
+      "has_esim": false,
+      "usb_type": "type_c",
+      "nfc_support": true,
+      "has_jack_3_5": false,
+      "wi_fi_standards": "Wi-Fi 5",
+      "bluetooth_version": "5.1",
+      "operating_system": "android",
+      "os_version": "14",
+      "protection_class": "IP65",
+      "material": "Металл / пластик"
+    }
+  },
+  {
+    "model": "main.smartphone",
+    "pk": 13,
+    "fields": {
+      "display_type": "amoled",
+      "display_size": "6.9",
+      "display_resolution": "2396х1080",
+      "display_refresh_rate": 120,
+      "processor": "Qualcomm Snapdragon 4 Gen 4",
+      "gpu": "Adreno 613",
+      "core_count": 8,
+      "core_speed": "2х2.3 ГГц + 6х2 ГГц",
+      "ram": 6,
+      "storage": 256,
+      "slot_config": "hybrid",
+      "max_sd_capacity": 2048,
+      "main_camera_mp": 50,
+      "main_camera_desc": "50",
+      "front_camera_mp": 16,
+      "max_video_resolution": "1080p",
+      "optical_zoom": null,
+      "battery_capacity": 7700,
+      "charging_power": 45,
+      "has_wireless_charging": false,
+      "has_reverse_charging": false,
+      "communication_standards": "4G, 5G",
+      "sim_count": 2,
+      "has_esim": false,
+      "usb_type": "type_c",
+      "nfc_support": true,
+      "has_jack_3_5": false,
+      "wi_fi_standards": "Wi-Fi 5",
+      "bluetooth_version": "5.1",
+      "operating_system": "android",
+      "os_version": "14",
+      "protection_class": "IP65",
+      "material": "Металл / пластик"
+    }
+  },
+  {
+    "model": "main.headphone",
+    "pk": 14,
+    "fields": {
+      "headphone_type": "tws",
+      "connection_type": "wireless",
+      "has_anc": true,
+      "has_transparency_mode": true,
+      "audio_codecs": "AAC, SBC",
+      "battery_life_hours": 10,
+      "total_battery_life_hours": 24,
+      "has_wireless_charging_case": false,
+      "bluetooth_version": "5.3",
+      "has_microphone": true,
+      "protection_class": null
+    }
+  },
+  {
+    "model": "main.smartphone",
+    "pk": 20,
+    "fields": {
+      "display_type": "amoled",
+      "display_size": "6.7",
+      "display_resolution": "3120x1440",
+      "display_refresh_rate": 120,
+      "processor": "Exynos 2600",
+      "gpu": "Xclipse 960",
+      "core_count": 10,
+      "core_speed": null,
+      "ram": 12,
+      "storage": 512,
+      "slot_config": "sim_only",
+      "max_sd_capacity": null,
+      "main_camera_mp": 50,
+      "main_camera_desc": "50 Мп +10 Мп +12 Мп",
+      "front_camera_mp": 12,
+      "max_video_resolution": "8k",
+      "optical_zoom": "3.0",
+      "battery_capacity": 4900,
+      "charging_power": 25,
+      "has_wireless_charging": true,
+      "has_reverse_charging": false,
+      "communication_standards": "3G, 4G, 5G",
+      "sim_count": 2,
+      "has_esim": true,
+      "usb_type": "type_c",
+      "nfc_support": true,
+      "has_jack_3_5": false,
+      "wi_fi_standards": "Wi-Fi 7",
+      "bluetooth_version": "5.4",
+      "operating_system": "android",
+      "os_version": "16",
+      "protection_class": "IP68",
+      "material": "Стекло/алюминий"
+    }
+  },
+  {
+    "model": "main.smartphone",
+    "pk": 21,
+    "fields": {
+      "display_type": "amoled",
+      "display_size": "6.7",
+      "display_resolution": "3120x1440",
+      "display_refresh_rate": 120,
+      "processor": "Exynos 2600",
+      "gpu": "Xclipse 960",
+      "core_count": 10,
+      "core_speed": null,
+      "ram": 12,
+      "storage": 256,
+      "slot_config": "sim_only",
+      "max_sd_capacity": null,
+      "main_camera_mp": 50,
+      "main_camera_desc": "50 Мп +10 Мп +12 Мп",
+      "front_camera_mp": 12,
+      "max_video_resolution": "8k",
+      "optical_zoom": "3.0",
+      "battery_capacity": 4900,
+      "charging_power": 25,
+      "has_wireless_charging": true,
+      "has_reverse_charging": false,
+      "communication_standards": "3G, 4G, 5G",
+      "sim_count": 2,
+      "has_esim": true,
+      "usb_type": "type_c",
+      "nfc_support": true,
+      "has_jack_3_5": false,
+      "wi_fi_standards": "Wi-Fi 7",
+      "bluetooth_version": "5.4",
+      "operating_system": "android",
+      "os_version": "16",
+      "protection_class": "IP68",
+      "material": "Стекло/алюминий"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 1,
+    "fields": {
+      "product": 1,
+      "image": "products/gallery/2026/09/03/wh-ch720_black02_m.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 2,
+    "fields": {
+      "product": 1,
+      "image": "products/gallery/2026/09/03/wh-ch720_black03_m.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 3,
+    "fields": {
+      "product": 1,
+      "image": "products/gallery/2026/09/03/wh-ch720_black04_m.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 4,
+    "fields": {
+      "product": 1,
+      "image": "products/gallery/2026/09/03/wh-ch720_black05_m.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 5,
+    "fields": {
+      "product": 1,
+      "image": "products/gallery/2026/09/03/wh-ch720_black06_m.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 6,
+    "fields": {
+      "product": 1,
+      "image": "products/gallery/2026/09/03/wh-ch720_black07_m.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 7,
+    "fields": {
+      "product": 2,
+      "image": "products/gallery/2026/09/03/wh-ch720n_product_intro_pink_02_d.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 8,
+    "fields": {
+      "product": 2,
+      "image": "products/gallery/2026/09/03/wh-ch720n_product_intro_pink_03_d.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 9,
+    "fields": {
+      "product": 2,
+      "image": "products/gallery/2026/09/03/wh-ch720n_product_intro_pink_04_d.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 10,
+    "fields": {
+      "product": 2,
+      "image": "products/gallery/2026/09/03/wh-ch720n_product_intro_pink_05_d.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 11,
+    "fields": {
+      "product": 2,
+      "image": "products/gallery/2026/09/03/wh-ch720n_product_intro_pink_06_d.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 12,
+    "fields": {
+      "product": 3,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_back_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 13,
+    "fields": {
+      "product": 3,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_backl30_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 14,
+    "fields": {
+      "product": 3,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_backr30_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 15,
+    "fields": {
+      "product": 3,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_front2_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 16,
+    "fields": {
+      "product": 3,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_frontl30_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 17,
+    "fields": {
+      "product": 3,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_frontr30_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 18,
+    "fields": {
+      "product": 3,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_lside_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 19,
+    "fields": {
+      "product": 3,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_rside_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 20,
+    "fields": {
+      "product": 4,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_back_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 21,
+    "fields": {
+      "product": 4,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_backl30_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 22,
+    "fields": {
+      "product": 4,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_backr30_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 23,
+    "fields": {
+      "product": 4,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_front2_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 24,
+    "fields": {
+      "product": 4,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_frontl30_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 25,
+    "fields": {
+      "product": 4,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_frontr30_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 26,
+    "fields": {
+      "product": 4,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_lside_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 27,
+    "fields": {
+      "product": 4,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_rside_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 28,
+    "fields": {
+      "product": 5,
+      "image": "products/gallery/2026/09/03/wh-ch720_white02_m.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 29,
+    "fields": {
+      "product": 5,
+      "image": "products/gallery/2026/09/03/wh-ch720_white03_m.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 30,
+    "fields": {
+      "product": 5,
+      "image": "products/gallery/2026/09/03/wh-ch720_white04_m.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 31,
+    "fields": {
+      "product": 5,
+      "image": "products/gallery/2026/09/03/wh-ch720_white05_m.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 32,
+    "fields": {
+      "product": 5,
+      "image": "products/gallery/2026/09/03/wh-ch720_white06_m.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 33,
+    "fields": {
+      "product": 6,
+      "image": "products/gallery/2026/09/03/wh-ch720_blue02_m.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 34,
+    "fields": {
+      "product": 6,
+      "image": "products/gallery/2026/09/03/wh-ch720_blue03_m.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 35,
+    "fields": {
+      "product": 6,
+      "image": "products/gallery/2026/09/03/wh-ch720_blue04_m.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 36,
+    "fields": {
+      "product": 6,
+      "image": "products/gallery/2026/09/03/wh-ch720_blue05_m.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 37,
+    "fields": {
+      "product": 6,
+      "image": "products/gallery/2026/09/03/wh-ch720_blue06_m.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 38,
+    "fields": {
+      "product": 7,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_back_white_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 39,
+    "fields": {
+      "product": 7,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_backl30_white_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 40,
+    "fields": {
+      "product": 7,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_backr30_white_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 41,
+    "fields": {
+      "product": 7,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_front2_white_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 42,
+    "fields": {
+      "product": 7,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_frontl30_white_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 43,
+    "fields": {
+      "product": 7,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_frontr30_white_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 44,
+    "fields": {
+      "product": 7,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_lside_white_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 45,
+    "fields": {
+      "product": 7,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_rside_white_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 46,
+    "fields": {
+      "product": 8,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_back_white_251128_1__r31XUeE.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 47,
+    "fields": {
+      "product": 8,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_backl30_white_251128_1__HfcW9mp.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 48,
+    "fields": {
+      "product": 8,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_backr30_white_251128_1__J0uL1ry.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 49,
+    "fields": {
+      "product": 8,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_front2_white_251128_1__mHabJcB.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 50,
+    "fields": {
+      "product": 8,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_frontl30_white_251128_1__B34GQHf.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 51,
+    "fields": {
+      "product": 8,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_frontr30_white_251128_1__Ac3wagP.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 52,
+    "fields": {
+      "product": 8,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_lside_white_251128_1__Ddilofa.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 53,
+    "fields": {
+      "product": 8,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_rside_white_251128_1__bqxVlaD.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 54,
+    "fields": {
+      "product": 9,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_back_cobaltviolet_251128_1__JBpZuAL.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 55,
+    "fields": {
+      "product": 9,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_backl30_cobaltviolet_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 56,
+    "fields": {
+      "product": 9,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_backr30_cobaltviolet_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 57,
+    "fields": {
+      "product": 9,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_front2_cobaltviolet_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 58,
+    "fields": {
+      "product": 9,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_frontl30_cobaltviolet_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 59,
+    "fields": {
+      "product": 9,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_frontr30_cobaltviolet_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 60,
+    "fields": {
+      "product": 9,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_lside_cobaltviolet_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 61,
+    "fields": {
+      "product": 9,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_rside_cobaltviolet_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 62,
+    "fields": {
+      "product": 10,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_back_cobaltviolet_251128_1__JBpZuAL.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 63,
+    "fields": {
+      "product": 10,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_backl30_cobaltviolet_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 64,
+    "fields": {
+      "product": 10,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_backr30_cobaltviolet_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 65,
+    "fields": {
+      "product": 10,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_front2_cobaltviolet_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 66,
+    "fields": {
+      "product": 10,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_frontl30_cobaltviolet_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 67,
+    "fields": {
+      "product": 10,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_frontr30_cobaltviolet_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 68,
+    "fields": {
+      "product": 10,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_lside_cobaltviolet_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 69,
+    "fields": {
+      "product": 10,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_rside_cobaltviolet_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 70,
+    "fields": {
+      "product": 11,
+      "image": "products/gallery/2026/09/03/oneplus-nord-5-5g-8-256gb-white-5_3ad8a.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 71,
+    "fields": {
+      "product": 11,
+      "image": "products/gallery/2026/09/03/oneplus-nord-5-5g-8-256gb-white-6_78fed.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 72,
+    "fields": {
+      "product": 11,
+      "image": "products/gallery/2026/09/03/oneplus-nord-5-5g-8-256gb-white-7_c5248.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 73,
+    "fields": {
+      "product": 11,
+      "image": "products/gallery/2026/09/03/oneplus-nord-5-5g-8-256gb-white-9_72d41.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 74,
+    "fields": {
+      "product": 11,
+      "image": "products/gallery/2026/09/03/oneplus-nord-5-5g-8-256gb-white-10_624b5.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 75,
+    "fields": {
+      "product": 11,
+      "image": "products/gallery/2026/09/03/oneplus-nord-5-5g-8-256gb-white-11_684a9.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 76,
+    "fields": {
+      "product": 11,
+      "image": "products/gallery/2026/09/03/oneplus-nord-5-5g-8-256gb-white-12_d56ff.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 77,
+    "fields": {
+      "product": 11,
+      "image": "products/gallery/2026/09/03/oneplus-nord-5-5g-8-256gb-white-13_0baeb.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 78,
+    "fields": {
+      "product": 11,
+      "image": "products/gallery/2026/09/03/oneplus-nord-5-5g-8-256gb-white-8_8c6b3.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 79,
+    "fields": {
+      "product": 12,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_back_black_251128_1__UqNMOfG.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 80,
+    "fields": {
+      "product": 12,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_backl30_black_251128_1__FEJVyzR.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 81,
+    "fields": {
+      "product": 12,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_backr30_black_251128_1__kRoQjEa.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 82,
+    "fields": {
+      "product": 12,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_front2_black_251128_1__lYdYGfY.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 83,
+    "fields": {
+      "product": 12,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_frontl30_black_251128_1__tOyG2yz.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 84,
+    "fields": {
+      "product": 12,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_frontr30_black_251128_1__SDPfcma.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 85,
+    "fields": {
+      "product": 12,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_lside_black_251128_1__hrlL2ka.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 86,
+    "fields": {
+      "product": 12,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_rside_black_251128_1__wQy9BB4.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 87,
+    "fields": {
+      "product": 13,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_back_black_251128_1__UqNMOfG.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 88,
+    "fields": {
+      "product": 13,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_backl30_black_251128_1__FEJVyzR.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 89,
+    "fields": {
+      "product": 13,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_backr30_black_251128_1__kRoQjEa.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 90,
+    "fields": {
+      "product": 13,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_front2_black_251128_1__lYdYGfY.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 91,
+    "fields": {
+      "product": 13,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_frontl30_black_251128_1__tOyG2yz.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 92,
+    "fields": {
+      "product": 13,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_frontr30_black_251128_1__SDPfcma.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 93,
+    "fields": {
+      "product": 13,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_lside_black_251128_1__hrlL2ka.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 94,
+    "fields": {
+      "product": 13,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_rside_black_251128_1__wQy9BB4.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 95,
+    "fields": {
+      "product": 14,
+      "image": "products/gallery/2026/09/03/airpods_pro_3_n_pdp_image_position_1__ce-ww.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 96,
+    "fields": {
+      "product": 14,
+      "image": "products/gallery/2026/09/03/airpods_pro_3_n_pdp_image_position_2__ce-ww.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 97,
+    "fields": {
+      "product": 14,
+      "image": "products/gallery/2026/09/03/airpods_pro_3_n_pdp_image_position_3_n__ce-ww.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 98,
+    "fields": {
+      "product": 14,
+      "image": "products/gallery/2026/09/03/airpods_pro_3_n_pdp_image_position_4__ce-ww.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 99,
+    "fields": {
+      "product": 14,
+      "image": "products/gallery/2026/09/03/airpods_pro_3_n_pdp_image_position_5__ce-ww.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 100,
+    "fields": {
+      "product": 14,
+      "image": "products/gallery/2026/09/03/airpods_pro_3_n_pdp_image_position_7__ce-ww.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 141,
+    "fields": {
+      "product": 20,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_back_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 142,
+    "fields": {
+      "product": 20,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_backl30_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 143,
+    "fields": {
+      "product": 20,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_backr30_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 144,
+    "fields": {
+      "product": 20,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_front2_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 145,
+    "fields": {
+      "product": 20,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_frontl30_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 146,
+    "fields": {
+      "product": 20,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_frontr30_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 147,
+    "fields": {
+      "product": 20,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_lside_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 148,
+    "fields": {
+      "product": 20,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_rside_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 149,
+    "fields": {
+      "product": 21,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_back_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 150,
+    "fields": {
+      "product": 21,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_backl30_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 151,
+    "fields": {
+      "product": 21,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_backr30_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 152,
+    "fields": {
+      "product": 21,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_front2_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 153,
+    "fields": {
+      "product": 21,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_frontl30_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 154,
+    "fields": {
+      "product": 21,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_frontr30_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 155,
+    "fields": {
+      "product": 21,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_lside_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 156,
+    "fields": {
+      "product": 21,
+      "image": "products/gallery/2026/09/03/sm-s942_galaxys26_rside_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.cartpromotion",
+    "pk": 1,
+    "fields": {
+      "name": "Третий товар МИНУС 30%",
+      "rule_type": "cheapest",
+      "discount_percent": 30,
+      "min_quantity": 3,
+      "nth_position": null,
+      "registered_only": false,
+      "starts_at": null,
+      "ends_at": null,
+      "is_active": false,
+      "created_at": "2026-09-07T10:34:53.068Z"
+    }
+  }
+]
