@@ -1,12 +1,14 @@
-# 1. Внёс изменения через /admin/
+ОБНОВЛЕНИЕ КАТАЛОГА на render.com
 
-# 2. Обновил snapshot каталога
+# 1. Внести изменения через /admin/
+
+# 2. Обновить снапшот каталога
 python manage.py dump_catalog
 
-# 3. Проверил тесты
+# 3. Провести тесты
 python manage.py test
 
-# 4. Сохранил snapshot в Git
+# 4. Сохранил снапшот в Git
 git add main/fixtures/catalog_dump.json
 git commit -m "Update catalog"
 git push

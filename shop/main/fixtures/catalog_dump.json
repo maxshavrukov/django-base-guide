@@ -207,6 +207,33 @@
     }
   },
   {
+    "model": "main.productgroup",
+    "pk": 8,
+    "fields": {
+      "name": "Повербанки",
+      "slug": "poverbanki",
+      "categories": []
+    }
+  },
+  {
+    "model": "main.productgroup",
+    "pk": 9,
+    "fields": {
+      "name": "Блоки питания",
+      "slug": "bloki-pitaniya",
+      "categories": []
+    }
+  },
+  {
+    "model": "main.productgroup",
+    "pk": 10,
+    "fields": {
+      "name": "Автомобильное зарядное устройство",
+      "slug": "avtomobilnoe-zaryadnoe-ustrojstvo",
+      "categories": []
+    }
+  },
+  {
     "model": "main.product",
     "pk": 1,
     "fields": {
@@ -495,10 +522,117 @@
     }
   },
   {
+    "model": "main.product",
+    "pk": 22,
+    "fields": {
+      "brand": null,
+      "name": "Xipin K600LF 60000mAh PD20W+22.5W (Black)",
+      "slug": "xipin-k600lf-60000mah-pd20w225w-black",
+      "image": "products/2026/09/10/image_1__48_22.jpg",
+      "description": "",
+      "color": "Black",
+      "price": "2999.00",
+      "discount": 0,
+      "stock": 15,
+      "available": true,
+      "group": null,
+      "color_code": "#000000"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 23,
+    "fields": {
+      "brand": null,
+      "name": "UGREEN PB312 20000mAh 20W 2xUSB-A+USB-C PD Black",
+      "slug": "ugreen-pb312-20000mah-20w-2xusb-ausb-c-pd-black",
+      "image": "products/2026/09/10/1400_gallery_1749108306232502_0.jpg",
+      "description": "",
+      "color": "Black",
+      "price": "1399.00",
+      "discount": 0,
+      "stock": 5,
+      "available": true,
+      "group": null,
+      "color_code": "#000000"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 24,
+    "fields": {
+      "brand": null,
+      "name": "Gelius Fluxen Magnetic Wireless Charge Qi2 15W 10000mAh Orange",
+      "slug": "gelius-fluxen-magnetic-wireless-charge-qi2-15w-10000mah-orange",
+      "image": "products/2026/09/10/6c665e5f-d4f7-11f0-82fa-ac162d75ecbb_thumbnail.jpg",
+      "description": "",
+      "color": "Orange",
+      "price": "1999.00",
+      "discount": 0,
+      "stock": 3,
+      "available": true,
+      "group": null,
+      "color_code": "#FFA500"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 25,
+    "fields": {
+      "brand": 1,
+      "name": "Сетевое зарядное устройство Samsung 25W Power Adapter White",
+      "slug": "setevoe-zaryadnoe-ustrojstvo-samsung-25w-power-adapter-white",
+      "image": "products/2026/09/10/ua-25w-power-adapter-ep-t2510-481181-ep-t2510nwege.jpg",
+      "description": "",
+      "color": "White",
+      "price": "799.00",
+      "discount": 0,
+      "stock": 4,
+      "available": true,
+      "group": 9,
+      "color_code": "#FFFFFF"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 26,
+    "fields": {
+      "brand": 1,
+      "name": "Сетевое зарядное устройство Samsung 25W Power Adapter Black",
+      "slug": "setevoe-zaryadnoe-ustrojstvo-samsung-25w-power-adapter-black",
+      "image": "products/2026/09/10/ua-25w-power-adapter-ep-t2510-481180-ep-t2510nbegeu-538529707.jpg",
+      "description": "",
+      "color": "Black",
+      "price": "799.00",
+      "discount": 0,
+      "stock": 7,
+      "available": true,
+      "group": 9,
+      "color_code": "#00000"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 27,
+    "fields": {
+      "brand": null,
+      "name": "Автомобильное зарядное устройство Colorway 2USB (Type-C PD35W + USB QC3.0 35W) (70W) Gray",
+      "slug": "avtomobilnoe-zaryadnoe-ustrojstvo-colorway-2usb-type-c-pd35w-usb-qc30-35w-70w-gray",
+      "image": "products/2026/09/10/cw-cha066pd-gr_02.jpg",
+      "description": "",
+      "color": "Grey",
+      "price": "499.00",
+      "discount": 0,
+      "stock": 3,
+      "available": true,
+      "group": 10,
+      "color_code": "#808080"
+    }
+  },
+  {
     "model": "main.headphone",
     "pk": 1,
     "fields": {
-      "product_ptr": 1,
       "headphone_type": "over_ear",
       "connection_type": "combined",
       "has_anc": true,
@@ -516,7 +650,6 @@
     "model": "main.headphone",
     "pk": 2,
     "fields": {
-      "product_ptr": 2,
       "headphone_type": "over_ear",
       "connection_type": "combined",
       "has_anc": true,
@@ -534,7 +667,6 @@
     "model": "main.smartphone",
     "pk": 3,
     "fields": {
-      "product_ptr": 3,
       "display_type": "amoled",
       "display_size": "6.3",
       "display_resolution": "2340x1080",
@@ -574,7 +706,6 @@
     "model": "main.smartphone",
     "pk": 4,
     "fields": {
-      "product_ptr": 4,
       "display_type": "amoled",
       "display_size": "6.3",
       "display_resolution": "2340x1080",
@@ -614,7 +745,6 @@
     "model": "main.headphone",
     "pk": 5,
     "fields": {
-      "product_ptr": 5,
       "headphone_type": "over_ear",
       "connection_type": "combined",
       "has_anc": true,
@@ -632,7 +762,6 @@
     "model": "main.headphone",
     "pk": 6,
     "fields": {
-      "product_ptr": 6,
       "headphone_type": "over_ear",
       "connection_type": "combined",
       "has_anc": true,
@@ -650,7 +779,6 @@
     "model": "main.smartphone",
     "pk": 7,
     "fields": {
-      "product_ptr": 7,
       "display_type": "amoled",
       "display_size": "6.3",
       "display_resolution": "2340x1080",
@@ -690,7 +818,6 @@
     "model": "main.smartphone",
     "pk": 8,
     "fields": {
-      "product_ptr": 8,
       "display_type": "amoled",
       "display_size": "6.3",
       "display_resolution": "2340x1080",
@@ -730,7 +857,6 @@
     "model": "main.smartphone",
     "pk": 9,
     "fields": {
-      "product_ptr": 9,
       "display_type": "amoled",
       "display_size": "6.3",
       "display_resolution": "2340x1080",
@@ -770,7 +896,6 @@
     "model": "main.smartphone",
     "pk": 10,
     "fields": {
-      "product_ptr": 10,
       "display_type": "amoled",
       "display_size": "6.3",
       "display_resolution": "2340x1080",
@@ -810,7 +935,6 @@
     "model": "main.smartphone",
     "pk": 11,
     "fields": {
-      "product_ptr": 11,
       "display_type": "amoled",
       "display_size": "6.8",
       "display_resolution": "2800х1272",
@@ -850,7 +974,6 @@
     "model": "main.smartphone",
     "pk": 12,
     "fields": {
-      "product_ptr": 12,
       "display_type": "amoled",
       "display_size": "6.9",
       "display_resolution": "2396х1080",
@@ -890,7 +1013,6 @@
     "model": "main.smartphone",
     "pk": 13,
     "fields": {
-      "product_ptr": 13,
       "display_type": "amoled",
       "display_size": "6.9",
       "display_resolution": "2396х1080",
@@ -930,7 +1052,6 @@
     "model": "main.headphone",
     "pk": 14,
     "fields": {
-      "product_ptr": 14,
       "headphone_type": "tws",
       "connection_type": "wireless",
       "has_anc": true,
@@ -948,7 +1069,6 @@
     "model": "main.smartphone",
     "pk": 20,
     "fields": {
-      "product_ptr": 20,
       "display_type": "amoled",
       "display_size": "6.7",
       "display_resolution": "3120x1440",
@@ -988,7 +1108,6 @@
     "model": "main.smartphone",
     "pk": 21,
     "fields": {
-      "product_ptr": 21,
       "display_type": "amoled",
       "display_size": "6.7",
       "display_resolution": "3120x1440",
@@ -1022,6 +1141,90 @@
       "os_version": "16",
       "protection_class": "IP68",
       "material": "Стекло/алюминий"
+    }
+  },
+  {
+    "model": "main.powerbank",
+    "pk": 22,
+    "fields": {
+      "capacity_mah": 60000,
+      "max_power_w": 22,
+      "usb_c_ports": 1,
+      "usb_a_ports": 2,
+      "has_wireless_charging": false,
+      "has_magsafe": false,
+      "has_built_in_cable": false,
+      "is_pass_through_supported": true,
+      "display_type": "digital"
+    }
+  },
+  {
+    "model": "main.powerbank",
+    "pk": 23,
+    "fields": {
+      "capacity_mah": 20000,
+      "max_power_w": 20,
+      "usb_c_ports": 1,
+      "usb_a_ports": 2,
+      "has_wireless_charging": false,
+      "has_magsafe": false,
+      "has_built_in_cable": false,
+      "is_pass_through_supported": false,
+      "display_type": "digital"
+    }
+  },
+  {
+    "model": "main.powerbank",
+    "pk": 24,
+    "fields": {
+      "capacity_mah": 10000,
+      "max_power_w": 15,
+      "usb_c_ports": 2,
+      "usb_a_ports": 0,
+      "has_wireless_charging": true,
+      "has_magsafe": true,
+      "has_built_in_cable": false,
+      "is_pass_through_supported": true,
+      "display_type": "digital"
+    }
+  },
+  {
+    "model": "main.charger",
+    "pk": 25,
+    "fields": {
+      "charger_type": "wall",
+      "max_power_w": 25,
+      "usb_c_ports": 1,
+      "usb_a_ports": 0,
+      "is_gan": false,
+      "fast_charging_protocols": "Fast Charge",
+      "has_cable_included": false
+    }
+  },
+  {
+    "model": "main.charger",
+    "pk": 26,
+    "fields": {
+      "charger_type": "wall",
+      "max_power_w": 25,
+      "usb_c_ports": 1,
+      "usb_a_ports": 0,
+      "is_gan": false,
+      "fast_charging_protocols": "Fast Charge",
+      "has_cable_included": false
+    }
+  },
+  {
+    "model": "main.charger",
+    "pk": 27,
+    "fields": {
+      "charger_type": "car",
+      "max_power_w": 70,
+      "usb_c_ports": 1,
+      "usb_a_ports": 1,
+      "is_gan": false,
+      "fast_charging_protocols": "Power Delivery, Quick Charge 2.0, Quick Charge 3.0",
+      "has_cable_included": false
     }
   },
   {
@@ -1950,6 +2153,206 @@
     "fields": {
       "product": 21,
       "image": "products/gallery/2026/09/03/sm-s942_galaxys26_rside_black_251128_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 157,
+    "fields": {
+      "product": 23,
+      "image": "products/gallery/2026/09/10/1400_gallery_1749108306204076_0.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 158,
+    "fields": {
+      "product": 23,
+      "image": "products/gallery/2026/09/10/1400_gallery_1749108306149529_0.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 159,
+    "fields": {
+      "product": 23,
+      "image": "products/gallery/2026/09/10/1400_gallery_1749108306382877_0.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 160,
+    "fields": {
+      "product": 23,
+      "image": "products/gallery/2026/09/10/1400_gallery_1749108306631181_0.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 161,
+    "fields": {
+      "product": 24,
+      "image": "products/gallery/2026/09/10/6c665e5a-d4f7-11f0-82fa-ac162d75ecbb_thumbnail_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 162,
+    "fields": {
+      "product": 24,
+      "image": "products/gallery/2026/09/10/6c665e5d-d4f7-11f0-82fa-ac162d75ecbb_thumbnail.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 163,
+    "fields": {
+      "product": 24,
+      "image": "products/gallery/2026/09/10/6c665e5e-d4f7-11f0-82fa-ac162d75ecbb_thumbnail.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 164,
+    "fields": {
+      "product": 24,
+      "image": "products/gallery/2026/09/10/6c665e61-d4f7-11f0-82fa-ac162d75ecbb_thumbnail.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 165,
+    "fields": {
+      "product": 25,
+      "image": "products/gallery/2026/09/10/ua-25w-power-adapter-ep-t2510-481181-ep-t2510nwegeu-538529802.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 166,
+    "fields": {
+      "product": 25,
+      "image": "products/gallery/2026/09/10/ua-25w-power-adapter-ep-t2510-481181-ep-t2510nwegeu-538529803.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 167,
+    "fields": {
+      "product": 25,
+      "image": "products/gallery/2026/09/10/ua-25w-power-adapter-ep-t2510-481181-ep-t2510nwegeu-538529855.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 168,
+    "fields": {
+      "product": 25,
+      "image": "products/gallery/2026/09/10/ua-25w-power-adapter-ep-t2510-481181-ep-t2510nwegeu-538529804.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 169,
+    "fields": {
+      "product": 26,
+      "image": "products/gallery/2026/09/10/ua-25w-power-adapter-ep-t2510-481180-ep-t2510nbegeu-538529708_1_.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 170,
+    "fields": {
+      "product": 26,
+      "image": "products/gallery/2026/09/10/ua-25w-power-adapter-ep-t2510-481180-ep-t2510nbegeu-538529709.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 171,
+    "fields": {
+      "product": 26,
+      "image": "products/gallery/2026/09/10/ua-25w-power-adapter-ep-t2510-481180-ep-t2510nbegeu-538529774.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 172,
+    "fields": {
+      "product": 26,
+      "image": "products/gallery/2026/09/10/ua-25w-power-adapter-ep-t2510-481181-ep-t2510nwegeu-53852980_EVlGDA5.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 173,
+    "fields": {
+      "product": 27,
+      "image": "products/gallery/2026/09/10/cw-cha066pd-gr_06.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 174,
+    "fields": {
+      "product": 27,
+      "image": "products/gallery/2026/09/10/cw-cha066pd-gr_04.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 175,
+    "fields": {
+      "product": 27,
+      "image": "products/gallery/2026/09/10/cw-cha066pd-gr_03.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 176,
+    "fields": {
+      "product": 27,
+      "image": "products/gallery/2026/09/10/cw-cha066pd-gr_05.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 177,
+    "fields": {
+      "product": 27,
+      "image": "products/gallery/2026/09/10/cw-cha066pd-gr_uk_07.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 178,
+    "fields": {
+      "product": 27,
+      "image": "products/gallery/2026/09/10/cw-cha066pd-gr_uk_08.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 179,
+    "fields": {
+      "product": 27,
+      "image": "products/gallery/2026/09/10/cw-cha066pd-gr_uk_09.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 180,
+    "fields": {
+      "product": 27,
+      "image": "products/gallery/2026/09/10/cw-cha066pd-gr_uk_11.jpg"
+    }
+  },
+  {
+    "model": "main.productimage",
+    "pk": 181,
+    "fields": {
+      "product": 27,
+      "image": "products/gallery/2026/09/10/cw-cha066pd-gr_uk_12.jpg"
     }
   },
   {
