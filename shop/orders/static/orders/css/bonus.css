@@ -1,3 +1,10 @@
 .bonus-order-box { padding: 14px; border: 1px solid #e7e7e7; border-radius: 12px; background: #f7f7f7; }
 .bonus-order-box__balance { font-size: 12px; }
 .bonus-order-box__hint { margin-top: 7px; color: #777; font-size: 11px; line-height: 1.45; }
+
+@media (max-width: 600px) {
+  .bonus-order-box {
+    padding: 12px;
+    border-radius: 10px;
+  }
+}

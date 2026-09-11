@@ -607,3 +607,139 @@
   font-size: 10px;
   margin-top: 2px;
 }
+/* =========================================================
+   MOBILE PASS v6.6
+   ========================================================= */
+@media (max-width: 900px) {
+  .cabinet-page-container {
+    width: calc(100% - 24px);
+    padding-top: 18px;
+  }
+
+  .cabinet-layout {
+    gap: 14px;
+  }
+
+  .cabinet-sidebar {
+    display: flex;
+    gap: 5px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .cabinet-sidebar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cabinet-menu-link,
+  .cabinet-menu-lagout-btn {
+    min-height: 44px;
+  }
+
+  .cabinet-content {
+    padding: 16px;
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 680px) {
+  .cabinet-page-header {
+    margin-bottom: 16px;
+  }
+
+  .cabinet-page-header h1 {
+    font-size: 29px;
+  }
+
+  .cabinet-page-header p {
+    font-size: 11px;
+  }
+
+  .cabinet-section-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 14px;
+    padding-bottom: 11px;
+  }
+
+  .wishlist-grid {
+    gap: 10px;
+  }
+
+  .wishlist-card-body {
+    padding: 10px;
+  }
+
+  .wishlist-card-title {
+    font-size: 11px;
+  }
+
+  .wishlist-card-price {
+    font-size: 14px;
+  }
+
+  .profile-form {
+    gap: 12px;
+  }
+
+  .profile-form input,
+  .profile-form textarea,
+  .profile-form select {
+    min-height: 46px;
+  }
+
+  .profile-form__actions {
+    display: grid;
+  }
+
+  .profile-form__actions .btn,
+  .account-action {
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .cabinet-content {
+    padding: 13px;
+  }
+
+  .wishlist-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Auth */
+@media (max-width: 560px) {
+  .auth-page {
+    align-items: flex-start;
+    padding: 18px 12px 30px;
+    min-height: 0;
+  }
+
+  .auth-card {
+    padding: 20px 15px;
+    border-radius: 14px;
+  }
+
+  .auth-card__intro {
+    margin-bottom: 18px;
+  }
+
+  .auth-card__intro h1 {
+    font-size: 24px;
+  }
+
+  .auth_form {
+    gap: 13px;
+  }
+
+  .auth_field_group input {
+    min-height: 46px;
+  }
+
+  .auth_tab {
+    min-height: 42px;
+  }
+}

@@ -485,3 +485,82 @@
     width: 100%;
   }
 }
+
+/* =========================================================
+   MOBILE PASS v6.6
+   ========================================================= */
+@media (max-width: 900px) {
+  .order_container {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .order_form_wrapper,
+  .order_summary {
+    padding: 15px;
+    border-radius: 14px;
+  }
+
+  .order_form_header {
+    margin-bottom: 18px;
+  }
+
+  .order_form_header h1,
+  .order_form_wrapper > h1 {
+    font-size: 25px;
+  }
+
+  .order_field {
+    margin-bottom: 13px;
+  }
+
+  .order_input,
+  .order_select {
+    min-height: 46px;
+    font-size: 14px;
+  }
+
+  .order_textarea {
+    min-height: 112px;
+  }
+
+  .order_phone_prefix {
+    left: 11px;
+  }
+
+  .order_phone_input {
+    padding-left: 43px !important;
+  }
+
+  .order_submit_btn,
+  .checkout_submit_btn {
+    min-height: 50px;
+  }
+
+  .order_items_list {
+    max-height: 260px;
+  }
+
+  .order_item {
+    gap: 10px;
+  }
+
+  .order_item_name {
+    max-width: 58vw;
+  }
+
+  .order_total strong,
+  .order_total__value {
+    font-size: 21px;
+  }
+
+  .order_success_page {
+    min-height: 0;
+    padding: 10px 0;
+  }
+
+  .order_success_card {
+    padding: 28px 15px;
+  }
+}

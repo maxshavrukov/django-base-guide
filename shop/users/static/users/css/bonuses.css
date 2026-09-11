@@ -52,3 +52,96 @@
 .account-product-card img { width: 100%; aspect-ratio: 1 / 1; object-fit: contain; border-radius: 12px; background: #f8f8f8; }
 @media (max-width: 900px) { .account-shell { grid-template-columns: 1fr; } .account-sidebar { position: static; } .account-grid, .bonus-rules-grid, .profile-form { grid-template-columns: 1fr; } .account-products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .account-heading, .bonus-dashboard-card { align-items: flex-start; flex-direction: column; } .bonus-info { justify-items: start; } }
 @media (max-width: 560px) { .account-products-grid { grid-template-columns: 1fr; } }
+
+@media (max-width: 900px) {
+  .account-page {
+    padding: 24px 0 48px;
+  }
+
+  .account-shell {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .account-sidebar {
+    position: static;
+    padding: 8px;
+    overflow-x: auto;
+    display: flex;
+    gap: 6px;
+  }
+
+  .account-user,
+  .account-logout {
+    flex: 0 0 auto;
+  }
+
+  .account-menu {
+    display: flex;
+    gap: 6px;
+  }
+
+  .account-menu a,
+  .account-logout button {
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .account-content {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .account-page {
+    padding-top: 18px;
+  }
+
+  .account-heading,
+  .bonus-dashboard-card {
+    margin-bottom: 16px;
+    gap: 14px;
+    padding: 17px;
+  }
+
+  .account-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .account-action {
+    width: 100%;
+  }
+
+  .bonus-balance {
+    font-size: 34px;
+  }
+
+  .account-grid,
+  .bonus-rules-grid,
+  .profile-form {
+    gap: 10px;
+  }
+
+  .account-card {
+    padding: 17px;
+  }
+
+  .account-card-value {
+    font-size: 26px;
+  }
+
+  .bonus-rules-grid div {
+    padding: 13px;
+  }
+
+  .bonus-rules-grid strong {
+    font-size: 20px;
+  }
+
+  .bonus-rules-grid span {
+    font-size: 12px;
+  }
+}

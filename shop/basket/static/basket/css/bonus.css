@@ -3,3 +3,14 @@
 .bonus-checkout-box__meta, .bonus-checkout-box__disabled { margin-top: 5px; color: var(--muted); font-size: 10px; line-height: 1.45; }
 .bonus-checkout-box__field { display: grid; gap: 6px; margin-top: 11px; font-size: 10px; font-weight: 700; }
 .bonus-checkout-box__field input { width: 100%; min-height: 38px; padding: 0 10px; box-sizing: border-box; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--surface); color: var(--text); }
+
+@media (max-width: 620px) {
+  .bonus-checkout-box {
+    margin-top: 12px;
+    padding: 12px;
+  }
+
+  .bonus-checkout-box__field input {
+    min-height: 42px;
+  }
+}
