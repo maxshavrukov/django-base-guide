@@ -7,5 +7,5 @@ __pycache__/
 
 instructions.txt
 db.sqlite3
-staticfiles/
 *.zip
+staticfiles/
